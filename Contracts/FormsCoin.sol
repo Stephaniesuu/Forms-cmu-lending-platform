@@ -2,13 +2,13 @@
 pragma solidity ^0.8.0;
 import "./openzeppelin/contracts/ERC20.sol";
 
-contract CollateralCoin is ERC20{ 
+contract FormsCoin is ERC20{ 
 
 		address private owner;
 
 		address private minter_role;
 
-		constructor() ERC20("collateralCoin", "Cc") {
+		constructor() ERC20("FormsCoin", "FC") {
 
 	      owner = msg.sender;
 
