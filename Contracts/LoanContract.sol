@@ -27,27 +27,34 @@ contract LoanContract {
         arrayIndex = _arrayIndex;
     }
 
-    // Modifier: check if the msg.sender is the buyer, seller or the owner of the factory
+    // Modifier: check if the msg.sender is the owner of the contract factory
     modifier onlyOwner() {
-        require(msg.sender == contractOwner || msg.sender == buyer || msg.sender == seller, "Only the owner can call this function");
+        require(msg.sender == contractOwner, "Only the owner of the factory contract can call this function");
+        _;
+    }
+
+    // Modifier: check if the msg.sender is the one of the participants in the contract
+    //           i.e. buyer, seller, or the owner of the factory contract
+    modifier onlyParticipants() {
+        require(msg.sender == contractOwner || msg.sender == buyer || msg.sender == seller, "Only the participants of the contract can call this function");
         _;
     }
 
     // Get the collateral amount
-    // Can only called by the factory owner, buyer and seller
-    function getCollateralAmount() public view onlyOwner() returns (uint256) {
+    // Can only be called by participants
+    function getCollateralAmount() public view onlyParticipants() returns (uint256) {
         return collateralAmount;
     }
 
     // Get the loan amount
-    // Can only called by the factory owner, buyer and seller
-    function getLoanAmount() public view onlyOwner() returns (uint256) {
+    // Can only be called by participants
+    function getLoanAmount() public view onlyParticipants() returns (uint256) {
         return loanAmount;
     }
 
     // Get the deadline of the loan contract
-    // Can only called by the factory owner, buyer and seller
-    function getDeadline() public view onlyOwner() returns (uint256) {
+    // Can only be called by participants
+    function getDeadline() public view onlyParticipants() returns (uint256) {
         return deadline;
     }
 
