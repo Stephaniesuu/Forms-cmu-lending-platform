@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: None
 pragma solidity ^0.8.0;
 import "./CollateralCoin.sol";
+import "./LoanCoin.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract LoanContract {
+contract LoanContract is Ownable {
+
     address private buyer;              // The one who borrows the loan
     address private seller;             // The one who lends the loan
     address private contractOwner;      // The owner of the factory contract, possibiliy CMU
@@ -16,7 +19,8 @@ contract LoanContract {
     uint256 public arrayIndex;          // The index of the arrays in the factory contract, i.e. Contracts[i]
 
     // Constructor: fill in the variables passed by the ContractFactory
-    constructor(address _buyer, address _seller, address _contractOwner, uint256 _collateralAmount, uint256 _loanAmount, uint256 _loanDuration, uint256 _arrayIndex) {
+    constructor(address _buyer, address _seller, address _contractOwner, uint256 _collateralAmount, uint256 _loanAmount, uint256 _loanDuration, uint256 _arrayIndex)
+    Ownable(_contractOwner) {
         buyer = _buyer;
         seller = _seller;
         contractOwner = _contractOwner;
@@ -27,35 +31,44 @@ contract LoanContract {
         arrayIndex = _arrayIndex;
     }
 
-    // Modifier: check if the msg.sender is the owner of the contract factory
-    modifier onlyOwner() {
-        require(msg.sender == contractOwner, "Only the owner of the factory contract can call this function");
+    // Modifier: check if the msg.sender is the buyer
+    modifier onlyBuyer() {
+        require(msg.sender == buyer, "Only the buyer can call this function");
         _;
     }
 
-    // Modifier: check if the msg.sender is the one of the participants in the contract
-    //           i.e. buyer, seller, or the owner of the factory contract
-    modifier onlyParticipants() {
-        require(msg.sender == contractOwner || msg.sender == buyer || msg.sender == seller, "Only the participants of the contract can call this function");
+    // Modifier: check if the msg.sener is the seller
+    modifier onlySeller() {
+        require(msg.sender == seller, "Only the seller can call this function");
         _;
     }
 
     // Get the collateral amount
-    // Can only be called by participants
-    function getCollateralAmount() public view onlyParticipants() returns (uint256) {
+    function getCollateralAmount() public view onlyOwner() onlyBuyer() onlySeller() returns (uint256) {
         return collateralAmount;
     }
 
     // Get the loan amount
-    // Can only be called by participants
-    function getLoanAmount() public view onlyParticipants() returns (uint256) {
+    function getLoanAmount() public view onlyOwner() onlyBuyer() onlySeller() returns (uint256) {
         return loanAmount;
     }
 
     // Get the deadline of the loan contract
-    // Can only be called by participants
-    function getDeadline() public view onlyParticipants() returns (uint256) {
+    function getDeadline() public view onlyOwner() onlyBuyer() onlySeller() returns (uint256) {
         return deadline;
     }
 
+    // Borrower taking out the loan
+    function withdraw(uint256 amount) public onlyBuyer(){
+        // to be done
+    }
+
+    // Borrower repaying the loan
+    function repay(uint256 amount) public onlyBuyer() {
+        // to be done
+    }
+
+    function lock() public onlySeller() {
+        // to be done
+    }
 }
