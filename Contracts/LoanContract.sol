@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 import "./CollateralCoin.sol";
 
 contract LoanContract {
-    address private buyer;
-    address private seller;
+    address private buyer;              // The one who borrows the loan
+    address private seller;             // The one who lends the loan
     address private contractOwner;      // The owner of the factory contract, possibiliy CMU
 
     uint256 private collateralAmount;   // The amount of collateral coins deposited
