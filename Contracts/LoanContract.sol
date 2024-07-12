@@ -5,7 +5,7 @@ import "./CollateralCoin.sol";
 contract LoanContract {
     address private buyer;
     address private seller;
-    address private contractOwner;      // The only of the factory contract, possibiliy CMU
+    address private contractOwner;      // The owner of the factory contract, possibiliy CMU
 
     uint256 private collateralAmount;   // The amount of collateral coins deposited
     uint256 private loanAmount;         // The amount of loan coins
