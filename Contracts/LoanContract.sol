@@ -34,16 +34,19 @@ contract LoanContract {
     }
 
     // Get the collateral amount
+    // Can only called by the factory owner, buyer and seller
     function getCollateralAmount() public view onlyOwner() returns (uint256) {
         return collateralAmount;
     }
 
     // Get the loan amount
+    // Can only called by the factory owner, buyer and seller
     function getLoanAmount() public view onlyOwner() returns (uint256) {
         return loanAmount;
     }
 
-    // Get the deadline
+    // Get the deadline of the loan contract
+    // Can only called by the factory owner, buyer and seller
     function getDeadline() public view onlyOwner() returns (uint256) {
         return deadline;
     }
