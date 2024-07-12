@@ -12,9 +12,11 @@ contract LoanContract {
     
     uint256 public createTime;          // The creation time of this contract
     uint256 public deadline;            // Buyers should repay the loan before this time
+    
+    uint256 public arrayIndex;          // The index of the arrays in the factory contract, i.e. Contracts[i]
 
     // Constructor: fill in the variables passed by the ContractFactory
-    constructor(address _buyer, address _seller, address _contractOwner, uint256 _collateralAmount, uint256 _loanAmount, uint256 _loanDuration) {
+    constructor(address _buyer, address _seller, address _contractOwner, uint256 _collateralAmount, uint256 _loanAmount, uint256 _loanDuration, uint256 _arrayIndex) {
         buyer = _buyer;
         seller = _seller;
         contractOwner = _contractOwner;
@@ -22,6 +24,7 @@ contract LoanContract {
         loanAmount = _loanAmount;
         createTime = block.timestamp;
         deadline = createTime + _loanDuration * 1 days;     // Calculate the deadline by adding the duration(in days) to the creation time
+        arrayIndex = _arrayIndex;
     }
 
     // Modifier: check if the msg.sender is the buyer, seller or the owner of the factory
