@@ -1,9 +1,0 @@
-{
-  "name": "Contracts",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "@openzeppelin/contracts": "^5.0.2"
-  }
-}

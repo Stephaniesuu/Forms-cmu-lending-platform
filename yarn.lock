@@ -4,15 +4,15 @@
 
 "@openzeppelin/contracts@^5.0.2":
   version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-5.0.2.tgz#b1d03075e49290d06570b2fd42154d76c2a5d210"
+  resolved "https://registry.npmjs.org/@openzeppelin/contracts/-/contracts-5.0.2.tgz"
   integrity sha512-ytPc6eLGcHHnapAZ9S+5qsdomhjo6QBHTDRRBFfTxXIpsicMhVPouPgmUPebZZZGX7vt9USA+Z+0M0dSVtSUEA==
 
 openzeppelin-solidity@^3.4.2:
   version "3.4.2"
-  resolved "https://registry.yarnpkg.com/openzeppelin-solidity/-/openzeppelin-solidity-3.4.2.tgz#ec9b3d701c459e6075691bbda642d54290e0c7ab"
+  resolved "https://registry.npmjs.org/openzeppelin-solidity/-/openzeppelin-solidity-3.4.2.tgz"
   integrity sha512-mpk74A6Bo+/ISfalUqtD8bAfINQgkGH2yInUFn/uBYz1pXbefwMTApjlnCYr+HpQpeOgO7nO8deJYrzBGDFDMA==
 
 yarn@^1.22.22:
   version "1.22.22"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.22.tgz#ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+  resolved "https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz"
   integrity sha512-prL3kGtyG7o9Z9Sv8IPfBNrWTDmXB4Qbes8A9rEzt6wkJV8mUvoirjU0Mp3GGAU06Y0XQyA3/2/RQFVuK7MTfg==
