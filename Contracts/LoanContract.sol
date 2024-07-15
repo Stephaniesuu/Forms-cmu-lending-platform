@@ -9,10 +9,6 @@ contract LoanContract is Ownable {
     address private seller; // The one who lends the loan
     address private contractOwner; // The owner of the factory contract, possibiliy CMU
 
-    address private buyer; // The one who borrows the loan
-    address private seller; // The one who lends the loan
-    address private contractOwner; // The owner of the factory contract, possibiliy CMU
-
     uint256 private collateralAmount; // The amount of collateral coins deposited
     uint256 private totalLoanAmount; // The amount of loan coins
     uint256 private repayedLoans; // How many loan coins are repayed
@@ -78,21 +74,21 @@ contract LoanContract is Ownable {
 
     // Borrower taking out the loan
     function withdraw(uint256 amount) public onlyBuyer {
-        require(amount <= loanount, "Amount exceeds loan amount");
+        require(amount == totalLoanAmount, "Amount not equal to loan amount");
         require(
             collateralCoin.balanceOf(address(this)) >= amount,
             "Not enough collateral locked"
         );
         loanCoin.transfer(buyer, amount);
-        loanAmount -= amount;
+        repayedLoans = amount;
     }
 
     // Borrower repaying the loan
     function repay(uint256 amount) public onlyBuyer {
-        require(amount <= loanAmount, "Amount exceeds loan amount");
+        require(amount == repayedLoans, "Amount not equal to loan amount");
         loanCoin.transferFrom(msg.sender, address(this), amount);
-        loanAmount -= amount;
-        if (loanAmount == 0) {
+        repayedLoans -= amount;
+        if (repayedLoans == 0) {
             collateralCoin.transfer(buyer, collateralAmount);
         }
     }
@@ -107,6 +103,6 @@ contract LoanContract is Ownable {
             address(this),
             collateralAmount
         );
-        loanCoin.transfer(buyer, loanAmount);
+        loanCoin.transfer(buyer, totalLoanAmount);
     }
 }
