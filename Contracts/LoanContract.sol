@@ -122,7 +122,7 @@ contract LoanContract is Ownable {
 
         return amount;
     }
-
+    
     // Buyer repaying the loan
     function buyerRepay(uint256 amount) public onlyBuyer returns (uint256) {
         if (amount > totalRepaymentAmount - repaidAmount) {
