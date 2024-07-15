@@ -137,18 +137,17 @@ contract LoanContract is Ownable {
         return amount;
     }
 
-    // Buyer deposit and lock the collateral
-    function buyerLockCollateral(uint256 amount) public onlyBuyer returns (bool) {
+    // Buyer deposit and lock the collateral, buyer must lock the required amount of collateral in once
+    function buyerLockCollateral() public onlyBuyer returns (bool) {
         require(
-            CollateralCoin.balanceOf(msg.sender) >= amount,
+            CollateralCoin.balanceOf(msg.sender) == collateralAmount,
             "Not enough collateral"
         );
         CollateralCoin.transferFrom(
             msg.sender,
             address(this),
-            amount
+            collateralAmount
         );
-
         return true;
     }
 
