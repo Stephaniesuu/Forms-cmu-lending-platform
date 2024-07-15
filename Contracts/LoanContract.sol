@@ -137,6 +137,21 @@ contract LoanContract is Ownable {
         return amount;
     }
 
+    // Buyer deposit and lock the collateral
+    function buyerLockCollateral(uint256 amount) public onlyBuyer returns (bool) {
+        require(
+            CollateralCoin.balanceOf(msg.sender) >= amount,
+            "Not enough collateral"
+        );
+        CollateralCoin.transferFrom(
+            msg.sender,
+            address(this),
+            amount
+        );
+
+        return true;
+    }
+
     // If the loan is overdue, all collaterals and loan coins remaining are transferred to the seller
     function overdueLiquidation() public returns (bool) {
         require(block.timestamp > deadline, "Loan not overdue");
@@ -152,21 +167,6 @@ contract LoanContract is Ownable {
             availableLoanAmount
         );
         availableLoanAmount = 0;
-        return true;
-    }
-
-    // Buyer deposit and lock the collateral
-    function buyerLockCollateral() public onlyBuyer returns (bool) {
-        require(
-            CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
-            "Not enough collateral"
-        );
-        CollateralCoin.transferFrom(
-            msg.sender,
-            address(this),
-            collateralAmount
-        );
-
         return true;
     }
 
