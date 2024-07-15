@@ -18,4 +18,11 @@ contract LoanContractFactory {
     }
 
     
+    // Get the whole contract and return to the backend/ frontend, maybe in .json format
+    // Can only be called by the factory owner
+    function getContract(uint index) public view onlyOwner() returns (LoanContract) {
+        require (index >= 0 && index < totalContracts, "Index out of range");
+        return Contracts[index];
+    }
+    
 }
