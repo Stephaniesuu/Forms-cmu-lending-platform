@@ -117,7 +117,7 @@ contract LoanContract is Ownable {
             amount = availableLoanAmount;
         }
 
-        LoanCoin.transfer(buyer, totalLoanAmount);
+        LoanCoin.transfer(buyer, amount);
         availableLoanAmount -= amount;
 
         return amount;

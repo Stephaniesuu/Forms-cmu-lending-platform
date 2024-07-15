@@ -19,16 +19,20 @@ contract LoanContractFactory is Ownable {
         address seller,
         uint colleteralAmount,
         uint loanAmount,
-        uint loanDuration
+        uint loanDuration,
+        address collateralCoinAddress,
+        address loanCoinAddress
     ) public onlyOwner {
-        LoanContract newContract = new LoanContract(
+        LoanContract newContract = new LoanContract (
             buyer,
             seller,
             owner(),
             colleteralAmount,
             loanAmount,
             loanDuration,
-            totalContracts
+            totalContracts,
+            collateralCoinAddress,
+            loanCoinAddress
         );
         Contracts.push(newContract);
         indexToContractAddress[totalContracts] = address(newContract);
@@ -40,7 +44,7 @@ contract LoanContractFactory is Ownable {
     function getContract(
         uint index
     ) public view onlyOwner returns (LoanContract) {
-        require(index >= 0 && index < totalContracts, "Index out of range");
+        require(index < totalContracts, "Index out of range");
         return Contracts[index];
     }
 }
