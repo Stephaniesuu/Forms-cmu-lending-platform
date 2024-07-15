@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract CollateralCoin is ERC20 {
+contract _CollateralCoin is ERC20 {
     address private owner;
 
     address private minter_role;

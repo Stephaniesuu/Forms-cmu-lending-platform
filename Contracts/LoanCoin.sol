@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract LoanCoin is ERC20 {
+contract _LoanCoin is ERC20 {
     address private owner;
     address private minter_role;
 
