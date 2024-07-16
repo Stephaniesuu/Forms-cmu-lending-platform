@@ -225,4 +225,10 @@ contract LoanContract is Ownable {
         
         return currentCollateralValue;
     }
+
+    // testing function for setting the collateral value
+    function dummyValueSetter(uint256 value) public {
+        currentCollateralValue = value;
+        marginValue = currentCollateralValue * (100 - margin) / 100;
+    }
 }
