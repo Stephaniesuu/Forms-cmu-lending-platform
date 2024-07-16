@@ -26,11 +26,36 @@ contract LoanContract is Ownable {
     _LoanCoin private LoanCoin;
 
     uint256 public currentCollateralValue = 100; // Dummy value of the collaterals (for testing)
-    uint256 public marginValue = currentCollateralValue * (100 - margin) / 100; /* The value of the collateral cannot drop over this margin
-                                                                                   else the contract is liquidated (for testing) */
+    uint256 public marginValue = currentCollateralValue * (100 - margin) / 100; // Liquidation happens at that value (for testing) 
     uint8[] public dummyPriceDrops = [85, 90, 95, 100, 105, 110, 115]; // Dummy prices drop/rise percentage (for testing)
 
-    // Constructor: fill in the variables passed by the ContractFactory
+    // events
+
+    event contractDeployed(
+        address indexed _contractAddress,
+        uint256 time
+    ); // Triggered when a new contract is deployed
+
+    event deposit(
+        address indexed _from, 
+        uint256 indexed _collateralCoinAmount, 
+        uint256 indexed _loanCoinAmount,
+        uint256 _time
+    ); // Triggered when someone deposit coins into the contract, i.e. buyer deposits collateral and seller deposits loan
+    
+    event withdrawal(
+        address indexed _to,
+        uint256 indexed _collateralCoinAmount,
+        uint256 indexed _loanCoinAmount,
+        uint256 _time
+    ); // Triggered when someone withdraw coins from the contract, i.e. buyer withdraws loan and seller withdraws collateral
+
+    event repayment(
+        address indexed _from,
+        uint256 indexed _amount,
+        uint256 indexed _time
+    ); // Triggered when the buyer repays the loan
+    
     constructor(
         address _buyer,
         address _seller,
@@ -55,6 +80,8 @@ contract LoanContract is Ownable {
         LoanCoin = _LoanCoin(_loanCoinAddress);
 
         totalRepaymentAmount = totalLoanAmount; // The required amount of loan coins to repay the loan, tax calculation is not implemented
+
+        emit contractDeployed(address(this), block.timestamp);
     }
 
     // Modifier: check if the msg.sender is the buyer
@@ -67,6 +94,14 @@ contract LoanContract is Ownable {
     modifier onlySeller() {
         require(msg.sender == seller, "Only the seller can call this function");
         _;
+    }
+
+    function getBuyer() public view returns (address) {
+        return buyer;
+    }
+
+    function getSeller() public view returns (address) {
+        return seller;
     }
 
     // Return the collateral amount
@@ -118,6 +153,8 @@ contract LoanContract is Ownable {
 
         LoanCoin.transfer(buyer, amount);
         availableLoanAmount -= amount;
+        
+        emit withdrawal(buyer, 0, amount, block.timestamp);
 
         return amount;
     }
@@ -132,6 +169,8 @@ contract LoanContract is Ownable {
         // The repaid coins will go into the seller's address directly, without transferring to the contract as a medium
         LoanCoin.transferFrom(msg.sender, seller, amount);
         repaidAmount += amount;
+
+        emit repayment(msg.sender, amount, block.timestamp);
 
         return amount;
     }
@@ -151,6 +190,9 @@ contract LoanContract is Ownable {
             address(this),
             collateralAmount
         );
+
+        emit deposit(msg.sender, collateralAmount, 0, block.timestamp);
+
         return true;
     }
 
@@ -166,15 +208,29 @@ contract LoanContract is Ownable {
         );
         LoanCoin.transferFrom(msg.sender, address(this), totalLoanAmount);
 
+        emit deposit(msg.sender, 0, totalLoanAmount, block.timestamp);
+
         return true;
     }
 
-    // If the loan is overdue, all collaterals and loan coins remaining are transferred to the seller
-    function overdueLiquidation() external returns (bool) {
-        require(block.timestamp > deadline, "Loan not overdue");
-        require(repaidAmount < totalRepaymentAmount, "Loan already repaid");
+    // Liquidation: all collaterals and loan coins remaining are transferred to the seller
+    function liquidation() external returns (bool) {
+        // liquidation happens only when the loan is overdue or the requirements of margin call is met
+        require(
+            overdue() || dropExceedsMargin(), 
+            "Loan not overdue or does not meet the requirement of margin call."
+        );
+        
+        require(
+            repaidAmount < totalRepaymentAmount, 
+            "Loan already repaid."
+        );
+
         CollateralCoin.transfer(seller, collateralAmount);
         LoanCoin.transfer(seller, availableLoanAmount);
+
+        emit withdrawal(seller, collateralAmount, availableLoanAmount, block.timestamp);
+
         availableLoanAmount = 0;
         return true;
     }
@@ -184,20 +240,11 @@ contract LoanContract is Ownable {
      ********************************************************************/
 
     function dropExceedsMargin() public view returns (bool) {
-        // return true if the collateral price drop is exceeding the margin
-        if (currentCollateralValue <= marginValue) {
-            return true;
-        }
-        // else return false
-        return false;
+        return currentCollateralValue <= marginValue;
     }
 
-    function marginCall() external onlySeller returns (bool) {
-        require(dropExceedsMargin(), "Collateral value is not dropping below the margin");
-        CollateralCoin.transfer(seller, collateralAmount);
-        LoanCoin.transfer(seller, availableLoanAmount);
-        availableLoanAmount = 0;
-        return true;
+    function overdue() public view returns (bool) {
+        return block.timestamp > deadline;
     }
 
     // testing function for adjusting the collateral value, will return the new value
