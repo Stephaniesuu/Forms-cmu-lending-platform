@@ -105,7 +105,7 @@ contract LoanContract is Ownable {
     }
 
     // Buyer taking out the loan
-    function buyerWithdraw(uint256 amount) public onlyBuyer returns (uint256) {
+    function buyerWithdraw(uint256 amount) external onlyBuyer returns (uint256) {
         require(
             CollateralCoin.balanceOf(address(this)) == collateralAmount,
             "Not enough collateral locked, cannot perform this action."
@@ -123,7 +123,7 @@ contract LoanContract is Ownable {
     }
     
     // Buyer repaying the loan
-    function buyerRepay(uint256 amount) public onlyBuyer returns (uint256) {
+    function buyerRepay(uint256 amount) external onlyBuyer returns (uint256) {
         if (amount > totalRepaymentAmount - repaidAmount) {
             // Check if the buyer is repaying too much, if so, cap the amount
             amount = totalRepaymentAmount - repaidAmount;
@@ -137,7 +137,7 @@ contract LoanContract is Ownable {
     }
 
     // Buyer deposit and lock the collateral, buyer must lock the required amount of collateral in once
-    function buyerLockCollateral() public onlyBuyer returns (bool) {
+    function buyerLockCollateral() external onlyBuyer returns (bool) {
         require(
             CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
             "Not enough collateral"
@@ -155,7 +155,7 @@ contract LoanContract is Ownable {
     }
 
     // Seller deposit and lock the loan coins, seller must lock the required amount of loan coins in once
-    function sellerLockLoan() public onlySeller returns (bool) {
+    function sellerLockLoan() external onlySeller returns (bool) {
         require(
             LoanCoin.balanceOf(msg.sender) >= totalLoanAmount,
             "Not enough loan coins"
@@ -170,7 +170,7 @@ contract LoanContract is Ownable {
     }
 
     // If the loan is overdue, all collaterals and loan coins remaining are transferred to the seller
-    function overdueLiquidation() public returns (bool) {
+    function overdueLiquidation() external returns (bool) {
         require(block.timestamp > deadline, "Loan not overdue");
         require(repaidAmount < totalRepaymentAmount, "Loan already repaid");
         CollateralCoin.transfer(seller, collateralAmount);
@@ -192,7 +192,7 @@ contract LoanContract is Ownable {
         return false;
     }
 
-    function marginCall() public onlySeller returns (bool) {
+    function marginCall() external onlySeller returns (bool) {
         require(dropExceedsMargin(), "Collateral value is not dropping below the margin");
         CollateralCoin.transfer(seller, collateralAmount);
         LoanCoin.transfer(seller, availableLoanAmount);
@@ -201,7 +201,7 @@ contract LoanContract is Ownable {
     }
 
     // testing function for adjusting the collateral value, will return the new value
-    function dummyPriceAdjuster() public returns (uint256){
+    function dummyPriceAdjuster() external returns (uint256){
         // random from 0 to 6
         uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp))) % 7;
         currentCollateralValue = currentCollateralValue * dummyPriceDrops[random] / 100;
@@ -210,7 +210,7 @@ contract LoanContract is Ownable {
     }
 
     // testing function for setting the collateral value
-    function setDummyValue(uint256 value) public {
+    function setDummyValue(uint256 value) external {
         currentCollateralValue = value;
     }
 }
