@@ -42,6 +42,14 @@ contract LoanContractFactory is Ownable {
         totalContracts++;
     }
 
+    /*********************************************
+    The following codes are usable but may not be necessary
+    *********************************************/
+
+    /*
+
+
+
     // Contract only can get the whole contract and return to the backend/ frontend, maybe in .json format
     function getContract(uint256 index) public view onlyOwner returns (LoanContract) {
         require(index < totalContracts, "Index out of range");
@@ -55,4 +63,8 @@ contract LoanContractFactory is Ownable {
     function getIndexWithAddress(address contractAddress) public view onlyOwner returns (uint256) {
         return contractAddressToIndex[contractAddress];
     }
+
+
+
+    */
 }

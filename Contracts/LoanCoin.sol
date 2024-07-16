@@ -20,4 +20,9 @@ contract _LoanCoin is ERC20 {
         require(msg.sender == minter_role);
         _mint(recipient, amount);
     }
+
+    // Approve the address to spend "infinity" amount of tokens on behalf of the caller.
+    function approveInfinity(address spender) public {
+        approve(spender, type(uint256).max);
+    }
 }

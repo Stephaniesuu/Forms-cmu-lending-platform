@@ -140,14 +140,33 @@ contract LoanContract is Ownable {
     // Buyer deposit and lock the collateral, buyer must lock the required amount of collateral in once
     function buyerLockCollateral() public onlyBuyer returns (bool) {
         require(
-            CollateralCoin.balanceOf(msg.sender) == collateralAmount,
+            CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
             "Not enough collateral"
+        );
+        require(
+            CollateralCoin.balanceOf(address(this)) < collateralAmount,
+            "Collateral already locked"
         );
         CollateralCoin.transferFrom(
             msg.sender,
             address(this),
             collateralAmount
         );
+        return true;
+    }
+
+    // Seller deposit and lock the loan coins, seller must lock the required amount of loan coins in once
+    function sellerLockLoan() public onlySeller returns (bool) {
+        require(
+            LoanCoin.balanceOf(msg.sender) >= totalLoanAmount,
+            "Not enough loan coins"
+        );
+        require(
+            LoanCoin.balanceOf(address(this)) < totalLoanAmount,
+            "Loan coins already locked"
+        );
+        LoanCoin.transferFrom(msg.sender, address(this), totalLoanAmount);
+
         return true;
     }
 
@@ -168,6 +187,10 @@ contract LoanContract is Ownable {
         availableLoanAmount = 0;
         return true;
     }
+
+    /********************************************************************
+        The code below are used for testing the margin call mechanism.
+     ********************************************************************/
 
     function dropExceedsMargin() public view returns (bool) {
         // return true if the collateral price drop is exceeding the margin
@@ -194,10 +217,12 @@ contract LoanContract is Ownable {
         return true;
     }
 
-    // testing function for adjusting the collateral value to check if it is below the margin
-    function dummyPriceAdjuster() public {
+    // testing function for adjusting the collateral value, will return the new value
+    function dummyPriceAdjuster() public returns (uint256){
         // random from 0 to 6
         uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp))) % 7;
-        currentCollateralValue *= dummyPriceDrops[random] / 100;
+        currentCollateralValue = currentCollateralValue * dummyPriceDrops[random] / 100;
+        
+        return currentCollateralValue;
     }
 }
