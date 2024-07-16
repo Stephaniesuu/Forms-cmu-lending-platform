@@ -14,8 +14,8 @@ contract LoanContractFactory is Ownable {
         totalContracts = 0;
     }
 
-    // Create a new loan contract
-    function createLoanContract(
+    // Create a new loan contract, and return its address
+    function createLoanContract (
         address buyer,
         address seller,
         uint256 colleteralAmount,
@@ -23,7 +23,7 @@ contract LoanContractFactory is Ownable {
         uint256 loanDuration,
         address collateralCoinAddress,
         address loanCoinAddress
-    ) public onlyOwner {
+    ) public onlyOwner returns (address) {
         LoanContract newContract = new LoanContract (
             buyer,
             seller,
@@ -39,6 +39,8 @@ contract LoanContractFactory is Ownable {
         indexToContractAddress[totalContracts] = address(newContract);
         contractAddressToIndex[address(newContract)] = totalContracts;
         totalContracts++;
+
+        return address(newContract);
     }
 
     /*********************************************
@@ -47,9 +49,7 @@ contract LoanContractFactory is Ownable {
 
     /*
 
-
-
-    // Contract only can get the whole contract and return to the backend/ frontend, maybe in .json format
+    // Contract owner can get the whole contract and return to the backend/ frontend, maybe in .json format
     function getContract(uint256 index) public view onlyOwner returns (LoanContract) {
         require(index < totalContracts, "Index out of range");
         return Contracts[index];
