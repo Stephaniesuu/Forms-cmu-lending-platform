@@ -1,5 +1,8 @@
+import { useState } from 'react'; 
+
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import Pyro from "./components/pyro/Pyro";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
@@ -23,6 +26,12 @@ const config = getDefaultConfig({
 
 function App() {
   const queryClient = new QueryClient();
+  const [showPyro, setShowPyro] = useState(false);
+
+  const togglePyro = () => {
+    setShowPyro(!showPyro);
+  };
+
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
@@ -34,6 +43,10 @@ function App() {
               <main className="p-4">
                 <h2>Welcome to the App</h2>
                 <p>This is the main content area.</p>
+                <button onClick={togglePyro} className="py-2 px-4 bg-blue-500 text-white rounded">
+                  {showPyro ? 'Hide Pyro' : 'Show Pyro'}
+                </button>
+                {showPyro && <Pyro />}
               </main>
             </div>
           </div>
