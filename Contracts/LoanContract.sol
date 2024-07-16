@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 import "./CollateralCoin.sol";
 import "./LoanCoin.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract LoanContract is Ownable {
     address private buyer;  // The one who borrows the loan
@@ -174,16 +173,8 @@ contract LoanContract is Ownable {
     function overdueLiquidation() public returns (bool) {
         require(block.timestamp > deadline, "Loan not overdue");
         require(repaidAmount < totalRepaymentAmount, "Loan already repaid");
-        CollateralCoin.transferFrom(
-            address(this), 
-            seller, 
-            collateralAmount
-        );
-        LoanCoin.transferFrom(
-            address(this), 
-            seller, 
-            availableLoanAmount
-        );
+        CollateralCoin.transfer(seller, collateralAmount);
+        LoanCoin.transfer(seller, availableLoanAmount);
         availableLoanAmount = 0;
         return true;
     }
@@ -203,16 +194,8 @@ contract LoanContract is Ownable {
 
     function marginCall() public onlySeller returns (bool) {
         require(dropExceedsMargin(), "Collateral value is not dropping below the margin");
-        CollateralCoin.transferFrom(
-            address(this),
-            msg.sender,
-            collateralAmount
-        );
-        LoanCoin.transferFrom(
-            address(this),
-            msg.sender,
-            availableLoanAmount
-        );
+        CollateralCoin.transfer(seller, collateralAmount);
+        LoanCoin.transfer(seller, availableLoanAmount);
         availableLoanAmount = 0;
         return true;
     }
