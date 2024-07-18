@@ -100,6 +100,7 @@ contract LoanContract is Ownable {
     // Modifier: check if the msg.sender is the contract owner
     modifier onlyContractOwner() {
         require(msg.sender == contractOwner, "Only the contract owner can call this function");
+        _;
     }
 
     function getBuyer() public view returns (address) {
