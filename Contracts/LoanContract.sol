@@ -4,8 +4,8 @@ import "./CollateralCoin.sol";
 import "./LoanCoin.sol";
 
 contract LoanContract is Ownable {
-    address private buyer;  // The one who borrows the loan
-    address private seller; // The one who lends the loan
+    address private buyer;  // The one who borrows the loan, i.e. buy collateral using loan coins
+    address private seller; // The one who lends the loan, i.e. sell collateral for loan coins
     address private contractOwner; // The owner of the factory contract, possibly the CMU
 
     uint256 private collateralAmount; // The amount of collateral coins deposited
@@ -41,14 +41,14 @@ contract LoanContract is Ownable {
         uint256 indexed _collateralCoinAmount, 
         uint256 indexed _loanCoinAmount,
         uint256 _time
-    ); // Triggered when someone deposit coins into the contract, i.e. buyer deposits collateral and seller deposits loan
+    ); // Triggered when someone deposit coins into the contract, i.e. seller deposits collateral and buyer deposits loan
     
     event withdrawal(
         address indexed _to,
         uint256 indexed _collateralCoinAmount,
         uint256 indexed _loanCoinAmount,
         uint256 _time
-    ); // Triggered when someone withdraw coins from the contract, i.e. buyer withdraws loan and seller withdraws collateral
+    ); // Triggered when someone withdraw coins from the contract
 
     event repayment(
         address indexed _from,
@@ -96,6 +96,10 @@ contract LoanContract is Ownable {
         _;
     }
 
+    modifier onlyContractOwner() {
+        require(msg.sender == contractOwner, "Only the contract owner can call this function");
+    }
+
     function getBuyer() public view returns (address) {
         return buyer;
     }
@@ -124,8 +128,8 @@ contract LoanContract is Ownable {
         return arrayIndex;
     }
 
-    // Buyer can check the available loan amount
-    function checkAvailableLoanAmount() public view onlyBuyer() returns (uint256) {
+    // Seller can check the available loan amount
+    function checkAvailableLoanAmount() public view onlySeller() returns (uint256) {
         return availableLoanAmount;
     }
 
@@ -139,51 +143,57 @@ contract LoanContract is Ownable {
         return repaidAmount;
     }
 
-    // Buyer taking out the loan
-    function buyerWithdraw(uint256 amount) external onlyBuyer returns (uint256) {
+    // Seller taking out the loan deposited by the buyer
+    function sellerWithdraw(uint256 amount) external onlySeller returns (uint256) {
         require(
             CollateralCoin.balanceOf(address(this)) == collateralAmount,
-            "Not enough collateral locked, cannot perform this action."
+            "You must lock enough collateral before withdrawing"
         );
 
-        // Check if the buyer is borrowing more than the availableLoanAmount, if so, cap the amount
+        // Check if the seller is borrowing more than the availableLoanAmount, if so, cap the amount
         if (amount > availableLoanAmount) {
             amount = availableLoanAmount;
         }
 
-        LoanCoin.transfer(buyer, amount);
+        LoanCoin.transfer(seller, amount);
         availableLoanAmount -= amount;
         
-        emit withdrawal(buyer, 0, amount, block.timestamp);
+        emit withdrawal(seller, 0, amount, block.timestamp);
 
         return amount;
     }
     
-    // Buyer repaying the loan
-    function buyerRepay(uint256 amount) external onlyBuyer returns (uint256) {
+    // seller repaying the loan
+    function sellerRepay(uint256 amount) external onlySeller returns (uint256) {
+        // Check if the seller is repaying more than he needs, if so, cap the amount
         if (amount > totalRepaymentAmount - repaidAmount) {
-            // Check if the buyer is repaying too much, if so, cap the amount
             amount = totalRepaymentAmount - repaidAmount;
         }
 
-        // The repaid coins will go into the seller's address directly, without transferring to the contract as a medium
-        LoanCoin.transferFrom(msg.sender, seller, amount);
+        // The repaid coins will go into the buyer's address directly, without transferring to the contract as a medium
+        LoanCoin.transferFrom(msg.sender, buyer, amount);
         repaidAmount += amount;
 
         emit repayment(msg.sender, amount, block.timestamp);
 
+        // Check if the seller finished repaying, if so, transfer all collateral back to the seller
+        if (repaidAmount == totalRepaymentAmount) {
+            CollateralCoin.transfer(seller, collateralAmount);
+            emit withdrawal(seller, collateralAmount, 0, block.timestamp);
+        }
+        
         return amount;
     }
 
-    // Buyer deposit and lock the collateral, buyer must lock the required amount of collateral in once
-    function buyerLockCollateral() external onlyBuyer returns (bool) {
+    // Seller deposit and lock the collateral, seller must lock the exact required amount of collateral in once
+    function sellerLockCollateral() external onlySeller returns (bool) {
         require(
             CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
             "Not enough collateral"
         );
         require(
             CollateralCoin.balanceOf(address(this)) < collateralAmount,
-            "Collateral already locked"
+            "Collateral was already locked previously"
         );
         CollateralCoin.transferFrom(
             msg.sender,
@@ -196,8 +206,8 @@ contract LoanContract is Ownable {
         return true;
     }
 
-    // Seller deposit and lock the loan coins, seller must lock the required amount of loan coins in once
-    function sellerLockLoan() external onlySeller returns (bool) {
+    // Buyer deposit and lock the loan coins, buyer must also lock the exact required amount of loan coins in once
+    function buyerLockLoan() external onlyBuyer returns (bool) {
         require(
             LoanCoin.balanceOf(msg.sender) >= totalLoanAmount,
             "Not enough loan coins"
@@ -213,12 +223,12 @@ contract LoanContract is Ownable {
         return true;
     }
 
-    // Liquidation: all collaterals and loan coins remaining are transferred to the seller
-    function liquidation() external returns (bool) {
+    // Liquidation: all collaterals and loan coins remaining are transferred to the buyer
+    function liquidation() external onlyBuyer() onlyContractOwner() returns (bool) {
         // liquidation happens only when the loan is overdue or the requirements of margin call is met
         require(
             overdue() || dropExceedsMargin(), 
-            "Loan not overdue or does not meet the requirement of margin call."
+            "Loan is not overdue or does not meet the requirement of margin call."
         );
         
         require(
@@ -226,12 +236,12 @@ contract LoanContract is Ownable {
             "Loan already repaid."
         );
 
-        CollateralCoin.transfer(seller, collateralAmount);
-        LoanCoin.transfer(seller, availableLoanAmount);
+        CollateralCoin.transfer(buyer, collateralAmount);
+        LoanCoin.transfer(buyer, availableLoanAmount);
 
-        emit withdrawal(seller, collateralAmount, availableLoanAmount, block.timestamp);
+        emit withdrawal(buyer, collateralAmount, availableLoanAmount, block.timestamp);
 
-        availableLoanAmount = 0;
+        availableLoanAmount = 0; // No more loan is available
         return true;
     }
 
