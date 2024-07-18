@@ -28,7 +28,7 @@ contract LoanContractFactory is Ownable {
         uint256 loanDuration,
         address collateralCoinAddress,
         address loanCoinAddress
-    ) public onlyOwner returns (address) {
+    ) external onlyOwner returns (address) {
         LoanContract newContract = new LoanContract (
             buyer,
             seller,
@@ -52,18 +52,18 @@ contract LoanContractFactory is Ownable {
         return address(newContract);
     }
 
-    function getAddressWithIndex(uint256 index) public view onlyOwner returns (address) {
+    function getAddressWithIndex(uint256 index) external view onlyOwner returns (address) {
         return indexToContractAddress[index];
     }
 
     // Return all the contract for a specific address as a buyer
-    function getAddressAsBuyer(address buyer) public view returns (address[]) {
+    function getAddressAsBuyer(address buyer) external view returns (address[]) {
         require(msg.sender == buyer, "You can only view your contracts");
         return buyerToContractAddresses[buyer];
     }
 
     // Return all the contract for a specfiic address as a seller
-    function getAddressAsSeller(address seller) public view returns (address[]) {
+    function getAddressAsSeller(address seller) external view returns (address[]) {
         require(msg.sender == seller, "You can only view your contracts");
         return sellerToContractAddresses[seller];
     }
@@ -75,12 +75,12 @@ contract LoanContractFactory is Ownable {
     /*
 
     // Contract owner can get the whole contract and return to the backend/ frontend, maybe in .json format
-    function getContract(uint256 index) public view onlyOwner returns (LoanContract) {
+    function getContract(uint256 index) external view onlyOwner returns (LoanContract) {
         require(index < totalContracts, "Index out of range");
         return Contracts[index];
     }
 
-    function getIndexWithAddress(address contractAddress) public view onlyOwner returns (uint256) {
+    function getIndexWithAddress(address contractAddress) external view onlyOwner returns (uint256) {
         return contractAddressToIndex[contractAddress];
     }
 
