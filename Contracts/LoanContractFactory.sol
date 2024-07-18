@@ -9,6 +9,11 @@ contract LoanContractFactory is Ownable {
     mapping(uint256 => address) private indexToContractAddress;
     mapping(address => uint256) private contractAddressToIndex;
 
+    // 2 mappings to store the contract addresses of each buyer and seller
+    // so that a user can view all the contracts they participated as a buyer/ seller separately
+    mapping(address => uint256[]) private buyerToContractAddresses;
+    mapping(address => uint256[]) private sellerToContractAddresses;
+
     // Set the owner of the factory contract = msg.sender and do some initalizations
     constructor() Ownable(msg.sender) {
         totalContracts = 0;
@@ -40,7 +45,27 @@ contract LoanContractFactory is Ownable {
         contractAddressToIndex[address(newContract)] = totalContracts;
         totalContracts++;
 
+        // Push the address to both buyer and seller
+        buyerToContractAddresses[buyer].push(totalContracts);
+        sellerToContractAddresses[seller].push(totalContracts);
+
         return address(newContract);
+    }
+
+    function getAddressWithIndex(uint256 index) public view onlyOwner returns (address) {
+        return indexToContractAddress[index];
+    }
+
+    // Return all the contract for a specific address as a buyer
+    function getAddressAsBuyer(address buyer) public view returns (address[]) {
+        require(msg.sender == buyer, "You can only view your contracts");
+        return buyerToContractAddresses[buyer];
+    }
+
+    // Return all the contract for a specfiic address as a seller
+    function getAddressAsSeller(address seller) public view returns (address[]) {
+        require(msg.sender == seller, "You can only view your contracts");
+        return sellerToContractAddresses[seller];
     }
 
     /*********************************************
@@ -53,10 +78,6 @@ contract LoanContractFactory is Ownable {
     function getContract(uint256 index) public view onlyOwner returns (LoanContract) {
         require(index < totalContracts, "Index out of range");
         return Contracts[index];
-    }
-
-    function getAddressWithIndex(uint256 index) public view onlyOwner returns (address) {
-        return indexToContractAddress[index];
     }
 
     function getIndexWithAddress(address contractAddress) public view onlyOwner returns (uint256) {
