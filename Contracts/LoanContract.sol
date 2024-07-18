@@ -85,65 +85,106 @@ contract LoanContract is Ownable {
         emit contractDeployed(address(this), block.timestamp);
     }
 
-    // Modifier: check if the msg.sender is the buyer
+    // ***** Modifiers *****
+    // Check if the msg.sender is the buyer
     modifier onlyBuyer() {
         require(msg.sender == buyer, "Only the buyer can call this function");
         _;
     }
 
-    // Modifier: check if the msg.sender is the seller
+    // Check if the msg.sender is the seller
     modifier onlySeller() {
         require(msg.sender == seller, "Only the seller can call this function");
         _;
     }
 
-    // Modifier: check if the msg.sender is the contract owner
+    // Check if the msg.sender is the contract owner
     modifier onlyContractOwner() {
         require(msg.sender == contractOwner, "Only the contract owner can call this function");
         _;
     }
 
-    function getBuyer() public view returns (address) {
-        return buyer;
+    // ***** Get methods *****
+
+    function getBuyer() external view returns (address) {
+        return buyer;   // buyer's address
     }
 
-    function getSeller() public view returns (address) {
-        return seller;
+    function getSeller() external view returns (address) {
+        return seller;  // seller's address
     }
 
     // Return the collateral amount
-    function getCollateralAmount() public view returns (uint256) {
+    function getCollateralAmount() external view returns (uint256) {
         return collateralAmount;
     }
 
     // Return the loan amount
-    function getTotalLoanAmount() public view returns (uint256) {
+    function getTotalLoanAmount() external view returns (uint256) {
         return totalLoanAmount;
     }
 
     // Return the deadline of the loan contract
-    function getDeadline() public view returns (uint256) {
+    function getDeadline() external view returns (uint256) {
         return deadline;
     }
 
     // Return the array index of this contract in the contract factory
-    function getArrayIndex() public view returns (uint256) {
+    function getArrayIndex() external view returns (uint256) {
         return arrayIndex;
     }
 
     // Seller can check the available loan amount
-    function checkAvailableLoanAmount() public view onlySeller() returns (uint256) {
+    function getAvailableLoanAmount() external view onlySeller() returns (uint256) {
         return availableLoanAmount;
     }
 
     // Both buyer and seller can check how many tokens are needed to repay
-    function checkTotalRepaymenetAmount() public view onlyBuyer() onlySeller() returns (uint256) {
+    function getTotalRepaymenetAmount() external view onlyBuyer() onlySeller() returns (uint256) {
         return totalRepaymentAmount;
     }
 
     // Both buyer and seller can check how many tokens are repaid
-    function checkRepaidAmount() public view onlyBuyer() onlySeller() returns (uint256) {
+    function getRepaidAmount() external view onlyBuyer() onlySeller() returns (uint256) {
         return repaidAmount;
+    }
+
+    // Seller deposit and lock the collateral, seller must lock the exact required amount of collateral in once
+    function sellerLockCollateral() external onlySeller returns (bool) {
+        require(
+            CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
+            "Not enough collateral"
+        );
+        require(
+            CollateralCoin.balanceOf(address(this)) < collateralAmount,
+            "Collateral was already locked previously"
+        );
+        CollateralCoin.transferFrom(
+            msg.sender,
+            address(this),
+            collateralAmount
+        );
+
+        emit deposit(msg.sender, collateralAmount, 0, block.timestamp);
+
+        return true;
+    }
+
+    // Buyer deposit and lock the loan coins, buyer must also lock the exact required amount of loan coins in once
+    function buyerLockLoan() external onlyBuyer returns (bool) {
+        require(
+            LoanCoin.balanceOf(msg.sender) >= totalLoanAmount,
+            "Not enough loan coins"
+        );
+        require(
+            LoanCoin.balanceOf(address(this)) < totalLoanAmount,
+            "Loan coins already locked"
+        );
+        LoanCoin.transferFrom(msg.sender, address(this), totalLoanAmount);
+
+        emit deposit(msg.sender, 0, totalLoanAmount, block.timestamp);
+
+        return true;
     }
 
     // Seller taking out the loan deposited by the buyer
@@ -186,44 +227,6 @@ contract LoanContract is Ownable {
         }
         
         return amount;
-    }
-
-    // Seller deposit and lock the collateral, seller must lock the exact required amount of collateral in once
-    function sellerLockCollateral() external onlySeller returns (bool) {
-        require(
-            CollateralCoin.balanceOf(msg.sender) >= collateralAmount,
-            "Not enough collateral"
-        );
-        require(
-            CollateralCoin.balanceOf(address(this)) < collateralAmount,
-            "Collateral was already locked previously"
-        );
-        CollateralCoin.transferFrom(
-            msg.sender,
-            address(this),
-            collateralAmount
-        );
-
-        emit deposit(msg.sender, collateralAmount, 0, block.timestamp);
-
-        return true;
-    }
-
-    // Buyer deposit and lock the loan coins, buyer must also lock the exact required amount of loan coins in once
-    function buyerLockLoan() external onlyBuyer returns (bool) {
-        require(
-            LoanCoin.balanceOf(msg.sender) >= totalLoanAmount,
-            "Not enough loan coins"
-        );
-        require(
-            LoanCoin.balanceOf(address(this)) < totalLoanAmount,
-            "Loan coins already locked"
-        );
-        LoanCoin.transferFrom(msg.sender, address(this), totalLoanAmount);
-
-        emit deposit(msg.sender, 0, totalLoanAmount, block.timestamp);
-
-        return true;
     }
 
     // Liquidation: all collaterals and loan coins remaining are transferred to the buyer
