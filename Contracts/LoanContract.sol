@@ -20,13 +20,14 @@ contract LoanContract is Ownable {
 
     uint256 public arrayIndex; // The index of the arrays in the factory contract, i.e. Contracts[i]
 
-    uint256 public margin = 20; // The value of the collateral cannot drop over this margin, else the contract is liquidated
-
     _CollateralCoin private CollateralCoin;
     _LoanCoin private LoanCoin;
 
-    uint256 public currentCollateralValue = 100; // Dummy value of the collaterals (for testing)
-    uint256 public marginValue = currentCollateralValue * (100 - margin) / 100; // Liquidation happens at that value (for testing) 
+    uint256 public currentCollateralValue = 100; // Collateral value rise/drop percentage (100% at first)
+    uint256 public margin = 20; // The maximum drop rate(in percentage) of the collateral, else the contract is liquidated
+    uint256 public marginValue = 
+        currentCollateralValue * (100 - margin) / 100; 
+        // The exact value of the margin, liquidation happens when the collateral value drops below this value
     uint8[] public dummyPriceDrops = [85, 90, 95, 100, 105, 110, 115]; // Dummy prices drop/rise percentage (for testing)
 
     // events
@@ -96,6 +97,7 @@ contract LoanContract is Ownable {
         _;
     }
 
+    // Modifier: check if the msg.sender is the contract owner
     modifier onlyContractOwner() {
         require(msg.sender == contractOwner, "Only the contract owner can call this function");
     }
@@ -241,13 +243,9 @@ contract LoanContract is Ownable {
 
         emit withdrawal(buyer, collateralAmount, availableLoanAmount, block.timestamp);
 
-        availableLoanAmount = 0; // No more loan is available
+        availableLoanAmount = 0; // No more loan will be available
         return true;
     }
-
-    /********************************************************************
-        The code below are used for testing the margin call mechanism.
-     ********************************************************************/
 
     function dropExceedsMargin() public view returns (bool) {
         return currentCollateralValue <= marginValue;
@@ -256,6 +254,12 @@ contract LoanContract is Ownable {
     function overdue() public view returns (bool) {
         return block.timestamp > deadline;
     }
+
+
+    /********************************************************************
+        The code below are used for testing the margin call mechanism.
+     ********************************************************************/
+
 
     // testing function for adjusting the collateral value, will return the new value
     function dummyPriceAdjuster() external returns (uint256){
