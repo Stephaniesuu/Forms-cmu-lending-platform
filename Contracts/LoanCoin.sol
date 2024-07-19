@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: None
 pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract _LoanCoin is ERC20 {
-    address private owner;
+contract _LoanCoin is ERC20, Ownable {
+
     address private minter_role;
 
-    constructor() ERC20("LoanCoin", "LC") {
-        owner = msg.sender;
+    constructor() ERC20("LoanCoin", "LC") Ownable(msg.sender) {
+        minter_role = msg.sender;   // The default minter is the owner
     }
 
-    function setMinterRole(address _minter) public {
-        require(msg.sender == owner);
+    function setMinterRole(address _minter) public onlyOwner() {
         minter_role = _minter;
     }
 

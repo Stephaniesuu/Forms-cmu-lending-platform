@@ -3,17 +3,15 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract _CollateralCoin is ERC20 {
-    address private owner;
+contract _CollateralCoin is ERC20, Ownable {
 
     address private minter_role;
 
-    constructor() ERC20("collateralCoin", "CC") {
-        owner = msg.sender;
+    constructor() ERC20("collateralCoin", "CC") Ownable(msg.sender) {
+        minter_role = msg.sender;   // The default minter is the owner
     }
 
-    function setMinterRole(address _minter) public {
-        require(msg.sender == owner);
+    function setMinterRole(address _minter) onlyOwner() public {
         minter_role = _minter;
     }
 
