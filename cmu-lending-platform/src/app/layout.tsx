@@ -6,6 +6,11 @@ import '@rainbow-me/rainbowkit/styles.css';
 import "./globals.css";
 
 
+
+import { headers } from 'next/headers'
+import { cookieToInitialState } from 'wagmi'
+
+
 import { Providers } from "./providors";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +25,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // To do (wagmi)
+  // const initialState = cookieToInitialState(
+  //   getConfig(),
+  //   headers().get('cookie')
+  // )
   return (
-    <html lang="en">
+    <html lang="en" data-theme = 'cupcake'>
       <body className={inter.className}>
         <AntdRegistry>
           <Providers>

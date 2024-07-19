@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Breadcrumb, Layout, theme } from 'antd';
 
 
-const { Header, Content, Footer } = Layout;
+import Navbar from './Header';
+const {  Content, Footer } = Layout;
 
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -18,31 +18,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
   }));
   return (
     <Layout>
-      <Header
-        style={{
-          position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={items}
-          style={{ flex: 1, minWidth: 0 }}
-        />
-        <ConnectButton
-          accountStatus={{
-            smallScreen: 'avatar',
-            largeScreen: 'full',
-          }}
-        />
-      </Header>
+      <Navbar />
       <Content style={{ padding: '0 48px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -64,6 +40,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
         CMU lending platform ©{new Date().getFullYear()} Created by Forms
       </Footer>
     </Layout>
+
   );
 }
 

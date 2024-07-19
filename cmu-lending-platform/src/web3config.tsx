@@ -1,4 +1,7 @@
+// Code: Web3 configuration for the application
+
 'use client'
+
 
 import {
     mainnet,
@@ -10,7 +13,7 @@ import {
   } from 'wagmi/chains';
 
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { http } from '@wagmi/core';
+import { http, cookieStorage,createStorage } from 'wagmi';
 
 
 export const config = getDefaultConfig({
@@ -18,6 +21,9 @@ export const config = getDefaultConfig({
     projectId: '0f19e038366ede3e72b702d62f1eafbc',
     chains: [sepolia, mainnet, polygon, optimism, arbitrum, base],
     ssr: true,
+    storage: createStorage({
+      storage: cookieStorage,
+    }),
     transports:{
       
         [mainnet.id]: http(),
