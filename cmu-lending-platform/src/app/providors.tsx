@@ -1,20 +1,43 @@
 'use client';
 
 import * as React from 'react';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
-import { config } from "../web3config";
+import { config_rainbowkit, config_antd } from "../web3config";
+import { mainnet, sepolia } from 'viem/chains';
+import {
+  MetaMask,
+  OkxWallet,
+  TokenPocket,
+  WagmiWeb3ConfigProvider,
+  WalletConnect,
+} from '@ant-design/web3-wagmi';
 
 const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider coolMode  >{children}</RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <WagmiProvider config={config_rainbowkit}>
+      <WagmiWeb3ConfigProvider
+        config={config_antd}
+        eip6963={{
+          autoAddInjectedWallets: true,
+        }}
+        chains={[mainnet, sepolia]}
+        wallets={[
+          MetaMask(),
+          WalletConnect(),
+          TokenPocket(),
+          OkxWallet({ group: 'Popular' }),
+        ]}
+      >
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>{children}</RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiWeb3ConfigProvider>
+    </WagmiProvider >
   );
 }

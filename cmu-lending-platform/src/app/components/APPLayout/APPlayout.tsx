@@ -1,10 +1,11 @@
 
 import React from 'react';
-import { Breadcrumb, Layout, theme } from 'antd';
+import { Layout, theme, Menu, Button } from 'antd';
 
+import WalletConnector from '../walletConnector';
+const { Header, Content, Footer } = Layout;
+import { useState } from 'react';
 
-import Navbar from './Header';
-const {  Content, Footer } = Layout;
 
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -12,23 +13,41 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const items = new Array(3).fill(null).map((_, index) => ({
+  const items = [new Array(3).fill(null).map((_, index) => ({
     key: String(index + 1),
     label: `nav ${index + 1}`,
-  }));
+  }))];
+
+  const [ isBlack, setIsBlack ] = useState('dark');
+  const toggleTheme = () => {
+    setIsBlack(isBlack === 'dark' ? 'light' : 'dark');
+  }
+  
   return (
     <Layout>
-      <Navbar />
-      <Content style={{ padding: '0 48px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
+      <Header style={{ alignItems:'center'}}>
+        <div className="logo" />
+        <div className='flex'>
+          <div className='logo text-white mr-6 text-center items-center'>CMU Lending</div>
+          <Menu 
+            theme={isBlack}
+            mode="horizontal"
+            defaultSelectedKeys={['1']}
+            items={items.flat()}
+          />
+          <div className='flex ml-auto items-center'>
+            <WalletConnector />
+            <div className='mr-0 ml-2'>
+            <Button onClick={toggleTheme}>change Theme</Button>
+            </div>
+          </div>
+        </div>
+      </Header>
+      <Content >
         <div
           style={{
             padding: 24,
-            minHeight: 380,
+            minHeight: '100vh',
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
