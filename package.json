@@ -1,7 +1,11 @@
 {
     "dependencies": {
         "@openzeppelin/contracts": "^5.0.2",
+        "antd": "^5.19.3",
+        "next": "^14.2.5",
         "openzeppelin-solidity": "^3.4.2",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
         "yarn": "^1.22.22"
     },
     "name": "forms",
@@ -14,7 +18,6 @@
     "author": "Jorey717 <609019479@qq.com>",
     "license": "MIT",
     "description": "",
-    "devDependencies": {},
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
