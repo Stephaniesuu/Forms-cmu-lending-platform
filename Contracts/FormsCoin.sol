@@ -3,11 +3,11 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract _CollateralCoin is ERC20, Ownable {
+contract _FormsCoin is ERC20, Ownable {
 
     address private minter_role;
 
-    constructor() ERC20("collateralCoin", "CC") Ownable(msg.sender) {
+    constructor(string memory _name, string memory _symbol) ERC20(_name, _symbol) Ownable(msg.sender) {
         minter_role = msg.sender;   // The default minter is the owner
     }
 

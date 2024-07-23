@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: None
 pragma solidity ^0.8.0;
-import "./CollateralCoin.sol";
-import "./LoanCoin.sol";
+// import "./CollateralCoin.sol";
+// import "./LoanCoin.sol";
+import "./FormsCoin.sol";
 
 contract LoanContract is Ownable {
     address private buyer;  // The one who borrows the loan, i.e. buy collateral using loan coins
@@ -20,18 +21,18 @@ contract LoanContract is Ownable {
 
     uint256 public arrayIndex; // The index of the arrays in the factory contract, i.e. Contracts[i]
 
-    _CollateralCoin private CollateralCoin;
-    _LoanCoin private LoanCoin;
+    // _CollateralCoin private CollateralCoin;
+    // _LoanCoin private LoanCoin;
+    _FormsCoin private CollateralCoin;
+    _FormsCoin private LoanCoin;
 
     uint256 public currentCollateralValue = 100; // Collateral value rise/drop percentage (100% at first)
     uint256 public margin = 20; // The maximum drop rate(in percentage) of the collateral, else the contract is liquidated
-    uint256 public marginValue = 
-        currentCollateralValue * (100 - margin) / 100; 
+    uint256 public marginValue = currentCollateralValue * (100 - margin) / 100; 
         // The exact value of the margin, liquidation happens when the collateral value drops below this value
     uint8[] public dummyPriceDrops = [85, 90, 95, 100, 105, 110, 115]; // Dummy prices drop/rise percentage (for testing)
 
     // events
-
     event contractDeployed(
         address indexed _contractAddress,
         uint256 time
@@ -140,12 +141,12 @@ contract LoanContract is Ownable {
     }
 
     // Both buyer and seller can check how many tokens are needed to repay
-    function getTotalRepaymenetAmount() external view onlyBuyer() onlySeller() returns (uint256) {
+    function getTotalRepaymenetAmount() external view returns (uint256) {
         return totalRepaymentAmount;
     }
 
     // Both buyer and seller can check how many tokens are repaid
-    function getRepaidAmount() external view onlyBuyer() onlySeller() returns (uint256) {
+    function getRepaidAmount() external view returns (uint256) {
         return repaidAmount;
     }
 
@@ -230,7 +231,7 @@ contract LoanContract is Ownable {
     }
 
     // Liquidation: all collaterals and loan coins remaining are transferred to the buyer
-    function liquidation() external onlyBuyer() onlyContractOwner() returns (bool) {
+    function liquidation() external returns (bool) {
         // liquidation happens only when the loan is overdue or the requirements of margin call is met
         require(
             overdue() || dropExceedsMargin(), 
