@@ -7,12 +7,14 @@ import {
   arbitrum,
   base,
   sepolia,
+  mantleSepoliaTestnet
 } from 'wagmi/chains';
 import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 
 
 import { http, cookieStorage, createStorage, createConfig } from 'wagmi';
 import { injected } from "wagmi/connectors";
+
 
 
 // for rainbowkit
@@ -29,13 +31,14 @@ export const config_rainbowkit = getDefaultConfig({
     [mainnet.id]: http(),
     [sepolia.id]: http(),
 
+
   }
 });
 
 // for antd web3
 export const config_antd = createConfig({
   // chains: [sepolia, mainnet, polygon, optimism, arbitrum, base],
-  chains: [sepolia, mainnet],
+  chains: [sepolia, mainnet, mantleSepoliaTestnet],
   ssr: true,
   storage: createStorage({
     storage: cookieStorage,
@@ -44,6 +47,7 @@ export const config_antd = createConfig({
 
     [mainnet.id]: http(),
     [sepolia.id]: http(),
+    [mantleSepoliaTestnet.id]: http(),
 
   },
   connectors: [

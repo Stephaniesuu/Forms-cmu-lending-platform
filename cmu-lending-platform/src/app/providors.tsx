@@ -7,7 +7,7 @@ import { WagmiProvider } from 'wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 
 import { config_rainbowkit, config_antd } from "../web3config";
-import { mainnet, sepolia } from 'viem/chains';
+import { mainnet, sepolia,mantleSepoliaTestnet } from 'viem/chains';
 import {
   MetaMask,
   OkxWallet,
@@ -26,7 +26,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         eip6963={{
           autoAddInjectedWallets: true,
         }}
-        chains={[mainnet, sepolia]}
+        chains={[mainnet, sepolia, mantleSepoliaTestnet]}
         wallets={[
           MetaMask(),
           WalletConnect(),
