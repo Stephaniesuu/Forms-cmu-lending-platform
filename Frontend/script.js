@@ -19,7 +19,7 @@ const createContract = async (
         loanAmount,
         loanDuration,
         collateralCoinAddress,
-        loanCoinÍAddress
+        loanCoinAddress
     );
 };
 
