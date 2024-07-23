@@ -34,10 +34,11 @@ const createContract = async(
         loanCoinAddress
     );
     const contract = new ethers.Contract(address, contract_abi, signer);
-    return contract;
+    return contract.address;
 }
 
-const sellerLockCollateral = async(contract, amount) => {
+const sellerLockCollateral = async(address, amount) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
     const successful = await contract.sellerLockCollateral(amount);
     await successful.wait();
     if (successful) 
@@ -76,6 +77,7 @@ const liquidation = async(contract) => {
 }
 
 const getRepaymentDetails = async(contract) => {
+    const contract = new ethers.Contract(contract, contract_abi, provider);
     const totalRepaymentAmount = await contract.getTotalRepaymentAmount();
     const repaidAmount = await contract.getRepaidAmount();
     const remaining = totalRepaymentAmount - repaidAmount;
@@ -83,7 +85,6 @@ const getRepaymentDetails = async(contract) => {
 }
 
 const main = async () => {
-    
     // const balance = await provider.getBalance(`vitalik.eth`);        // test for the connection to provider
     // console.log(ethers.utils.formatEther(balance));
 
@@ -99,7 +100,7 @@ const main = async () => {
     // create the factory
     const factory = new ethers.ContractFactory(factory_abi, factory_bytecode, signer);
     const ContractFactory = await factory.deploy();
-    
+
     const contract = createContract(
         ContractFactory,
         buyer,
