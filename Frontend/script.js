@@ -12,6 +12,11 @@ const factory_abi = JSON.parse(fs.readFileSync("./abi/LoanContractFactory.json")
 const factory_bytecode = JSON.parse(fs.readFileSync("./abi/LoanContractFactory.json")).bytecode;
 const contract_abi = JSON.parse(fs.readFileSync("./abi/LoanContract.json")).abi;
 // const contract_bytecode = JSON.parse(fs.readFileSync("./abi/LoanContract.json")).bytecode;
+const coin_abi = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).abi;
+const coin_bytecode = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).bytecode;
+
+// Contract factories
+const coinFactory = new ethers.ContractFactory(coin_abi, coin_bytecode, signer);
 
 // create a loan contract using LoanContractFactory
 const createContract = async(
@@ -84,7 +89,36 @@ const getRepaymentDetails = async(contract) => {
     return `Total repayment needed: ${totalRepaymentAmount}, Repaid: ${repaidAmount}, Remaining: ${remaining}`;
 }
 
+const depolyCoin = async (_name, _symbol) {
+    const coin = await coinFactory.deploy(_name, _symbol);
+    return coin.address;
+}
+
 const main = async () => {
+    // deploy some coins...
+    const _names = [
+        "Pak Coin",
+        "Hei Coin",
+        "Forms Coin",
+        "Jorey Coin",
+        "Stephaine Coin",
+        "Hong Kong Coin",
+    ]
+
+    const _symbols = [
+        "PAK",
+        "HEi",
+        "FRM",
+        "JRY",
+        "STP",
+        "HKC"
+    ]
+
+    const coins[];
+    for (_name, _symbol) in (_names, _symbols) {
+        coins.push(deployCoin(_name, _symbol));
+    }
+
     // const balance = await provider.getBalance(`vitalik.eth`);        // test for the connection to provider
     // console.log(ethers.utils.formatEther(balance));
 
