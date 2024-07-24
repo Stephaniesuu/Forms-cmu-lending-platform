@@ -21,9 +21,9 @@ const factory = new ethers.ContractFactory(factory_abi, factory_bytecode, factor
 
 // create a loan contract using LoanContractFactory
 const createContract = async(
-    factory,
     buyer,
     seller,
+    factoryOwner,
     colleteralAmount,
     loanAmount,
     loanDuration,
@@ -43,6 +43,7 @@ const createContract = async(
     return contract.address;
 }
 
+// Let the seller to interact with the contract and lock their collateral
 const sellerLockCollateral = async(address, signer) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
     const successful = await contract.sellerLockCollateral();
@@ -52,15 +53,7 @@ const sellerLockCollateral = async(address, signer) => {
     return `Failed to lock collateral.\nContract address: ${contract.address}`;
 }
 
-const buyerLockLoan = async(address, signer) => {
-    const contract = new ethers.Contract(address, contract_abi, signer);
-    const successful = await contract.buyerLockLoan();
-    await successful.wait();
-    if (successful)
-        return `Successfully locked loan.\nContract address: ${contract.address}`;
-    return `Failed to lock loan.\nContract address: ${contract.address}`;
-}
-
+// Let the seller to interact with the contract and withdraw their loan
 const withdrawLoan = async(address, amount, signer) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
     const result = await contract.sellerWithdraw(amount);
@@ -70,6 +63,7 @@ const withdrawLoan = async(address, amount, signer) => {
     return `Successfully withdrew loan: ${result}, Remaining: ${remaining}.\nContract address: ${contract.address}`;
 }
 
+// Let the seller to interact with the contract and repay their loan
 const repayLoan = async(address, amount, signer) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
     const result = await contract.buyerRepay(amount);
@@ -77,7 +71,18 @@ const repayLoan = async(address, amount, signer) => {
     return `Successfully repaid loan: ${result}\n${getRepaymentDetails(contract)}`;
 }
 
-const liquidation = async(address) => {
+// Let the buyer to interact with the contract and lock their loan
+const buyerLockLoan = async(address, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.buyerLockLoan();
+    await successful.wait();
+    if (successful)
+        return `Successfully locked loan.\nContract address: ${contract.address}`;
+    return `Failed to lock loan.\nContract address: ${contract.address}`;
+}
+
+// Transfer all the assest to the seller's wallet
+const liquidation = async(address, signer) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
     const successful = await contract.liquidation();
     await successful.wait();
@@ -86,6 +91,7 @@ const liquidation = async(address) => {
     return `Failed to liquidate`;
 }
 
+// Return the details of the repayment, i.e. how many repayment is needed
 const getRepaymentDetails = async(address) => {
     const contract = new ethers.Contract(contract, contract_abi, provider);
     const totalRepaymentAmount = await contract.getTotalRepaymentAmount();
@@ -94,6 +100,7 @@ const getRepaymentDetails = async(address) => {
     return `Total repayment needed: ${totalRepaymentAmount}, Repaid: ${repaidAmount}, Remaining: ${remaining}\nContract address: ${contract.address}`;
 }
 
+// Return the contract details in .json format for UI/UX design
 const getContractDetails = async(address) => {
     const contract = new ethers.Contract(address, contract_abi, provider);
     const buyer = await contract.getBuyer();
@@ -116,6 +123,7 @@ const getContractDetails = async(address) => {
     })
 }
 
+// Deploy ERC20
 const depolyCoin = async (_name, _symbol) => {
     const coin = await coinFactory.deploy(_name, _symbol);
     return coin.address;
@@ -156,14 +164,13 @@ const main = async () => {
     let coins = [];
     for (let index in _names) {
         coins.push(await depolyCoin(_names[index], _symbols[index]));
+        console.log(`Coin: ${_names[index]}(${_symbols[index]}) deployed to ${coins[index]}`);
     }
 
     // deploy Contract Factory
     const ContractFactory = await factory.deploy();
     await ContractFactory.deployed();
     console.log(`Contract Factory deployed to ${ContractFactory.address}`);
-
-
 
 }
 main()
