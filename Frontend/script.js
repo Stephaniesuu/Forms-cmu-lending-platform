@@ -5,7 +5,7 @@ import fs from "fs";
 // reading data
 const provider_url = process.env.provider_url;
 const provider_ID = process.env.provider_ID;
-const signer = process.env.signer;
+const factoryOwner = process.env.factoryOwner;
 const provider = new ethers.providers.JsonRpcProvider(`${provider_url}${provider_ID}`);
 
 const factory_abi = JSON.parse(fs.readFileSync("./abi/LoanContractFactory.json")).abi;
@@ -16,7 +16,8 @@ const coin_abi = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).abi;
 const coin_bytecode = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).bytecode;
 
 // Contract factories
-const coinFactory = new ethers.ContractFactory(coin_abi, coin_bytecode, signer);
+const coinFactory = new ethers.ContractFactory(coin_abi, coin_bytecode, factoryOwner);
+const factory = new ethers.ContractFactory(factory_abi, factory_bytecode, factoryOwner);
 
 // create a loan contract using LoanContractFactory
 const createContract = async(
@@ -38,42 +39,46 @@ const createContract = async(
         collateralCoinAddress,
         loanCoinAddress
     );
-    const contract = new ethers.Contract(address, contract_abi, signer);
+    const contract = new ethers.Contract(address, contract_abi, factoryOwner);
     return contract.address;
 }
 
-const sellerLockCollateral = async(address, amount) => {
+const sellerLockCollateral = async(address, signer) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
-    const successful = await contract.sellerLockCollateral(amount);
+    const successful = await contract.sellerLockCollateral();
     await successful.wait();
     if (successful) 
-        return `Successfully locked collateral`;
-    return `Failed to lock collateral`;
+        return `Successfully locked collateral.\nContract address: ${contract.address}`;
+    return `Failed to lock collateral.\nContract address: ${contract.address}`;
 }
 
-const buyerLockLoan = async(contract, amount) => {
-    const successful = await contract.buyerLockLoan(amount);
+const buyerLockLoan = async(address, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.buyerLockLoan();
     await successful.wait();
     if (successful)
-        return `Successfully locked loan`;
-    return `Failed to lock loan`;
+        return `Successfully locked loan.\nContract address: ${contract.address}`;
+    return `Failed to lock loan.\nContract address: ${contract.address}`;
 }
 
-const withdrawLoan = async(contract, amount) => {
+const withdrawLoan = async(address, amount, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
     const result = await contract.sellerWithdraw(amount);
     await result.wait();
     const remaining = await contract.getAvailableLoanAmount();
     await remaining.wait();
-    return `Successfully withdrew loan: ${result}, Remaining: ${remaining}`;
+    return `Successfully withdrew loan: ${result}, Remaining: ${remaining}.\nContract address: ${contract.address}`;
 }
 
-const repayLoan = async(contract, amount) => {
+const repayLoan = async(address, amount, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
     const result = await contract.buyerRepay(amount);
     await result.wait();
     return `Successfully repaid loan: ${result}\n${getRepaymentDetails(contract)}`;
 }
 
-const liquidation = async(contract) => {
+const liquidation = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
     const successful = await contract.liquidation();
     await successful.wait();
     if (successful)
@@ -81,15 +86,37 @@ const liquidation = async(contract) => {
     return `Failed to liquidate`;
 }
 
-const getRepaymentDetails = async(contract) => {
+const getRepaymentDetails = async(address) => {
     const contract = new ethers.Contract(contract, contract_abi, provider);
     const totalRepaymentAmount = await contract.getTotalRepaymentAmount();
     const repaidAmount = await contract.getRepaidAmount();
     const remaining = totalRepaymentAmount - repaidAmount;
-    return `Total repayment needed: ${totalRepaymentAmount}, Repaid: ${repaidAmount}, Remaining: ${remaining}`;
+    return `Total repayment needed: ${totalRepaymentAmount}, Repaid: ${repaidAmount}, Remaining: ${remaining}\nContract address: ${contract.address}`;
 }
 
-const depolyCoin = async (_name, _symbol) {
+const getContractDetails = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, provider);
+    const buyer = await contract.getBuyer();
+    const seller = await contract.getSeller();
+    const collateralAmount = await contract.getCollateralAmount();
+    const loanAmount = await contract.getLoanAmount();
+    const deadline = await contract.getDeadline();
+    const collateralCoinAddress = await contract.getCollateralCoinAddress();
+    const loanCoinAddress = await contract.getLoanCoinAddress();
+
+    // return the data in .json format
+    return JSON.stringify({
+        buyer: buyer,
+        seller: seller,
+        collateralAmount: collateralAmount,
+        loanAmount: loanAmount,
+        deadline: deadline,
+        collateralCoinAddress: collateralCoinAddress,
+        loanCoinAddress: loanCoinAddress,
+    })
+}
+
+const depolyCoin = async (_name, _symbol) => {
     const coin = await coinFactory.deploy(_name, _symbol);
     return coin.address;
 }
@@ -101,59 +128,42 @@ const main = async () => {
         "Hei Coin",
         "Forms Coin",
         "Jorey Coin",
-        "Stephaine Coin",
+        "Stephanie Coin",
         "Hong Kong Coin",
+        "Chicken Coin",
+        "Duck Coin",
+        "Bird Coin",
+        "Pig Coin", 
+        "Dog Coin",
+        "Cat Coin",
     ]
 
     const _symbols = [
         "PAK",
-        "HEi",
+        "HEI",
         "FRM",
         "JRY",
         "STP",
-        "HKC"
+        "HKC",
+        "CCK",
+        "DCK",
+        "BIR",
+        "PIG",
+        "DOG",
+        "CAT",
     ]
 
-    const coins[];
-    for (_name, _symbol) in (_names, _symbols) {
-        coins.push(deployCoin(_name, _symbol));
+    let coins = [];
+    for (let index in _names) {
+        coins.push(await depolyCoin(_names[index], _symbols[index]));
     }
 
-    // const balance = await provider.getBalance(`vitalik.eth`);        // test for the connection to provider
-    // console.log(ethers.utils.formatEther(balance));
-
-    // initalize all variables to 0 for testing
-    const buyer = 0;
-    const seller = 0;
-    const collateralAmount = 0;
-    const loanAmount = 0;
-    const loanDuration = 0;
-    const collateralCoinAddress = 0;
-    const loanCoinAddress = 0;
-    
-    // create the factory
-    const factory = new ethers.ContractFactory(factory_abi, factory_bytecode, signer);
+    // deploy Contract Factory
     const ContractFactory = await factory.deploy();
+    await ContractFactory.deployed();
+    console.log(`Contract Factory deployed to ${ContractFactory.address}`);
 
-    const contract = createContract(
-        ContractFactory,
-        buyer,
-        seller,
-        collateralAmount,
-        loanAmount,
-        loanDuration,
-        collateralCoinAddress,
-        loanCoinAddress
-    );
-    console.log(`Contract created successfully, address: ${contract.getAddress()}, index: ${contract.getIndex()}`);
 
-    // for testing
-    sellerLockCollateral();
-    buyerLockLoan();
-    withdrawLoan();
-    repayLoan();
-    liquidation();
-    getRepaymentDetails();
-    
+
 }
 main()
