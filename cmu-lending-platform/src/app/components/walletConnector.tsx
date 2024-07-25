@@ -18,6 +18,7 @@ const WalletConnector = () => {
 
       <Connector>
         <AntdConnectButton
+          style={{ color: 'white', fontSize: 'large', fontFamily: 'monospace' }}
           avatar={{
             src: 'https://mdn.alipayobjects.com/huamei_mutawc/afts/img/A*9jfLS41kn00AAAAAAAAAAAAADlrGAQ/original',
           }}

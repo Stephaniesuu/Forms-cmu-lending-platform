@@ -1,7 +1,7 @@
 
 'use client';
-import React, { useEffect, useState } from 'react';
-import { Layout, theme, Menu, Button } from 'antd';
+import React from 'react';
+import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../walletConnector';
 import Link from 'next/link';
 
@@ -14,24 +14,6 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-
-  // useEffect(() => {
-  //   setIsClient(true);
-  // }, []);
-
-  // const [isClient, setIsClient] = useState(false);
-  // const items = [
-  //   {
-  //     key: '1',
-  //     label: 'Dashboard',
-  //     onClick: () => router.push('/dashboard'),
-  //   },
-  //   {
-  //     key: '2',
-  //     label: 'Market',
-  //     onClick: () => router.push('/market'),
-  //   },
-  // ];
 
   const items = [
     {
@@ -53,19 +35,29 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
           zIndex: 1,
           width: '100%',
           display: 'flex',
+          height: '48px',
           alignItems: 'center',
+          background: 'var(--surface-theme_light-surface_0, #FFF)',
+          borderBottom: '1px solid var(--surface-theme_light-border_0, #E5E5E5)',
+          borderRadius: '0 0 16px 16px ',
+          border: '1px solid #EFEFEF',
+          boxShadow: '5px 5px 10px 0px rgba(136, 150, 163, 0.40), -4px -4px 10px 0px rgba(255, 255, 255, 0.40), 5px 5px 5px 0px #FFF inset, -5px -5px 10px 0px rgba(136, 150, 163, 0.25) inset',
         }}
       >
-        <div className="demo-logo" style={{ color: 'white', fontSize: 'large', fontFamily: 'monospace' }}>CMU Lending</div>
+        <div className="demo-logo" style={{ color: 'black', fontSize: 'large', fontFamily: 'monospace' }}>CMU Lending</div>
         <Menu
-          theme="dark"
+          theme="light"
           mode="horizontal"
-          defaultSelectedKeys={['2']}
           items={items}
           style={{
+            alignItems: 'center',
+            justifyItems: 'center',
             flex: 1,
             minWidth: 0,
+            height: '48px',
             margin: '0 24px',
+            fontFamily: 'monospace',
+            background: '3%',
           }}
         />
         <WalletConnector />
@@ -85,7 +77,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Footer style={{ textAlign: 'center' }}>
         CMU lending platform ©{new Date().getFullYear()} Created by Forms
       </Footer>
-    </Layout>
+    </Layout >
 
   );
 }

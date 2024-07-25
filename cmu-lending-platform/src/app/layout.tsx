@@ -5,7 +5,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import "./globals.css";
 
 // for antd theme token
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Menu } from "antd";
 
 // for web3 functionality
 import { Providers } from "./providors";
@@ -27,13 +27,16 @@ const themetoken = {
     "borderRadius": 8,
     "wireframe": false,
     "sizeStep": 5,
-    "fontSize": 14
+    "fontSize": 14,
   },
   "components": {
     "Layout": {
       "algorithm": true,
       "headerHeight": 56,
       "motionDurationMid": "0.3s"
+    },
+    "Menu": {
+      'itemColor': 'black',
     }
   }
 }
