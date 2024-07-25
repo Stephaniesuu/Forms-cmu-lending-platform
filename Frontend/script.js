@@ -129,6 +129,43 @@ const depolyCoin = async (_name, _symbol) => {
     return coin.address;
 }
 
+const eventListener = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, provider);
+
+    contract.on("contractDeployed", (address, time) => {
+        console.log(`Contract deployed at ${address} at ${time}`);
+    })
+
+    contract.on("deposit", (from, collateralAmount, loanCoinAmount, time) => {
+        console.log(
+            `Deposited:
+            From: ${from},
+            Collateral Amount: ${collateralAmount},
+            Loan Coin Amount: ${loanCoinAmount},
+            Time: ${time}`
+        );
+    })
+
+    contract.on("withdrawal", (to, collateralAmount, loanAmount, time) => {
+        console.log(
+            `Withdrawal:
+            To: ${to},
+            Collateral Amount: ${collateralAmount},
+            Loan Amount: ${loanAmount},
+            Time: ${time}`
+        )
+    })
+
+    contract.on("repayment", (from, amount, time) => {
+        console.log(
+            `Repayment:
+            From: ${from},
+            Amount: ${amount},
+            Time: ${time}`
+        )
+    }
+}
+
 const main = async () => {
     // deploy some coins...
     const _names = [
@@ -170,7 +207,6 @@ const main = async () => {
     // deploy Contract Factory
     const ContractFactory = await factory.deploy();
     await ContractFactory.deployed();
-    console.log(`Contract Factory deployed to ${ContractFactory.address}`);
-
+    console.log(`Contract Factory deployed to ${ContractFactory.address}`);  
 }
 main()
