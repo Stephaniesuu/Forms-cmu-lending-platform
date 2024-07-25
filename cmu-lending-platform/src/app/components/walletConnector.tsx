@@ -1,15 +1,14 @@
 'use client';
-  
+
 import React from 'react';
-
-
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
-import { Connector,ConnectButton as AntdConnectButton } from "@ant-design/web3";
+import { Connector, ConnectButton as AntdConnectButton, type Chain } from "@ant-design/web3";
+
 
 const WalletConnector = () => {
   return (
     <div className="flex items-center gap-2">
-    
+
       {/* <RainbowConnectButton
         accountStatus={{
           smallScreen: 'avatar',
