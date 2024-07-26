@@ -1,37 +1,212 @@
-import ethers from "ethers";
+import { ethers } from "ethers";
+import 'dotenv/config';
+import fs from "fs";
 
-const INFURA_ID = "13712e50d45a4432ad8e68aba775b198";
-const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`);
+// reading data
+const provider_url = process.env.provider_url;
+const provider_ID = process.env.provider_ID;
+const factoryOwner = process.env.factoryOwner;
+const provider = new ethers.providers.JsonRpcProvider(`${provider_url}${provider_ID}`);
 
-const factory_ABI = [
-    "constructor()",
-    "function createLoanContract(address buyer, address seller, uint256 colleteralAmount, uint256 loanAmount, uint256 loanDuration, address collateralCoinAddress, address loanCoinAddress) external returns (address)",
-    "function getAddressWithIndex(uint256 index) external view returns (address)"
-  ];
+const factory_abi = JSON.parse(fs.readFileSync("./abi/LoanContractFactory.json")).abi;
+const factory_bytecode = JSON.parse(fs.readFileSync("./abi/LoanContractFactory.json")).bytecode;
+const contract_abi = JSON.parse(fs.readFileSync("./abi/LoanContract.json")).abi;
+// const contract_bytecode = JSON.parse(fs.readFileSync("./abi/LoanContract.json")).bytecode;
+const coin_abi = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).abi;
+const coin_bytecode = JSON.parse(fs.readFileSync("./abi/_FormsCoin.json")).bytecode;
 
-const contract_ABI = [
-    "event contractDeployed(address indexed _contractAddress, uint256 time)",
-    "event deposit(address indexed _from, uint256 indexed _collateralCoinAmount, uint256 indexed _loanCoinAmount, uint256 _time)",
-    "event withdrawal(address indexed _to, uint256 indexed _collateralCoinAmount, uint256 indexed _loanCoinAmount, uint256 _time)",
-    "event repayment(address indexed _from, uint256 indexed _amount, uint256 indexed _time)",
-    "constructor(address _buyer, address _seller, address _contractOwner, uint256 _collateralAmount, uint256 _loanAmount, uint256 _loanDuration, uint256 _arrayIndex, address _collateralCoinAddress, address _loanCoinAddress)",
-    "function getBuyer() external view returns (address)",
-    "function getSeller() external view returns (address)",
-    "function getCollateralAmount() external view returns (uint256)",
-    "function getTotalLoanAmount() external view returns (uint256)",
-    "function getDeadline() external view returns (uint256)",
-    "function getArrayIndex() external view returns (uint256)",
-    "function getAvailableLoanAmount() external view onlySeller() returns (uint256)",
-    "function getTotalRepaymenetAmount() external view onlyBuyer() onlySeller() returns (uint256)",
-    "function getRepaidAmount() external view onlyBuyer() onlySeller() returns (uint256)",
-    "function sellerLockCollateral() external returns (bool)",
-    "function buyerLockLoan() external returns (bool)",
-    "function sellerWithdraw(uint256 amount) external returns (uint256)",
-    "function sellerRepay(uint256 amount) external returns (uint256)",
-    "function liquidation() external onlyBuyer() onlyContractOwner() returns (bool)",
-    "function dropExceedsMargin() public view returns (bool)",
-    "function overdue() public view returns (bool)",
-    "function dummyPriceAdjuster() external returns (uint256)",
-    "function setDummyValue(uint256 value) external"
-  ];
+// Contract factories
+const coinFactory = new ethers.ContractFactory(coin_abi, coin_bytecode, factoryOwner);
+const factory = new ethers.ContractFactory(factory_abi, factory_bytecode, factoryOwner);
 
+// create a loan contract using LoanContractFactory
+const createContract = async(
+    buyer,
+    seller,
+    factoryOwner,
+    colleteralAmount,
+    loanAmount,
+    loanDuration,
+    collateralCoinAddress,
+    loanCoinAddress
+) => {
+    const address = factory.createContract(
+        buyer,
+        seller,
+        colleteralAmount,
+        loanAmount,
+        loanDuration,
+        collateralCoinAddress,
+        loanCoinAddress
+    );
+    const contract = new ethers.Contract(address, contract_abi, factoryOwner);
+    return contract.address;
+}
+
+// Let the seller to interact with the contract and lock their collateral
+const sellerLockCollateral = async(address, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.sellerLockCollateral();
+    await successful.wait();
+    if (successful) 
+        return `Successfully locked collateral.\nContract address: ${contract.address}`;
+    return `Failed to lock collateral.\nContract address: ${contract.address}`;
+}
+
+// Let the seller to interact with the contract and withdraw their loan
+const withdrawLoan = async(address, amount, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const result = await contract.sellerWithdraw(amount);
+    await result.wait();
+    const remaining = await contract.getAvailableLoanAmount();
+    await remaining.wait();
+    return `Successfully withdrew loan: ${result}, Remaining: ${remaining}.\nContract address: ${contract.address}`;
+}
+
+// Let the seller to interact with the contract and repay their loan
+const repayLoan = async(address, amount, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const result = await contract.buyerRepay(amount);
+    await result.wait();
+    return `Successfully repaid loan: ${result}\n${getRepaymentDetails(contract)}`;
+}
+
+// Let the buyer to interact with the contract and lock their loan
+const buyerLockLoan = async(address, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.buyerLockLoan();
+    await successful.wait();
+    if (successful)
+        return `Successfully locked loan.\nContract address: ${contract.address}`;
+    return `Failed to lock loan.\nContract address: ${contract.address}`;
+}
+
+// Transfer all the assest to the seller's wallet
+const liquidation = async(address, signer) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.liquidation();
+    await successful.wait();
+    if (successful)
+        return `Successfully liquidated, all assets have been transferred to the buyer`;
+    return `Failed to liquidate`;
+}
+
+// Return the details of the repayment, i.e. how many repayment is needed
+const getRepaymentDetails = async(address) => {
+    const contract = new ethers.Contract(contract, contract_abi, provider);
+    const totalRepaymentAmount = await contract.getTotalRepaymentAmount();
+    const repaidAmount = await contract.getRepaidAmount();
+    const remaining = totalRepaymentAmount - repaidAmount;
+    return `Total repayment needed: ${totalRepaymentAmount}, Repaid: ${repaidAmount}, Remaining: ${remaining}\nContract address: ${contract.address}`;
+}
+
+// Return the contract details in .json format for UI/UX design
+const getContractDetails = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, provider);
+    const buyer = await contract.getBuyer();
+    const seller = await contract.getSeller();
+    const collateralAmount = await contract.getCollateralAmount();
+    const loanAmount = await contract.getLoanAmount();
+    const deadline = await contract.getDeadline();
+    const collateralCoinAddress = await contract.getCollateralCoinAddress();
+    const loanCoinAddress = await contract.getLoanCoinAddress();
+
+    // return the data in .json format
+    return JSON.stringify({
+        buyer: buyer,
+        seller: seller,
+        collateralAmount: collateralAmount,
+        loanAmount: loanAmount,
+        deadline: deadline,
+        collateralCoinAddress: collateralCoinAddress,
+        loanCoinAddress: loanCoinAddress,
+    })
+}
+
+// Deploy ERC20
+const depolyCoin = async (_name, _symbol) => {
+    const coin = await coinFactory.deploy(_name, _symbol);
+    return coin.address;
+}
+
+const eventListener = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, provider);
+
+    contract.on("contractDeployed", (address, time) => {
+        console.log(`Contract deployed at ${address} at ${time}`);
+    })
+
+    contract.on("deposit", (from, collateralAmount, loanCoinAmount, time) => {
+        console.log(
+            `Deposited:
+            From: ${from},
+            Collateral Amount: ${collateralAmount},
+            Loan Coin Amount: ${loanCoinAmount},
+            Time: ${time}`
+        );
+    })
+
+    contract.on("withdrawal", (to, collateralAmount, loanAmount, time) => {
+        console.log(
+            `Withdrawal:
+            To: ${to},
+            Collateral Amount: ${collateralAmount},
+            Loan Amount: ${loanAmount},
+            Time: ${time}`
+        )
+    })
+
+    contract.on("repayment", (from, amount, time) => {
+        console.log(
+            `Repayment:
+            From: ${from},
+            Amount: ${amount},
+            Time: ${time}`
+        )
+    }
+}
+
+const main = async () => {
+    // deploy some coins...
+    const _names = [
+        "Pak Coin",
+        "Hei Coin",
+        "Forms Coin",
+        "Jorey Coin",
+        "Stephanie Coin",
+        "Hong Kong Coin",
+        "Chicken Coin",
+        "Duck Coin",
+        "Bird Coin",
+        "Pig Coin", 
+        "Dog Coin",
+        "Cat Coin",
+    ]
+
+    const _symbols = [
+        "PAK",
+        "HEI",
+        "FRM",
+        "JRY",
+        "STP",
+        "HKC",
+        "CCK",
+        "DCK",
+        "BIR",
+        "PIG",
+        "DOG",
+        "CAT",
+    ]
+
+    let coins = [];
+    for (let index in _names) {
+        coins.push(await depolyCoin(_names[index], _symbols[index]));
+        console.log(`Coin: ${_names[index]}(${_symbols[index]}) deployed to ${coins[index]}`);
+    }
+
+    // deploy Contract Factory
+    const ContractFactory = await factory.deploy();
+    await ContractFactory.deployed();
+    console.log(`Contract Factory deployed to ${ContractFactory.address}`);  
+}
+main()
