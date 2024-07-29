@@ -21,8 +21,6 @@ contract LoanContract is Ownable {
 
     uint256 public arrayIndex; // The index of the arrays in the factory contract, i.e. Contracts[i]
 
-    // _CollateralCoin private CollateralCoin;
-    // _LoanCoin private LoanCoin;
     _FormsCoin private CollateralCoin;
     _FormsCoin private LoanCoin;
 
@@ -214,7 +212,7 @@ contract LoanContract is Ownable {
         require(
             totalRepaymentAmount > repaidAmount,
             "You have already repaid."
-        )
+        );
 
         // The repaid coins will go into the buyer's address directly, without transferring to the contract as a medium
         LoanCoin.transferFrom(msg.sender, buyer, availableLoanAmount);
