@@ -82,8 +82,8 @@ contract LoanContract is Ownable {
         CollateralCoin = _CollateralCoin(_collateralCoinAddress);
         LoanCoin = _LoanCoin(_loanCoinAddress);
 
-        // The required amount of loan coins to repay the loan, tax calculation is done in front-end
-        totalRepaymentAmount = _totalRepaymentAmount; 
+        // The required amount of loan coins to repay the loan, interest calculation is done in front-end
+        totalRepaymentAmount = _totalRepaymentAmount;
         
         emit contractDeployed(address(this), block.timestamp);
     }
