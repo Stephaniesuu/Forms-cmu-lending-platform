@@ -30,8 +30,7 @@ const createContract = async(
         seller,
         colleteralAmount,
         loanAmount,
-        // Calculate the interest, A = P(1 + r/n)^(nt)
-        loanAmount * (1 + annualInterest / 100) ** (loanDurationInDays / 365),
+        loanAmount * (1 + annualInterest / 100) ** (loanDurationInDays / 365),  // Calculate the interest, A = P(1 + r/n)^(nt)
         loanDurationInDays,
         collateralCoinAddress,
         loanCoinAddress
@@ -40,38 +39,42 @@ const createContract = async(
     return contract.address;
 }
 
-const sellerLockCollateral = async(address, amount) => {
+const sellerLockCollateral = async(address) => {
     const contract = new ethers.Contract(address, contract_abi, signer);
-    const successful = await contract.sellerLockCollateral(amount);
+    const successful = await contract.sellerLockCollateral();
     await successful.wait();
     if (successful) 
         return `Successfully locked collateral`;
     return `Failed to lock collateral`;
 }
 
-const buyerLockLoan = async(contract, amount) => {
-    const successful = await contract.buyerLockLoan(amount);
+const buyerLockLoan = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const successful = await contract.buyerLockLoan();
     await successful.wait();
     if (successful)
         return `Successfully locked loan`;
     return `Failed to lock loan`;
 }
 
-const withdrawLoan = async(contract, amount) => {
-    const result = await contract.sellerWithdraw(amount);
+const withdrawLoan = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const result = await contract.sellerWithdraw();
     await result.wait();
     const remaining = await contract.getAvailableLoanAmount();
     await remaining.wait();
     return `Successfully withdrew loan: ${result}, Remaining: ${remaining}`;
 }
 
-const repayLoan = async(contract, amount) => {
-    const result = await contract.buyerRepay(amount);
+const repayLoan = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
+    const result = await contract.sellerRepay();
     await result.wait();
     return `Successfully repaid loan: ${result}\n${getRepaymentDetails(contract)}`;
 }
 
-const liquidation = async(contract) => {
+const liquidation = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, signer);
     const successful = await contract.liquidation();
     await successful.wait();
     if (successful)
@@ -79,8 +82,8 @@ const liquidation = async(contract) => {
     return `Failed to liquidate`;
 }
 
-const getRepaymentDetails = async(contract) => {
-    const contract = new ethers.Contract(contract, contract_abi, provider);
+const getRepaymentDetails = async(address) => {
+    const contract = new ethers.Contract(address, contract_abi, provider);
     const totalRepaymentAmount = await contract.getTotalRepaymentAmount();
     const repaidAmount = await contract.getRepaidAmount();
     const remaining = totalRepaymentAmount - repaidAmount;
