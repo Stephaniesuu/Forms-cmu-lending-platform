@@ -64,7 +64,8 @@ contract LoanContract is Ownable {
         address _contractOwner,
         uint256 _collateralAmount,
         uint256 _loanAmount,
-        uint256 _loanDuration,
+        uint256 _totalRepaymentAmount,
+        uint256 _deadline,
         uint256 _arrayIndex,
         address _collateralCoinAddress,
         address _loanCoinAddress
@@ -76,13 +77,14 @@ contract LoanContract is Ownable {
         totalLoanAmount = _loanAmount;
         availableLoanAmount = totalLoanAmount;
         createTime = block.timestamp;
-        deadline = createTime + _loanDuration * 1 days; // Calculate the deadline by adding the duration (in days) to the creation time
+        deadline = _deadline;
         arrayIndex = _arrayIndex;
         CollateralCoin = _CollateralCoin(_collateralCoinAddress);
         LoanCoin = _LoanCoin(_loanCoinAddress);
 
-        totalRepaymentAmount = totalLoanAmount; // The required amount of loan coins to repay the loan, tax calculation is not implemented
-
+        // The required amount of loan coins to repay the loan, tax calculation is done in front-end
+        totalRepaymentAmount = _totalRepaymentAmount; 
+        
         emit contractDeployed(address(this), block.timestamp);
     }
 
@@ -188,38 +190,40 @@ contract LoanContract is Ownable {
         return true;
     }
 
-    // Seller taking out the loan deposited by the buyer
-    function sellerWithdraw(uint256 amount) external onlySeller returns (uint256) {
+    // Seller taking out the loan deposited by the buyer, MUST take out all the loan in once
+    function sellerWithdraw() external onlySeller returns (uint256) {
         require(
-            CollateralCoin.balanceOf(address(this)) == collateralAmount,
+            CollateralCoin.balanceOf(address(this)) >= collateralAmount,
             "You must lock enough collateral before withdrawing"
         );
 
-        // Check if the seller is borrowing more than the availableLoanAmount, if so, cap the amount
-        if (amount > availableLoanAmount) {
-            amount = availableLoanAmount;
-        }
-
-        LoanCoin.transfer(seller, amount);
-        availableLoanAmount -= amount;
+        LoanCoin.transfer(seller, availableLoanAmount);
+        availableLoanAmount = 0;
         
-        emit withdrawal(seller, 0, amount, block.timestamp);
+        emit withdrawal(seller, 0, availableLoanAmount, block.timestamp);
 
-        return amount;
+        return availableLoanAmount;
     }
     
-    // seller repaying the loan
-    function sellerRepay(uint256 amount) external onlySeller returns (uint256) {
+    // seller repaying the loan, the seller MUST repay all the loan coins in once
+    function sellerRepay() external onlySeller returns (uint256) {
         // Check if the seller is repaying more than he needs, if so, cap the amount
-        if (amount > totalRepaymentAmount - repaidAmount) {
-            amount = totalRepaymentAmount - repaidAmount;
-        }
+        require(
+            repaidAmount < totalRepaymentAmount,
+            "Loan already repaid"
+        );
+
+        // Check the balance of the buyer of the loan coins
+        require(
+            LoanCoin.balanceOf(buyer) >= totalRepaymentAmount,
+            "Not enough loan coins"
+        );
 
         // The repaid coins will go into the buyer's address directly, without transferring to the contract as a medium
-        LoanCoin.transferFrom(msg.sender, buyer, amount);
-        repaidAmount += amount;
+        LoanCoin.transferFrom(msg.sender, buyer, totalRepaymentAmount);
+        repaidAmount += totalRepaymentAmount;
 
-        emit repayment(msg.sender, amount, block.timestamp);
+        emit repayment(msg.sender, totalRepaymentAmount, block.timestamp);
 
         // Check if the seller finished repaying, if so, transfer all collateral back to the seller
         if (repaidAmount == totalRepaymentAmount) {
@@ -227,7 +231,7 @@ contract LoanContract is Ownable {
             emit withdrawal(seller, collateralAmount, 0, block.timestamp);
         }
         
-        return amount;
+        return totalRepaymentAmount;
     }
 
     // Liquidation: all collaterals and loan coins remaining are transferred to the buyer

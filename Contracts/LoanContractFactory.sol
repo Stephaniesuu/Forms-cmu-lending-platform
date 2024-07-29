@@ -20,7 +20,7 @@ contract LoanContractFactory is Ownable {
         address seller,
         uint256 colleteralAmount,
         uint256 loanAmount,
-        uint256 loanDuration,
+        uint256 deadline,
         address collateralCoinAddress,
         address loanCoinAddress
     ) external onlyOwner returns (address) {
@@ -30,7 +30,7 @@ contract LoanContractFactory is Ownable {
             owner(),
             colleteralAmount,
             loanAmount,
-            loanDuration,
+            deadline,
             totalContracts,
             collateralCoinAddress,
             loanCoinAddress
