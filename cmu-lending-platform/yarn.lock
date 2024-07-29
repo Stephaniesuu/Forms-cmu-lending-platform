@@ -6522,6 +6522,11 @@ warning@^4.0.3:
   dependencies:
     loose-envify "^1.0.0"
 
+web3-avatar@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/web3-avatar/-/web3-avatar-1.0.4.tgz#a0050a6224502515cb364eb5c99a5f99c5c36a0d"
+  integrity sha512-O5CLB01a2o7wB3mgXpkdFHi8IIXadMrt6Plf0tP/2ej6ohiTLC/P4jSUouoIXKs4Ercc5ve4Q9e7Y3gd02t88A==
+
 "webextension-polyfill@>=0.10.0 <1.0":
   version "0.12.0"
   resolved "https://registry.npmjs.org/webextension-polyfill/-/webextension-polyfill-0.12.0.tgz"
