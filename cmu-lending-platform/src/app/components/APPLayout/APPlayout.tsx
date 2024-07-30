@@ -1,13 +1,23 @@
 
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../walletConnector';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 const { Header, Content, Footer } = Layout;
 
+
+
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  let  pathname  = usePathname();
+  useEffect(() => {
+    setSelectedKeys([pathname]);
+  }, [pathname]);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -57,6 +67,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
             fontFamily: 'Poppins',
             background: '3%', 
           }}
+          selectedKeys={selectedKeys}
         />
         <WalletConnector />
       </Header>

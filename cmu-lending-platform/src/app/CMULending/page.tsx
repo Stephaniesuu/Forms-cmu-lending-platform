@@ -1,9 +1,7 @@
 'use client'
 
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Address } from '@ant-design/web3';
 import { useAccount } from 'wagmi'
-import { NFTCard } from '@ant-design/web3';
 export default function CMULending() {
   const account = useAccount()
   return (
@@ -11,9 +9,8 @@ export default function CMULending() {
       {account.isConnected ? (
         <div className='justify-center w-screen h-auto'>
           <div>
-
             <div>
-
+              You have successfully connected your wallet. 🎉
             </div>
           </div>
         </div>) : (
