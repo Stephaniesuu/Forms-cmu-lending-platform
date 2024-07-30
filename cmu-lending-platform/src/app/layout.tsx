@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import '@rainbow-me/rainbowkit/styles.css';
 import "./globals.css";
 
 // for antd theme token
-import { ConfigProvider, Menu } from "antd";
+import { ConfigProvider } from "antd";
 
 // for web3 functionality
 import { Providers } from "./providors";
@@ -15,36 +15,39 @@ export const metadata: Metadata = {
   description: "",
 };
 
-
+// Import Google Fonts
 const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ['400', '500', '700'] });
 
+// Define the global antd theme token 
 const themetoken = {
-  "token": {
-    "wireframe": true,
-    "colorPrimary": "#c67eff",
-    "colorInfo": "#c67eff",
-    "colorBgBase": "#f9f9f9",
-    "borderRadius": 10,
-    "colorTextBase": "#000000",
-    "fontFamily": "Poppins"
+  token: {
+    wireframe: true,
+    colorPrimary: "#c67eff",
+    colorInfo: "#c67eff",
+    colorBgBase: "#f9f9f9",
+    borderRadius: 10,
+    colorTextBase: "#000000",
+    fontFamily: poppins.style.fontFamily,
   },
-  "components": {
-    "Layout": {
-      "headerHeight": 56,
-      "motionDurationMid": "0.3s",
-      "algorithm": true
+  components: {
+    Layout: {
+      headerHeight: 48,
+      motionDurationMid: "0.3s",
+      algorithm: true,
+      headerPadding: "0 20px",
     },
-    "Menu": {
-      'itemColor': 'black',
+    Menu: {
+      itemColor: 'black',
     },
-    "Button": {
-      "algorithm": true
+    Button: {
+      algorithm: true
     },
-    "Badge": {
-      "colorError": "rgba(114, 46, 209, 0.66)"
+    Badge: {
+      colorError: "rgba(114, 46, 209, 0.66)"
     }
   }
-}
+};
 
 export default function RootLayout({
   children,
@@ -52,8 +55,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme='light'>
-      <body className={inter.className}>
+    <html lang="en" data-theme="light">
+      <body className={poppins.className}>
         <AntdRegistry>
           <ConfigProvider theme={themetoken}>
             <Providers>
@@ -61,7 +64,7 @@ export default function RootLayout({
             </Providers>
           </ConfigProvider>
         </AntdRegistry>
-      </body >
-    </html >
+      </body>
+    </html>
   );
 }
