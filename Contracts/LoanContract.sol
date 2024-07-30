@@ -76,8 +76,8 @@ contract LoanContract is Ownable {
         createTime = block.timestamp;
         deadline = createTime + _loanDuration * 1 days; // Calculate the deadline by adding the duration (in days) to the creation time
         arrayIndex = _arrayIndex;
-        CollateralCoin = _CollateralCoin(_collateralCoinAddress);
-        LoanCoin = _LoanCoin(_loanCoinAddress);
+        CollateralCoin = _FormsCoin(_collateralCoinAddress);
+        LoanCoin = _FormsCoin(_loanCoinAddress);
 
         totalRepaymentAmount = totalLoanAmount; // The required amount of loan coins to repay the loan, tax calculation is not implemented
 
