@@ -1,13 +1,10 @@
 'use client';
 
-import React, { useEffect,useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Connector, ConnectButton as AntdConnectButton, type Chain } from "@ant-design/web3";
 import createWeb3Avatar from 'web3-avatar';
-import Web3Avatar from 'web3-avatar';
-import { getAddress } from 'viem';
 import { useAccount } from 'wagmi';
-
 
 
 const CustomAvatar = ({ Address }: { Address: string }) => {

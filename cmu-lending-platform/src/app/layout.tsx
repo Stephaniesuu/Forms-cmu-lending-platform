@@ -25,7 +25,8 @@ const themetoken = {
     "colorInfo": "#c67eff",
     "colorBgBase": "#f9f9f9",
     "borderRadius": 10,
-    "colorTextBase": "#000000"
+    "colorTextBase": "#000000",
+    "fontFamily": "Poppins"
   },
   "components": {
     "Layout": {

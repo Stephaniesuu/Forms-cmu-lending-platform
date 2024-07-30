@@ -5,7 +5,6 @@ import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../walletConnector';
 import Link from 'next/link';
 
-
 const { Header, Content, Footer } = Layout;
 
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
@@ -55,8 +54,8 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
             minWidth: 0,
             height: '48px',
             margin: '0 24px',
-            fontFamily: 'monospace',
-            background: '3%',
+            fontFamily: 'Poppins',
+            background: '3%', 
           }}
         />
         <WalletConnector />
