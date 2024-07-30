@@ -1,4 +1,3 @@
-
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Layout, theme, Menu } from 'antd';
@@ -40,20 +39,25 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Header
         style={{
           position: 'sticky',
-          top: 0,
-          zIndex: 1,
           width: '100%',
           display: 'flex',
-          height: '48px',
           alignItems: 'center',
-          background: 'var(--surface-theme_light-surface_0, #FFF)',
-          borderBottom: '1px solid var(--surface-theme_light-border_0, #E5E5E5)',
-          borderRadius: '0 0 16px 16px ',
-          border: '1px solid #EFEFEF',
+          borderRadius: '0 0 4px 4px ',
+          border: '1px solid #D9D9D9',
+          background: '#FFF',
           boxShadow: '5px 5px 10px 0px rgba(136, 150, 163, 0.40), -4px -4px 10px 0px rgba(255, 255, 255, 0.40), 5px 5px 5px 0px #FFF inset, -5px -5px 10px 0px rgba(136, 150, 163, 0.25) inset',
         }}
       >
-        <div className="demo-logo" style={{ color: 'black', fontSize: 'large', fontFamily: 'monospace' }}>CMU Lending</div>
+        <div 
+          style={{
+            color: 'black',
+            fontSize: '36px',
+            fontStyle: 'normal',
+            fontWeight: 800,
+            lineHeight: 'normal',
+            WebkitTextStrokeWidth: '1px',
+            WebkitTextStrokeColor: '#000',
+          }}>CMU</div>
         <Menu
           theme="light"
           mode="horizontal"
@@ -63,10 +67,8 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
             justifyItems: 'center',
             flex: 1,
             minWidth: 0,
-            height: '48px',
             margin: '0 24px',
-            fontFamily: 'Poppins',
-            background: '3%',
+            background: '0%',
           }}
           selectedKeys={selectedKeys}
         />

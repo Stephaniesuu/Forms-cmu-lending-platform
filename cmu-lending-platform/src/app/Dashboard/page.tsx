@@ -3,7 +3,7 @@
 import APPLayout from '../components/APPLayout/APPlayout';
 import { useAccount } from 'wagmi'
 import { Row, Col } from 'antd';
-import { Address, NFTCard } from '@ant-design/web3';
+import { NFTCard } from '@ant-design/web3';
 import Title from 'antd/es/typography/Title';
 
 const style: React.CSSProperties = {
@@ -43,7 +43,7 @@ export default function CMULending() {
         <Col className="gutter-row" span={12}>
 
         <div style={style}>
-            <Title> This is for Dashboard</Title>
+            <Title> This is for Dashboard Ma</Title>
             <p>  {account.address}</p>
           </div>
         </Col>
