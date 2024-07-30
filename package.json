@@ -1,28 +1,13 @@
 {
     "dependencies": {
-        "@openzeppelin/contracts": "^5.0.2",
-        "antd": "^5.19.3",
-        "next": "^14.2.5",
-        "openzeppelin-solidity": "^3.4.2",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "yarn": "^1.22.22"
+      "@openzeppelin/contracts": "^5.0.2",
+      "openzeppelin-solidity": "^3.4.2",
+      "yarn": "^1.22.22"
     },
-    "name": "forms",
+    "name": "Forms",
     "version": "1.0.0",
     "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Forms-intern/Forms.git"
-    },
+    "repository": "https://github.com/Forms-intern/Forms.git",
     "author": "Jorey717 <609019479@qq.com>",
-    "license": "MIT",
-    "description": "",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "bugs": {
-        "url": "https://github.com/Forms-intern/Forms/issues"
-    },
-    "homepage": "https://github.com/Forms-intern/Forms#readme"
-}
+    "license": "MIT"
+  }

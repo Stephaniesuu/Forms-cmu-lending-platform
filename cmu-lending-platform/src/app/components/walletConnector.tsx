@@ -1,11 +1,27 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Connector, ConnectButton as AntdConnectButton, type Chain } from "@ant-design/web3";
+import createWeb3Avatar from 'web3-avatar';
+import { useAccount } from 'wagmi';
+
+
+const CustomAvatar = ({ Address }: { Address: string }) => {
+  const avatarRef = useRef(null);
+
+  useEffect(() => {
+    if (avatarRef.current) {
+      createWeb3Avatar(avatarRef.current, Address);
+    }
+  }, [Address]);
+  return <div ref={avatarRef} className=' w-16 h-16'></div>;
+};
 
 
 const WalletConnector = () => {
+  const currentAccount = useAccount();
+
   return (
     <div className="flex items-center gap-2">
 
@@ -18,9 +34,8 @@ const WalletConnector = () => {
 
       <Connector>
         <AntdConnectButton
-          style={{ color: 'white', fontSize: 'large', fontFamily: 'monospace' }}
           avatar={{
-            src: 'https://mdn.alipayobjects.com/huamei_mutawc/afts/img/A*9jfLS41kn00AAAAAAAAAAAAADlrGAQ/original',
+            src: <CustomAvatar Address={currentAccount.address || ''} />,
           }}
           actionsMenu
         />

@@ -2,9 +2,9 @@
 
 import APPLayout from '../components/APPLayout/APPlayout';
 import { useAccount } from 'wagmi'
-import { Row, Col } from 'antd';
+import { Row, Col, Typography } from 'antd';
+const { Title } = Typography;
 import { Address, NFTCard } from '@ant-design/web3';
-import Title from 'antd/es/typography/Title';
 
 const style: React.CSSProperties = {
   opacity: 'initial',
@@ -22,7 +22,7 @@ export default function CMULending() {
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <div style={style}>
-            <p> This is for dashboard</p>
+            <p> This is for Market</p>
             <NFTCard
               name="My NFT"
               tokenId={16}
@@ -42,8 +42,8 @@ export default function CMULending() {
         </Col>
         <Col className="gutter-row" span={12}>
 
-        <div style={style}>
-            <Title> This is for Dashboard</Title>
+          <div style={style}>
+            <Title> This is for Market</Title>
             <p>  {account.address}</p>
           </div>
         </Col>

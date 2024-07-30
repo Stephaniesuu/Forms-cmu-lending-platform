@@ -20,23 +20,28 @@ const inter = Inter({ subsets: ["latin"] });
 
 const themetoken = {
   "token": {
-    "colorPrimary": "#4fcbda",
-    "colorInfo": "#4fcbda",
-    "colorSuccess": "#81e74f",
-    "colorWarning": "#ffda6e",
-    "borderRadius": 8,
-    "wireframe": false,
-    "sizeStep": 5,
-    "fontSize": 14,
+    "wireframe": true,
+    "colorPrimary": "#c67eff",
+    "colorInfo": "#c67eff",
+    "colorBgBase": "#f9f9f9",
+    "borderRadius": 10,
+    "colorTextBase": "#000000",
+    "fontFamily": "Poppins"
   },
   "components": {
     "Layout": {
-      "algorithm": true,
       "headerHeight": 56,
-      "motionDurationMid": "0.3s"
+      "motionDurationMid": "0.3s",
+      "algorithm": true
     },
     "Menu": {
       'itemColor': 'black',
+    },
+    "Button": {
+      "algorithm": true
+    },
+    "Badge": {
+      "colorError": "rgba(114, 46, 209, 0.66)"
     }
   }
 }
