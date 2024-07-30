@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../walletConnector';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { usePathname } from 'next/navigation';
 
 const { Header, Content, Footer } = Layout;
@@ -13,15 +12,17 @@ const { Header, Content, Footer } = Layout;
 
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
-  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
-  let  pathname  = usePathname();
-  useEffect(() => {
-    setSelectedKeys([pathname]);
-  }, [pathname]);
-
+  //for theme 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  //for menu active key
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  let pathname = usePathname();
+  useEffect(() => {
+    setSelectedKeys([pathname]);
+  }, [pathname]);
 
   const items = [
     {
@@ -65,7 +66,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
             height: '48px',
             margin: '0 24px',
             fontFamily: 'Poppins',
-            background: '3%', 
+            background: '3%',
           }}
           selectedKeys={selectedKeys}
         />
