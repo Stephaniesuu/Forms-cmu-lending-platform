@@ -34,7 +34,6 @@ const WalletConnector = () => {
 
       <Connector>
         <AntdConnectButton
-          style={{ color: 'white', fontSize: 'large', fontFamily: 'monospace' }}
           avatar={{
             src: <CustomAvatar Address={currentAccount.address || ''} />,
           }}
