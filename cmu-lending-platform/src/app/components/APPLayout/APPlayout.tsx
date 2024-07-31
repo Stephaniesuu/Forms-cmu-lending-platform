@@ -1,4 +1,3 @@
-
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Layout, theme, Menu } from 'antd';
@@ -13,9 +12,7 @@ const { Header, Content, Footer } = Layout;
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
   //for theme 
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const { token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
 
   //for menu active key
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -44,20 +41,16 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Header
         style={{
           position: 'sticky',
-          top: 0,
-          zIndex: 1,
           width: '100%',
           display: 'flex',
-          height: '48px',
           alignItems: 'center',
-          background: 'var(--surface-theme_light-surface_0, #FFF)',
-          borderBottom: '1px solid var(--surface-theme_light-border_0, #E5E5E5)',
-          borderRadius: '0 0 16px 16px ',
-          border: '1px solid #EFEFEF',
+          borderRadius: '0 0 4px 4px ',
+          border: '1px solid #D9D9D9',
+          background: '#FFF',
           boxShadow: '5px 5px 10px 0px rgba(136, 150, 163, 0.40), -4px -4px 10px 0px rgba(255, 255, 255, 0.40), 5px 5px 5px 0px #FFF inset, -5px -5px 10px 0px rgba(136, 150, 163, 0.25) inset',
         }}
       >
-        <div className="demo-logo" style={{ color: 'black', fontSize: 'large', fontFamily: 'monospace' }}>CMU Lending</div>
+        <img src='CMU.svg' alt='CMU' style={{ width: '100px', height: '100px', margin: '0 20px' }} />
         <Menu
           theme="light"
           mode="horizontal"
@@ -67,10 +60,8 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
             justifyItems: 'center',
             flex: 1,
             minWidth: 0,
-            height: '48px',
             margin: '0 24px',
-            fontFamily: 'Poppins',
-            background: '3%',
+            background: '0%',
           }}
           selectedKeys={selectedKeys}
         />
@@ -79,7 +70,10 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Content >
         <div
           style={{
-            padding: 24,
+            padding: '80px',
+            alignItems: 'center',
+            justifyItems: 'center',
+            // display: 'flex',
             minHeight: '100vh',
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
