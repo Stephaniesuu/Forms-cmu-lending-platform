@@ -5,7 +5,7 @@ import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
-import { market } from './market';
+import { market } from './data';
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -68,17 +68,16 @@ const columns: TableColumnsType<DataType> = [
     //   compare: (a, b) => a.assest.localeCompare(b.assest),
     // },
     filters: [
-      { text: 'BTC', value: 'BTC' },
-      { text: 'ETH', value: 'ETH' },
-      { text: 'PAK', value: 'PAK' },
-      { text: 'HEI', value: 'HEI' },
+      { text: 'Bitcoin (BTC)', value: 'BTC' },
+      { text: 'Ethereum (ETH)', value: 'ETH' },
+      { text: 'Pak Coin (PAK)', value: 'PAK' },
+      { text: 'Hei Coin (HEI)', value: 'HEI' },
     ],
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.assest.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Creditor',
@@ -94,7 +93,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => a.amount - b.amount,
     },
     width: '5%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Value',
@@ -104,7 +102,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => compareValues(a.amountValue, b.amountValue),
     },
     width: '10%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Repayment',
@@ -114,7 +111,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => a.repayment - b.repayment,
     },
     width: '5%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Value',
@@ -124,7 +120,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => compareValues(a.repaymentValue, b.repaymentValue),
     },
     width: '10%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Required Collateral',
@@ -134,7 +129,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => compareValues(a.requiredCollateral, b.requiredCollateral),
     },
     width: '12%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Duration',
@@ -144,7 +138,6 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => a.duration.localeCompare(b.duration),
     },
     width: '8%',
-    render: (text) =>  <div style={{ textAlign: 'center' }}>{text}</div>,
   },
   {
     title: 'Create Date',
