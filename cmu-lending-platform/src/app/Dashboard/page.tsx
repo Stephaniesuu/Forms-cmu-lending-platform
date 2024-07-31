@@ -65,9 +65,19 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Assest',
     dataIndex: 'assest',
-    sorter: {
-      compare: (a, b) => a.assest.localeCompare(b.assest),
-    },
+    filters: [
+      { text: 'Bitcoin (BTC)', value: 'BTC' },
+      { text: 'Ethereum (ETH)', value: 'ETH' },
+      { text: 'Pak Coin (PAK)', value: 'PAK' },
+      { text: 'Hei Coin (HEI)', value: 'HEI' },
+      { text: 'Jorey Coin (JORE)', value: 'JORE' },
+      { text: 'Stephanie Coin (STEP)', value: 'STEP' },
+      { text: 'Joyful99 (JOY9)', value: 'JOY' },
+    ],
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.assest.indexOf(value) === 0,
+    align: 'center',
     render(assest: string) {
       const assetIconMap: { [key: string]: React.ReactNode } = {
         'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
@@ -88,6 +98,7 @@ const columns: TableColumnsType<DataType> = [
     sorter: {
       compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
     },
+    align: 'center',
     render: (counterparty: string) => <a>{counterparty}</a>,
   },
   {
@@ -96,23 +107,31 @@ const columns: TableColumnsType<DataType> = [
     sorter: {
       compare: (a, b) => a.amount - b.amount,
     },
+    align: 'center',
     sortDirections: ['descend', 'ascend'],
   },
   {
-    title: 'Value (HKD)',
+    title: 'Value',
     dataIndex: 'value',
     sorter: {
       compare: (a, b) => compareValues(a.value, b.value),
     },
+    align: 'center',
     sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Status',
     key: 'status',
     dataIndex: 'status',
-    sorter: {
-      compare: (a, b) => a.status.localeCompare(b.status),
-    },
+    filters: [
+      { text: 'Active', value: 'Active' },
+      { text: 'Matured', value: 'Matured' },
+      { text: 'Pending', value: 'Pending' },
+    ],
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
+    align: 'center',
     render(status: string) {
       const statusColorMap: { [key: string]: string } = {
         'Pending': 'blue',
@@ -133,6 +152,7 @@ const columns: TableColumnsType<DataType> = [
     sorter: {
       compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
+    align: 'center',
   },
   {
     title: 'Action',
@@ -145,7 +165,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const style: React.CSSProperties = {
+const tableStyle: React.CSSProperties = {
   opacity: 'initial',
   background: 'linear-gradient(to right, #f7f7f7, rgba(255,255,255,0))',
   padding: '20px',
@@ -179,6 +199,7 @@ const rowClassName = (record: any, index: number): string => {
 export default function CMULending() {
   return (
     <APPLayout>
+      <div style = {tableContainerStyle}>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <div style={style}>
@@ -192,7 +213,6 @@ export default function CMULending() {
               scroll={{ y: 600 }}
               rowClassName={rowClassName}
             />
-          </div>
         </Col>
         <Col className="gutter-row" span={12}>
           <div style={style}>
@@ -206,9 +226,9 @@ export default function CMULending() {
               scroll={{ y: 600 }}
               rowClassName={rowClassName}
             />
-          </div>
         </Col>
       </Row>
+      </div>
     </APPLayout>
   );
 }
