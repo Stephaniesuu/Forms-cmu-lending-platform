@@ -2,14 +2,16 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, Table, Divider, Button, Tag, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { supplies } from './supplies';
 import { borrows } from './borrows';
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
 
-function compareValues(a, b) {
-  const parseValue = (value) => {
+function compareValues(a: string, b: string) {
+  const parseValue = (value: string) => {
     const number = parseFloat(value.slice(1, -1));
     const unit = value.slice(-1);
     let multiplier = 1;
@@ -31,8 +33,8 @@ function compareValues(a, b) {
   return 0;
 }
 
-function compareDates(date1, date2) {
-  const parseDate = (dateStr) => {
+function compareDates(date1: string, date2: string) {
+  const parseDate = (dateStr: string) => {
     const [day, month, year] = dateStr.split('-').map(Number);
     // Assuming the year is in the format 'yy', convert it to 'yyyy'
     const fullYear = year < 50 ? 2000 + year : 1900 + year; // Adjust as needed for your use case
@@ -68,12 +70,25 @@ const columns: TableColumnsType<DataType> = [
       { text: 'Hei Coin (HEI)', value: 'HEI' },
       { text: 'Jorey Coin (JORE)', value: 'JORE' },
       { text: 'Stephanie Coin (STEP)', value: 'STEP' },
-      { text: 'Joy99 (JOY9)', value: 'JOY' },
+      { text: 'Joyful99 (JOY9)', value: 'JOY' },
     ],
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.assest.indexOf(value) === 0,
     align: 'center',
+    render(assest: string) {
+      const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+      };
+      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {IconComponent}
+          <span style={{ marginLeft: 8 }}>{assest}</span>
+        </div>
+      )
+    },
   },
   {
     title: 'Counterparty',
@@ -82,6 +97,7 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
     },
     align: 'center',
+    render: (counterparty: string) => <a>{counterparty}</a>,
   },
   {
     title: 'Amount',
@@ -103,6 +119,7 @@ const columns: TableColumnsType<DataType> = [
   },
   {
     title: 'Status',
+    key: 'status',
     dataIndex: 'status',
     filters: [
       { text: 'Active', value: 'Active' },
@@ -111,7 +128,21 @@ const columns: TableColumnsType<DataType> = [
     ],
     filterMode: 'tree',
     filterSearch: true,
+    onFilter: (value, record) => record.status.indexOf(value) === 0,
     align: 'center',
+    render(status: string) {
+      const statusColorMap: { [key: string]: string } = {
+        'Pending': 'blue',
+        'Active': 'green',
+        'Matured': 'lightgray',
+      };
+      const color = statusColorMap[status] || 'lightgray';
+      return (
+        <>
+          <Tag color={color}>{status}</Tag>
+        </>
+      );
+    },
   },
   {
     title: 'Deadline',
@@ -121,6 +152,11 @@ const columns: TableColumnsType<DataType> = [
     },
     align: 'center',
   },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    render: () => <Button size='small' >Details</Button>,
+  }
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
@@ -138,7 +174,7 @@ const tableStyle: React.CSSProperties = {
 };
 
 const tableContainerStyle : React.CSSProperties = {
-  maxWidth: '1400px',
+  maxWidth: '1800px',
   margin: '0 auto',
 };
 
@@ -153,7 +189,7 @@ export default function CMULending() {
               dataSource={supplies}
               onChange={onChange}
               style={tableStyle}
-              pagination={{ pageSize: 20 }}
+              pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your supplies</Title>}
             />
         </Col>
@@ -163,7 +199,7 @@ export default function CMULending() {
               dataSource={borrows}
               onChange={onChange}
               style={tableStyle}
-              pagination={{ pageSize: 20 }}
+              pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your borrows</Title>}
             />
         </Col>
