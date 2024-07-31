@@ -10,6 +10,46 @@ import type { TableColumnsType, TableProps } from 'antd';
 import { supplies } from './supplies';
 import { borrows } from './borrows';
 import { Alice } from 'next/font/google';
+
+function compareValues(a, b) {
+  const parseValue = (value) => {
+    const number = parseFloat(value.slice(1, -1));
+    const unit = value.slice(-1);
+    let multiplier = 1;
+
+    if (unit === 'M') {
+      multiplier = 1000;
+    } else if (unit === 'K') {
+      multiplier = 1;
+    }
+
+    return number * multiplier;
+  };
+
+  const valueA = parseValue(a);
+  const valueB = parseValue(b);
+
+  if (valueA > valueB) return 1;
+  if (valueA < valueB) return -1;
+  return 0;
+}
+
+function compareDates(date1, date2) {
+  const parseDate = (dateStr) => {
+    const [day, month, year] = dateStr.split('-').map(Number);
+    // Assuming the year is in the format 'yy', convert it to 'yyyy'
+    const fullYear = year < 50 ? 2000 + year : 1900 + year; // Adjust as needed for your use case
+    return new Date(fullYear, month - 1, day); // month is 0-indexed in Date
+  };
+
+  const dateObj1 = parseDate(date1);
+  const dateObj2 = parseDate(date2);
+
+  if (dateObj1 > dateObj2) return 1;
+  if (dateObj1 < dateObj2) return -1;
+  return 0;
+}
+
 interface DataType {
   key: React.Key;
   assest: string,
@@ -26,7 +66,6 @@ const columns: TableColumnsType<DataType> = [
     dataIndex: 'assest',
     sorter: {
       compare: (a, b) => a.assest.localeCompare(b.assest),
-      multiple: 7,
     },
   },
   {
@@ -34,7 +73,6 @@ const columns: TableColumnsType<DataType> = [
     dataIndex: 'counterparty',
     sorter: {
       compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
-      multiple: 1,
     },
   },
   {
@@ -42,31 +80,29 @@ const columns: TableColumnsType<DataType> = [
     dataIndex: 'amount',
     sorter: {
       compare: (a, b) => a.amount - b.amount,
-      multiple: 8,
     },
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Value (HKD)',
     dataIndex: 'value',
     sorter: {
-      compare: (a, b) => a.value.localeCompare(b.value),
-      multiple: 8,
+      compare: (a, b) => compareValues(a.value, b.value),
     },
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Status',
     dataIndex: 'status',
     sorter: {
       compare: (a, b) => a.status.localeCompare(b.status),
-      multiple: 9,
     },
   },
   {
     title: 'Deadline',
     dataIndex: 'deadline',
     sorter: {
-      compare: (a, b) => a.deadline.localeCompare(b.deadline),
-      multiple: 10,
+      compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
   },
 ];
