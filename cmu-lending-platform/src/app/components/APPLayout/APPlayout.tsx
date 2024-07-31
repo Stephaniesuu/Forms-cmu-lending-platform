@@ -66,7 +66,10 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Content >
         <div
           style={{
-            padding: '30px 80px',
+            padding: '80px',
+            alignItems: 'center',
+            justifyItems: 'center',
+            // display: 'flex',
             minHeight: '100vh',
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
