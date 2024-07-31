@@ -204,6 +204,8 @@ export default function Dashboard() {
               onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
+              style={tableStyle}
+              pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your supplies</Title>}
             />
           </div>
@@ -216,6 +218,8 @@ export default function Dashboard() {
               onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
+              style={tableStyle}
+              pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your borrows</Title>}
             />
           </div>
