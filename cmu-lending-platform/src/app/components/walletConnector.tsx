@@ -5,6 +5,7 @@ import { ConnectButton as RainbowConnectButton } from "@rainbow-me/rainbowkit";
 import { Connector, ConnectButton as AntdConnectButton, type Chain } from "@ant-design/web3";
 import createWeb3Avatar from 'web3-avatar';
 import { useAccount } from 'wagmi';
+import { Sepolia, Mainnet } from '@ant-design/web3-assets';
 
 
 const CustomAvatar = ({ Address }: { Address: string }) => {
@@ -21,7 +22,7 @@ const CustomAvatar = ({ Address }: { Address: string }) => {
 
 const WalletConnector = () => {
   const currentAccount = useAccount();
-
+  // const [chain, setChain] = React.useState<Chain>(Mainnet);
   return (
     <div className="flex items-center gap-2">
 
@@ -38,6 +39,14 @@ const WalletConnector = () => {
             src: <CustomAvatar Address={currentAccount.address || ''} />,
           }}
           actionsMenu
+          profileModal={{
+            width: 400,
+          }}
+          // availableChains={[Mainnet, Sepolia]}
+          // onSwitchChain={async (c) => {
+          //   setChain(c);
+          // }}
+          // chain={chain}
         />
       </Connector>
     </div>

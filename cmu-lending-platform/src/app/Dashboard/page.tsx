@@ -2,14 +2,11 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { useAccount } from 'wagmi'
 import { Row, Col, Table } from 'antd';
-import { Address, NFTCard } from '@ant-design/web3';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { supplies } from './supplies';
 import { borrows } from './borrows';
-import { Alice } from 'next/font/google';
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -114,9 +111,9 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
 const style: React.CSSProperties = {
   opacity: 'initial',
   background: 'linear-gradient(to right, #f7f7f7, rgba(255,255,255,0))',
-  padding: '12px',
+  padding: '20px',
   height: '100%',
-  borderRadius: '6px',
+  borderRadius: '20px',
   boxShadow: '0 3px 5px 0 rgba(0,0,0,0.2)',
   fontFamily: 'Poppins',
 };
@@ -131,7 +128,6 @@ const containerStyle = {
 };
 
 export default function CMULending() {
-  const account = useAccount();
   return (
     <APPLayout>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -149,7 +145,6 @@ export default function CMULending() {
         <Col className="gutter-row" span={12}>
           <div style={style}>
             <Title>Your borrows</Title>
-            <p>{account.address}</p>
             <Table
               columns={columns}
               dataSource={borrows}

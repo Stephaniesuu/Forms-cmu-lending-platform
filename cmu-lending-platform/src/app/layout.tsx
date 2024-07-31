@@ -38,7 +38,9 @@ const themetoken = {
       headerPadding: "0 20px",
     },
     Menu: {
-      itemColor: 'black',
+      // itemColor: 'black',
+      itemPaddingInline: '34px',
+      fontSize:'16px',
     },
     Button: {
       algorithm: true

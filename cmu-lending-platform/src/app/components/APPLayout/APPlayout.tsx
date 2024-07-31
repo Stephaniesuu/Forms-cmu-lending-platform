@@ -12,9 +12,7 @@ const { Header, Content, Footer } = Layout;
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
   //for theme 
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const { token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
 
   //for menu active key
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -48,16 +46,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
           boxShadow: '5px 5px 10px 0px rgba(136, 150, 163, 0.40), -4px -4px 10px 0px rgba(255, 255, 255, 0.40), 5px 5px 5px 0px #FFF inset, -5px -5px 10px 0px rgba(136, 150, 163, 0.25) inset',
         }}
       >
-        <div 
-          style={{
-            color: 'black',
-            fontSize: '36px',
-            fontStyle: 'normal',
-            fontWeight: 800,
-            lineHeight: 'normal',
-            WebkitTextStrokeWidth: '1px',
-            WebkitTextStrokeColor: '#000',
-          }}>CMU</div>
+        <img src='CMU.svg' alt='CMU' style={{ width: '100px', height: '100px', margin: '0 20px' }} />
         <Menu
           theme="light"
           mode="horizontal"
@@ -77,7 +66,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       <Content >
         <div
           style={{
-            padding: 24,
+            padding: '30px 80px',
             minHeight: '100vh',
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
