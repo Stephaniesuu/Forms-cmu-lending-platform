@@ -42,11 +42,11 @@ const WalletConnector = () => {
           profileModal={{
             width: 400,
           }}
-          // availableChains={[Mainnet, Sepolia]}
-          // onSwitchChain={async (c) => {
-          //   setChain(c);
-          // }}
-          // chain={chain}
+        // availableChains={[Mainnet, Sepolia]}
+        // onSwitchChain={async (c) => {
+        //   setChain(c);
+        // }}
+        // chain={chain}
         />
       </Connector>
     </div>
