@@ -2,14 +2,16 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, Table, Divider, Button, Tag, Space } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { supplies } from './supplies';
 import { borrows } from './borrows';
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
 
-function compareValues(a, b) {
-  const parseValue = (value) => {
+function compareValues(a: string, b: string) {
+  const parseValue = (value: string) => {
     const number = parseFloat(value.slice(1, -1));
     const unit = value.slice(-1);
     let multiplier = 1;
@@ -31,8 +33,8 @@ function compareValues(a, b) {
   return 0;
 }
 
-function compareDates(date1, date2) {
-  const parseDate = (dateStr) => {
+function compareDates(date1: string, date2: string) {
+  const parseDate = (dateStr: string) => {
     const [day, month, year] = dateStr.split('-').map(Number);
     // Assuming the year is in the format 'yy', convert it to 'yyyy'
     const fullYear = year < 50 ? 2000 + year : 1900 + year; // Adjust as needed for your use case
@@ -64,6 +66,19 @@ const columns: TableColumnsType<DataType> = [
     sorter: {
       compare: (a, b) => a.assest.localeCompare(b.assest),
     },
+    render(assest: string) {
+      const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+      };
+      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {IconComponent}
+          <span style={{ marginLeft: 8 }}>{assest}</span>
+        </div>
+      )
+    },
   },
   {
     title: 'Counterparty',
@@ -71,6 +86,7 @@ const columns: TableColumnsType<DataType> = [
     sorter: {
       compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
     },
+    render: (counterparty: string) => <a>{counterparty}</a>,
   },
   {
     title: 'Amount',
@@ -90,9 +106,23 @@ const columns: TableColumnsType<DataType> = [
   },
   {
     title: 'Status',
+    key: 'status',
     dataIndex: 'status',
     sorter: {
       compare: (a, b) => a.status.localeCompare(b.status),
+    },
+    render(status: string) {
+      const statusColorMap: { [key: string]: string } = {
+        'Pending': 'blue',
+        'Active': 'green',
+        'Matured': 'lightgray',
+      };
+      const color = statusColorMap[status] || 'lightgray';
+      return (
+        <>
+          <Tag color={color}>{status}</Tag>
+        </>
+      );
     },
   },
   {
@@ -102,6 +132,11 @@ const columns: TableColumnsType<DataType> = [
       compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
   },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    render: () => <Button size='small' >Details</Button>,
+  }
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
@@ -134,22 +169,26 @@ export default function CMULending() {
         <Col className="gutter-row" span={12}>
           <div style={style}>
             <Title>Your supplies</Title>
+            <Divider />
             <Table
               columns={columns}
               dataSource={supplies}
               onChange={onChange}
               pagination={false}
+              scroll={{ y: 600 }}
             />
           </div>
         </Col>
         <Col className="gutter-row" span={12}>
           <div style={style}>
             <Title>Your borrows</Title>
+            <Divider />
             <Table
               columns={columns}
               dataSource={borrows}
               onChange={onChange}
               pagination={false}
+              scroll={{ y: 600 }}
             />
           </div>
         </Col>
