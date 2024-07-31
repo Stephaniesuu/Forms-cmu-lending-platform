@@ -9,6 +9,8 @@ import { supplies } from './supplies';
 import { borrows } from './borrows';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
@@ -150,16 +152,28 @@ const style: React.CSSProperties = {
   height: '100%',
   borderRadius: '20px',
   boxShadow: '0 3px 5px 0 rgba(0,0,0,0.2)',
-  fontFamily: 'Poppins',
 };
 
-const containerStyle = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-  height: '100vh', // Full viewport height
-  padding: '20px',
+// const containerStyle = {
+//   display: 'flex',
+//   justifyContent: 'center',
+//   alignItems: 'center',
+//   flexDirection: 'column',
+//   height: '100vh', // Full viewport height
+//   padding: '20px',
+// };
+const StyledTable = styled(Table)`
+  .table-row-even {
+    background-color: #FCF9FF;
+  }
+
+  .table-row-odd {
+    background-color: #ffffff;
+  }
+`;
+
+const rowClassName = (record: any, index: number): string => {
+  return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
 };
 
 export default function CMULending() {
@@ -170,12 +184,13 @@ export default function CMULending() {
           <div style={style}>
             <Title>Your supplies</Title>
             <Divider />
-            <Table
+            <StyledTable
               columns={columns}
               dataSource={supplies}
               onChange={onChange}
               pagination={false}
               scroll={{ y: 600 }}
+              rowClassName={rowClassName}
             />
           </div>
         </Col>
@@ -183,12 +198,13 @@ export default function CMULending() {
           <div style={style}>
             <Title>Your borrows</Title>
             <Divider />
-            <Table
+            <StyledTable
               columns={columns}
               dataSource={borrows}
               onChange={onChange}
               pagination={false}
               scroll={{ y: 600 }}
+              rowClassName={rowClassName}
             />
           </div>
         </Col>
