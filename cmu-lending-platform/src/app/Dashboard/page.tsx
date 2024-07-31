@@ -165,7 +165,7 @@ const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter,
   console.log('params', pagination, filters, sorter, extra);
 };
 
-const tableStyle: React.CSSProperties = {
+const containerStyle: React.CSSProperties = {
   opacity: 'initial',
   background: 'linear-gradient(to right, #f7f7f7, rgba(255,255,255,0))',
   padding: '20px',
@@ -174,14 +174,6 @@ const tableStyle: React.CSSProperties = {
   boxShadow: '0 3px 5px 0 rgba(0,0,0,0.2)',
 };
 
-// const containerStyle = {
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   flexDirection: 'column',
-//   height: '100vh', // Full viewport height
-//   padding: '20px',
-// };
 const StyledTable = styled(Table)`
   .table-row-even {
     background-color: #FCF9FF;
@@ -199,36 +191,30 @@ const rowClassName = (record: any, index: number): string => {
 export default function CMULending() {
   return (
     <APPLayout>
-      <div style = {tableContainerStyle}>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
-          <div style={style}>
-            <Title>Your supplies</Title>
-            <Divider />
+          <div style={containerStyle}>
             <StyledTable
               columns={columns}
               dataSource={supplies}
               onChange={onChange}
-              pagination={false}
-              scroll={{ y: 600 }}
               rowClassName={rowClassName}
+              title={() => <Title level={1}>Your supplies</Title>}
             />
+          </div>
         </Col>
         <Col className="gutter-row" span={12}>
-          <div style={style}>
-            <Title>Your borrows</Title>
-            <Divider />
+          <div style={containerStyle}>
             <StyledTable
               columns={columns}
               dataSource={borrows}
               onChange={onChange}
-              pagination={false}
-              scroll={{ y: 600 }}
               rowClassName={rowClassName}
+              title={() => <Title level={1}>Your borrows</Title>}
             />
+          </div>
         </Col>
       </Row>
-      </div>
-    </APPLayout>
+    </APPLayout >
   );
 }
