@@ -104,9 +104,13 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Status',
     dataIndex: 'status',
-    sorter: {
-      compare: (a, b) => a.status.localeCompare(b.status),
-    },
+    filters: [
+      { text: 'Active', value: 'Active' },
+      { text: 'Matured', value: 'Matured' },
+      { text: 'Pending', value: 'Pending' },
+    ],
+    filterMode: 'tree',
+    filterSearch: true,
     align: 'center',
   },
   {
