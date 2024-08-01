@@ -9,6 +9,7 @@ import { market } from './data';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
+import { text } from 'stream/consumers';
 
 const formatAddress = (address: string): string => {
   return `${address.slice(0, 4)}...${address.slice(-5)}`;
@@ -169,6 +170,11 @@ const columns: TableColumnsType<DataType> = [
     },
     width: '10%',
   },
+  {
+    title: '',
+    key: 'action',
+    render: (text, record) => (
+  }
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
