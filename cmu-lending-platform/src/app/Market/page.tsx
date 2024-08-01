@@ -1,51 +1,190 @@
 'use client'
-import React, { useState } from 'react';
-import { Card, Select, Space } from 'antd';
-import APPLayout from '../components/APPLayout/APPlayout';
-import { useAccount } from 'wagmi'
-import { Row, Col, Typography, Button } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-import { BitcoinCircleColorful } from '@ant-design/web3-icons';
-import { PayCircleFilled } from '@ant-design/icons';
-import '../Market/style.css';
-const { Title } = Typography;
-// import { Address, NFTCard } from '@ant-design/web3';
 
-const tabList = [
+import React from 'react';
+import APPLayout from '../components/APPLayout/APPlayout';
+import { Row, Col, Table } from 'antd';
+import Title from 'antd/es/typography/Title';
+import type { TableColumnsType, TableProps } from 'antd';
+import { market } from './data';
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
+import styled from '@emotion/styled';
+
+
+function compareValues(a, b) {
+  const parseValue = (value) => {
+    const number = parseFloat(value.slice(1, -1));
+    const unit = value.slice(-1);
+    let multiplier = 1;
+
+    if (unit === 'M') {
+      multiplier = 1000;
+    } else if (unit === 'K') {
+      multiplier = 1;
+    }
+
+    return number * multiplier;
+  };
+
+  const valueA = parseValue(a);
+  const valueB = parseValue(b);
+
+  if (valueA > valueB) return 1;
+  if (valueA < valueB) return -1;
+  return 0;
+}
+
+function compareDates(date1, date2) {
+  const parseDate = (dateStr) => {
+    const [day, month, year] = dateStr.split('-').map(Number);
+    // Assuming the year is in the format 'yy', convert it to 'yyyy'
+    const fullYear = year < 50 ? 2000 + year : 1900 + year; // Adjust as needed for your use case
+    return new Date(fullYear, month - 1, day); // month is 0-indexed in Date
+  };
+
+  const dateObj1 = parseDate(date1);
+  const dateObj2 = parseDate(date2);
+
+  if (dateObj1 > dateObj2) return 1;
+  if (dateObj1 < dateObj2) return -1;
+  return 0;
+}
+
+interface DataType {
+  key: React.Key;
+  assest: string,
+  creditor: string,
+  amount: number,
+  amountValue: string,
+  repayment: number,
+  repaymentValue: string,
+  requiredCollateral: string,
+  duration: string,
+  createDate: string,
+}
+
+const columns: TableColumnsType<DataType> = [
   {
-    key: 'Lock',
-    tab: 'Lock',
+    title: 'Assest',
+    dataIndex: 'assest',
+    align: 'center',
+    // sorter: {
+    //   compare: (a, b) => a.assest.localeCompare(b.assest),
+    // },
+    filters: [
+      { text: 'Bitcoin (BTC)', value: 'BTC' },
+      { text: 'Ethereum (ETH)', value: 'ETH' },
+      { text: 'Pak Coin (PAK)', value: 'PAK' },
+      { text: 'Hei Coin (HEI)', value: 'HEI' },
+    ],
+    filterMode: 'tree',
+    filterSearch: true,
+    onFilter: (value, record) => record.assest.indexOf(value) === 0,
+    defaultSortOrder: 'ascend',
+    width: '5%',
   },
   {
-    key: 'Withdraw',
-    tab: 'Withdraw',
+    title: 'Creditor',
+    dataIndex: 'creditor',
+    align: 'center',
+    width: '5%',
   },
   {
-    key: 'Repay',
-    tab: 'Repay',
+    title: 'Amount',
+    dataIndex: 'amount',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => a.amount - b.amount,
+    },
+    width: '5%',
+  },
+  {
+    title: 'Value',
+    dataIndex: 'amountValue',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => compareValues(a.amountValue, b.amountValue),
+    },
+    width: '10%',
+  },
+  {
+    title: 'Repayment',
+    dataIndex: 'repayment',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => a.repayment - b.repayment,
+    },
+    width: '5%',
+  },
+  {
+    title: 'Value',
+    dataIndex: 'repaymentValue',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => compareValues(a.repaymentValue, b.repaymentValue),
+    },
+    width: '10%',
+  },
+  {
+    title: 'Required Collateral',
+    dataIndex: 'requiredCollateral',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => compareValues(a.requiredCollateral, b.requiredCollateral),
+    },
+    width: '12%',
+  },
+  {
+    title: 'Duration',
+    dataIndex: 'duration',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => a.duration.localeCompare(b.duration),
+    },
+    width: '8%',
+  },
+  {
+    title: 'Create Date',
+    dataIndex: 'createDate',
+    align: 'center',
+    sorter: {
+      compare: (a, b) => compareDates(a.createDate, b.createDate),
+    },
+    width: '10%',
   },
 ];
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
+
+const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+  console.log('params', pagination, filters, sorter, extra);
 };
 
-const style: React.CSSProperties = {
+const tableStyle: React.CSSProperties = {
   opacity: 'initial',
   background: 'linear-gradient(to right, #f7f7f7, rgba(255,255,255,0))',
-  padding: '12px',
+  padding: '20px',
   height: '100%',
-  borderRadius: '6px',
+  borderRadius: '20px',
   boxShadow: '0 3px 5px 0 rgba(0,0,0,0.2)',
-
+  fontFamily: 'Poppins',
 };
-const h1Style = {
-  // position: 'fixed',
-  fontSize: '12px',
-  color: '#525C76',
-  display: 'flex',
-  // fontWeight: 'bold',
-  fontntFamily: 'Poppins',
-  marginLeft: '63px',
+
+const tableContainerStyle: React.CSSProperties = {
+  maxWidth: '1400px',
+  margin: '0 auto',
+};
+
+const StyledTable = styled(Table)`
+  .table-row-even {
+    background-color: #FCF9FF;
+  }
+
+  .table-row-odd {
+    background-color: #ffffff;
+  }
+`;
+
+const rowClassName = (record: any, index: number): string => {
+  return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
 };
 
 const h2Style = {
@@ -278,90 +417,18 @@ const contentList = {
   ),
 };
 export default function CMULending() {
-  const account = useAccount()
-  const [showCard, setShowCard] = useState(false);
-  const [activeTabKey, setActiveTabKey] = useState('Lock');
-
-  const onTabChange = key => {
-    setActiveTabKey(key);
-  };
   return (
     <APPLayout>
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        <Col className="gutter-row" span={12}>
-          <div style={style}>
-            <p> This is for Market</p>
-            <Button type="primary" onClick={() => setShowCard(!showCard)}>Toggle Card</Button>
-
-          </div>
-        </Col>
-        {showCard && (
-          <>
-            <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
-
-            <Card
-              className="custom-card"
-              style={modalStyle}
-              title={
-                <>
-                  <Button
-                    type="text"
-                    icon={<CloseOutlined />}
-                    onClick={() => setShowCard(false)}
-                    style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
-                  />
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '100px',
-                    marginTop: '37px',
-                    marginBottom: '27px',
-                  }}>
-
-                    <h2 style={h1Style}>
-                      <p>Buyer Address</p>
-                      <p>0x23...5678</p>
-                    </h2>
-                    <h2 style={{
-                      position: 'fixed',
-                      right: 105,
-                    }}>
-                      <div style={h1Style}>
-                        <p>Seller Address</p>
-                        <p>0x23...5678</p>
-                      </div>
-                    </h2>
-                  </div>
-                </>
-              }
-
-              tabList={tabList}
-              activeTabKey={activeTabKey}
-              onTabChange={onTabChange}
-            >
-              <div style={{
-                display: 'flex',
-                gap: '100px',
-                background: 'rgba(234, 72, 92, 0.05)',
-              }}>
-                {contentList[activeTabKey]}
-
-              </div>
-            </Card>
-
-          </>
-        )}
-        <Col className="gutter-row" span={12}>
-
-          <div style={style}>
-            <Title> This is for Market</Title>
-            <p>  {account.address}</p>
-
-          </div>
-        </Col>
-      </Row>
+      <div style={tableContainerStyle}>
+        <StyledTable
+          columns={columns}
+          dataSource={market}
+          onChange={onChange}
+          style={tableStyle}
+          rowClassName={rowClassName}
+          title={() => <Title level={1}>Market</Title>}
+        />
+      </div>
     </APPLayout>
-
   );
-
 }

@@ -189,13 +189,13 @@ export const supplies: DataType[] = [
         status: 'Active',
         deadline: '05-12-24',
     },
-    {
-        key: '21',
-        assest: 'ETH',
-        counterparty: '0x2r...t0u8',
-        amount: 45.000000,
-        value: '$1.80M',
-        status: 'Active',
-        deadline: '05-11-23',
-    }
+    // {
+    //     key: '21',
+    //     assest: 'ETH',
+    //     counterparty: '0x2r...t0u8',
+    //     amount: 45.000000,
+    //     value: '$1.80M',
+    //     status: 'Active',
+    //     deadline: '05-11-23',
+    // }
 ];
