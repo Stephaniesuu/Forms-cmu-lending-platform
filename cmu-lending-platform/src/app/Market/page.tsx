@@ -172,7 +172,11 @@ const columns: TableColumnsType<DataType> = [
     },
     width: '10%',
   },
- 
+  {
+    dataIndex: 'action',
+    render: () => <MarketDetailButton/>,
+    width: '5%'
+  },
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
@@ -249,18 +253,10 @@ const backdropStyle = {
 };
 
    
-export default function CMULending() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
-  };
-
+export default function Market() {
   return (
     <APPLayout>
       <div style={tableContainerStyle}>
-        <button onClick={toggleModal}>Toggle Card</button>
-        {isModalVisible && <MarketDetailButton />}
 
         <StyledTable
           columns={columns}
