@@ -12,16 +12,16 @@ export const supplies: DataType[] = [
     {
         key: '1',
         assest: 'BTC',
-        counterparty: '0x42...aa9b',
+        counterparty: '0xdfbDA87Fe51EA50E2B5cbd6d253b6A58A6F295E3',
         amount: 0.942020,
-        value: '$242.59K',
+        value: '$642.59K',
         status: 'Matured',
         deadline: '26-06-24',
     },
     {
         key: '2',
         assest: 'ETH',
-        counterparty: '0xa7...4bb9',
+        counterparty: '0x03dbf1f733E0d43a99Bb8B608c3F61397C1f5B3B',
         amount: 27.520000,
         value: '$1.50M',
         status: 'Active',
@@ -30,7 +30,7 @@ export const supplies: DataType[] = [
     {
         key: '3',
         assest: 'PAK',
-        counterparty: '0x9f...c3d1',
+        counterparty: '0xe40AEEA191471F29f23F9c858c845fC6918CF9b5',
         amount: 1.234567,
         value: '$300.00K',
         status: 'Pending',
@@ -39,7 +39,7 @@ export const supplies: DataType[] = [
     {
         key: '4',
         assest: 'HEI',
-        counterparty: '0x8b...d4e2',
+        counterparty: '0xD318c7a66ed3D7A22Ad6382d2Fc733568BD1ea08',
         amount: 15.000000,
         value: '$800.00K',
         status: 'Active',
@@ -48,7 +48,7 @@ export const supplies: DataType[] = [
     {
         key: '5',
         assest: 'JORE',
-        counterparty: '0x7c...e5f3',
+        counterparty: '0x5a20E5c41bA11242Ed6d35449E1e593dF7017765',
         amount: 0.500000,
         value: '$120.00K',
         status: 'Active',
@@ -57,7 +57,7 @@ export const supplies: DataType[] = [
     {
         key: '6',
         assest: 'STEP',
-        counterparty: '0x6d...f6g4',
+        counterparty: '0x518d082770E6deee53FBD96094814aA5123Ee410',
         amount: 50.000000,
         value: '$2.00M',
         status: 'Pending',
@@ -66,7 +66,7 @@ export const supplies: DataType[] = [
     {
         key: '7',
         assest: 'JOY9',
-        counterparty: '0x5e...g7h5',
+        counterparty: '0xaB9cd00e4f550C0063396588c094514E62e084D5',
         amount: 2.000000,
         value: '$500.00K',
         status: 'Active',
@@ -75,7 +75,7 @@ export const supplies: DataType[] = [
     {
         key: '8',
         assest: 'ETH',
-        counterparty: '0x4f...h8i6',
+        counterparty: '0x5bb163d35074ea05FE429D817f7E88d3D347C007',
         amount: 10.000000,
         value: '$400.00K',
         status: 'Active',
@@ -84,7 +84,7 @@ export const supplies: DataType[] = [
     {
         key: '9',
         assest: 'BTC',
-        counterparty: '0x3g...i9j7',
+        counterparty: '0xDA4C2612Fe3f57E03Fd81E7ac1b242aB49c68Fea',
         amount: 0.750000,
         value: '$180.00K',
         status: 'Pending',
@@ -93,7 +93,7 @@ export const supplies: DataType[] = [
     {
         key: '10',
         assest: 'ETH',
-        counterparty: '0x2h...j0k8',
+        counterparty: '0x93d3Dd5346aB1e8F7a9b63a996433B413291Dd39',
         amount: 20.000000,
         value: '$1.00M',
         status: 'Active',
@@ -102,7 +102,7 @@ export const supplies: DataType[] = [
     {
         key: '11',
         assest: 'BTC',
-        counterparty: '0x1i...k1l9',
+        counterparty: '0x5f2D2fB2011bEC0F23B00A2D5291586e452aDeBD',
         amount: 1.500000,
         value: '$350.00K',
         status: 'Active',
@@ -111,7 +111,7 @@ export const supplies: DataType[] = [
     {
         key: '12',
         assest: 'ETH',
-        counterparty: '0x0j...l2m0',
+        counterparty: '0x8DEf61D3e65b63F7DC4D439E400130911AF824BF',
         amount: 30.000000,
         value: '$1.20M',
         status: 'Pending',
@@ -120,7 +120,7 @@ export const supplies: DataType[] = [
     {
         key: '13',
         assest: 'BTC',
-        counterparty: '0x9k...m3n1',
+        counterparty: '0x1eb094aEdbce29DbFAE93705fb89F89663131f15',
         amount: 0.600000,
         value: '$150.00K',
         status: 'Active',
@@ -129,7 +129,7 @@ export const supplies: DataType[] = [
     {
         key: '14',
         assest: 'ETH',
-        counterparty: '0x8l...n4o2',
+        counterparty: '0x900D5BA678b1209Bd3048c4C18423Aa7A475777B',
         amount: 25.000000,
         value: '$1.00M',
         status: 'Active',
@@ -138,7 +138,7 @@ export const supplies: DataType[] = [
     {
         key: '15',
         assest: 'BTC',
-        counterparty: '0x7m...o5p3',
+        counterparty: '0x14b4FAd0CE01b012aDa6C62EAcF123a0C7DA0d4E',
         amount: 1.800000,
         value: '$450.00K',
         status: 'Pending',
@@ -147,7 +147,7 @@ export const supplies: DataType[] = [
     {
         key: '16',
         assest: 'ETH',
-        counterparty: '0x6n...p6q4',
+        counterparty: '0xBD518b046bb9C6799F98DecAAbA3C8df28eC0F23',
         amount: 40.000000,
         value: '$1.60M',
         status: 'Active',
@@ -156,7 +156,7 @@ export const supplies: DataType[] = [
     {
         key: '17',
         assest: 'BTC',
-        counterparty: '0x5o...q7r5',
+        counterparty: '0x68959C26920d0B9Df3241DA8Bd1955B0bEd91a35',
         amount: 0.900000,
         value: '$220.00K',
         status: 'Active',
@@ -165,7 +165,7 @@ export const supplies: DataType[] = [
     {
         key: '18',
         assest: 'ETH',
-        counterparty: '0x4p...r8s6',
+        counterparty: '0x5f0E5A17d34fb60De0669F1c2ae147d123A5e8A7',
         amount: 35.000000,
         value: '$1.40M',
         status: 'Pending',
@@ -174,7 +174,7 @@ export const supplies: DataType[] = [
     {
         key: '19',
         assest: 'BTC',
-        counterparty: '0x3q...s9t7',
+        counterparty: '0xce69DFcF701DA6cf8EB7e54CadA4efc06c2f6eEF',
         amount: 1.100000,
         value: '$270.00K',
         status: 'Active',
@@ -183,19 +183,10 @@ export const supplies: DataType[] = [
     {
         key: '20',
         assest: 'ETH',
-        counterparty: '0xf4...a9f7',
-        amount: 85.000000,
-        value: '$3.80M',
+        counterparty: '0x6e1880a81808DD44BeA8fABf6332C860FDA26313',
+        amount: 45.000000,
+        value: '$1.80M',
         status: 'Active',
-        deadline: '05-12-24',
-    },
-    // {
-    //     key: '21',
-    //     assest: 'ETH',
-    //     counterparty: '0x2r...t0u8',
-    //     amount: 45.000000,
-    //     value: '$1.80M',
-    //     status: 'Active',
-    //     deadline: '05-11-23',
-    // }
+        deadline: '05-11-23',
+    }
 ];

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React , { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -9,7 +9,12 @@ import { market } from './data';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
+import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';import { text } from 'stream/consumers';
 
+const formatAddress = (address: string): string => {
+  return `${address.slice(0, 4)}...${address.slice(-5)}`;
+};
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -82,12 +87,26 @@ const columns: TableColumnsType<DataType> = [
     onFilter: (value, record) => record.assest.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
+    render(assest: string) {
+      const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+      };
+      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {IconComponent}
+          <span style={{ marginLeft: 8 }}>{assest}</span>
+        </div>
+      )
+    },
   },
   {
     title: 'Creditor',
     dataIndex: 'creditor',
     align: 'center',
-    width: '5%',
+    render: (creditor: string) => formatAddress(creditor),
+    width: '10%',
   },
   {
     title: 'Amount',
@@ -152,6 +171,11 @@ const columns: TableColumnsType<DataType> = [
     },
     width: '10%',
   },
+  {
+    dataIndex: 'action',
+    render: () => <MarketDetailButton/>,
+    width: '5%'
+  },
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
@@ -187,10 +211,52 @@ const rowClassName = (record: any, index: number): string => {
   return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
 };
 
-export default function CMULending() {
+const h2Style = {
+  // position: 'fixed',
+  fontSize: '16px',
+  color: '#0F1D40',
+  // fontWeight: 'bold',
+  fontntFamily: 'Poppins',
+  marginLeft: '63px',
+  marginBottom: '20px',
+};
+const IcontextStyle = {
+  // position: 'fixed',
+  fontSize: '28px',
+  color: '#8247E5',
+  // fontWeight: 'bold',
+  fontntFamily: 'Poppins',
+  marginLeft: '10px',
+};
+
+const modalStyle = {
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: 1000, // High z-index to make sure it is on top
+  width: '651px', // Adjust based on your preference
+  highth: '600px', // Adjust based on your preference
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  padding: '40px',
+};
+
+const backdropStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  zIndex: 999, // Just below the modal
+};
+
+   
+export default function Market() {
   return (
     <APPLayout>
       <div style={tableContainerStyle}>
+
         <StyledTable
           columns={columns}
           dataSource={market}

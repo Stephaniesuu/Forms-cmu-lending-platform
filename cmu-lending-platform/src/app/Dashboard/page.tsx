@@ -11,6 +11,7 @@ import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
 
 
 
@@ -67,7 +68,7 @@ interface DataType {
   deadline: string,
 }
 
-const columns: TableColumnsType<DataType> = [
+const columns = (isSupply: boolean): TableColumnsType<DataType> => [
   {
     title: 'Assest',
     dataIndex: 'assest',
@@ -102,11 +103,9 @@ const columns: TableColumnsType<DataType> = [
     title: 'Counterparty',
     dataIndex: 'counterparty',
     key: 'counterparty',
-    sorter: {
-      compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
-    },
     align: 'center',
     render: (counterparty: string) => formatAddress(counterparty),
+    width: '20%',
   },
   {
     title: 'Amount',
@@ -162,10 +161,9 @@ const columns: TableColumnsType<DataType> = [
     align: 'center',
   },
   {
-    title: 'Action',
     dataIndex: 'action',
-    render: () => <BorrowDetailButton />,
-  }
+    render: () => isSupply ? <SupplyDetailButton /> : <BorrowDetailButton />,
+  },
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
@@ -202,7 +200,7 @@ export default function Dashboard() {
         <Col className="gutter-row" span={12}>
           <div style={containerStyle}>
             <StyledTable
-              columns={columns}
+              columns={columns(true)}
               dataSource={supplies}
               onChange={onChange}
               rowClassName={rowClassName}
@@ -215,7 +213,7 @@ export default function Dashboard() {
         <Col className="gutter-row" span={12}>
           <div style={containerStyle}>
             <StyledTable
-              columns={columns}
+              columns={columns(false)}
               dataSource={borrows}
               onChange={onChange}
               rowClassName={rowClassName}
