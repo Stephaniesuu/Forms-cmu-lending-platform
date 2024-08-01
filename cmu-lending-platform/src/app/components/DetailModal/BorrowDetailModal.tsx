@@ -6,74 +6,74 @@ import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
-
+import AccountDisplay from './AccountDisplay';
 
 const tabList = [
-    {
-        key: 'Lock',
-        tab: 'Lock',
-    },
-    {
-        key: 'Withdraw',
-        tab: 'Withdraw',
-    },
-    {
-        key: 'Repay',
-        tab: 'Repay',
-    },
+  {
+    key: 'Lock',
+    tab: 'Lock',
+  },
+  {
+    key: 'Withdraw',
+    tab: 'Withdraw',
+  },
+  {
+    key: 'Repay',
+    tab: 'Repay',
+  },
 ];
 const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  console.log(`selected ${value}`);
 };
 
 
-const h1Style = {
-    // position: 'fixed',
-    fontSize: '12px',
-    color: '#525C76',
-    // fontWeight: 'bold',
-    fontntFamily: 'Poppins',
-    marginLeft: '63px',
+export const h1Style = {
+  // position: 'fixed',
+  fontSize: '12px',
+  color: '#525C76',
+  // fontWeight: 'bold',
+  fontntFamily: 'Poppins',
+  marginLeft: '63px',
 };
 
 const h2Style = {
-    // position: 'fixed',
-    fontSize: '16px',
-    // color: '#0F1D40',
-    // fontWeight: 'bold',
-    fontntFamily: 'Poppins',
-    marginLeft: '63px',
-    marginBottom: '20px',
+  // position: 'fixed',
+  fontSize: '16px',
+  // color: '#0F1D40',
+  // fontWeight: 'bold',
+  fontntFamily: 'Poppins',
+  marginLeft: '63px',
+  marginBottom: '20px',
 };
 const IcontextStyle = {
-    // position: 'fixed',
-    fontSize: '28px',
-    color: '#8247E5',
-    // fontWeight: 'bold',
-    fontntFamily: 'Poppins',
-    marginLeft: '10px',
+  // position: 'fixed',
+  fontSize: '28px',
+  color: '#8247E5',
+  // fontWeight: 'bold',
+  fontntFamily: 'Poppins',
+  marginLeft: '10px',
 };
 
 const modalStyle = {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 1000, // High z-index to make sure it is on top
-    width: '651px', // Adjust based on your preference
-    highth: '600px', // Adjust based on your preference
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '40px',
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  zIndex: 1000, // High z-index to make sure it is on top
+  width: '651px', // Adjust based on your preference
+  highth: '600px', // Adjust based on your preference
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  padding: '40px',
 };
 
 const backdropStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    zIndex: 999, // Just below the modal
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  zIndex: 999, // Just below the modal
 };
 
 const StyledCard = styled(Card)`
@@ -303,53 +303,44 @@ const contentList = {
 };
 
 export default function BorrowDetailButton() {
-    const [showCard, setShowCard] = useState(false);
-    const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
-    const onTabChange = (key: React.SetStateAction<string>) => {
-        setActiveTabKey(key);
-    };
-    return (
+  const [showCard, setShowCard] = useState(false);
+  const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
+  const [isBorrow, setIsBorrow] = useState(true);
+  const onTabChange = (key: React.SetStateAction<string>) => {
+    setActiveTabKey(key);
+  };
+  return (
 
+    <>
+      <Button type="primary" onClick={() => setShowCard(!showCard)}>Details</Button>
+      {showCard && (
         <>
-            <Button type="primary" onClick={() => setShowCard(!showCard)}>Details</Button>
-            {showCard && (
-                <>
-                    <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
-                    <StyledCard
-                        style={modalStyle}
-                        title={
-                            <>
-                                <Button
-                                    type="text"
-                                    icon={<CloseOutlined />}
-                                    onClick={() => setShowCard(false)}
-                                    style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
-                                />
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '100px',
-                                    marginTop: '37px',
-                                    marginBottom: '27px',
-                                }}>
+          <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
+          <StyledCard
+            style={modalStyle}
+            title={
+              <>
+                <Button
+                  type="text"
+                  icon={<CloseOutlined />}
+                  onClick={() => setShowCard(false)}
+                  style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
+                />
+                <AccountDisplay IsBorrow={isBorrow}/>
+              </>
+            }
 
-                                    <h2 style={h1Style}>
-                                        <p>Buyer Address</p>
-                                        <p>0x23...5678</p>
-                                    </h2>
-                                    <h2 style={{
-                                        position: 'fixed',
-                                        right: 105,
-                                    }}>
-                                        <div style={h1Style}>
-                                            <p>Seller Address</p>
-                                            <p>0x23...5678</p>
-                                        </div>
-                                    </h2>
-                                </div>
-                            </>
-                        }
-
+            tabList={tabList}
+            activeTabKey={activeTabKey}
+            onTabChange={onTabChange}
+          >
+            <div style={{
+              display: 'flex',
+              gap: '100px',
+              background: 'rgba(234, 72, 92, 0.05)',
+              borderRadius: '16px',
+            }}>
+              {contentList[activeTabKey]}
                         tabList={tabList}
                         activeTabKey={activeTabKey}
                         onTabChange={onTabChange}
@@ -363,12 +354,12 @@ export default function BorrowDetailButton() {
                         }}>
                             {contentList[activeTabKey]}
 
-                        </div>
-                    </StyledCard>
+            </div>
+          </StyledCard>
 
-                </>
-            )}
         </>
-    );
+      )}
+    </>
+  );
 
 }

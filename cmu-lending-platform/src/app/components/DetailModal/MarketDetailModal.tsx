@@ -92,9 +92,9 @@ export default function MarketDetailButton() {
   return (
 
     <>
-       <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
+      <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
       {showCard && (
-        <> 
+        <>
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
           <StyledCard
             style={modalStyle}
@@ -118,86 +118,93 @@ export default function MarketDetailButton() {
             }}>
               <div>
                 <h1 style={h1Style}>Contract Meta</h1>
-                <div style={{display: 'flex', gap: '10px'}}>
-                <div>
-                 <p style={h2Style}>Contract Address</p>
-                 <p style={h2Style}>Counterparty</p>
-                 <p style={h2Style}>Days Till Maturity</p>
-                 <p style={h2Style}>Status</p>
-                 </div>
-                 <div style={h3Style}>
-                 <p style={h2Style}>0x1234...7890</p>
-                 <p style={h2Style}>0xrichard.eth</p>
-                 <p style={h2Style}> NULL</p>
-                 <p style={h2Style}>Request</p>
-                 </div>
-              </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div>
+                    <p style={h2Style}>Contract Address</p>
+                    <p style={h2Style}>Counterparty</p>
+                    <p style={h2Style}>Days Till Maturity</p>
+                    <p style={h2Style}>Status</p>
+                  </div>
+                  <div style={h3Style}>
+                    <p style={h2Style}>0x1234...7890</p>
+                    <p style={h2Style}>0xrichard.eth</p>
+                    <p style={h2Style}> NULL</p>
+                    <p style={h2Style}>Request</p>
+                  </div>
+                </div>
               </div>
               <div>
                 <h1 style={h1Style}>Asset Borrowed</h1>
-                <div style={{display: 'flex', gap: '10px'}}>
-                <div>
-                 <p style={h2Style}>Contract Address</p>
-                 <p style={h2Style}>Principal</p>
-                 <p style={h2Style}>Withdrawn Balance</p>
-  
-                 </div>
-                 <div style={h3Style}>
-                 <p style={h2Style}>NULL</p>
-                 <p style={h2Style}>NULL</p>
-                 <p style={h2Style}>NULL</p>
-          
-                 </div>
-              </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div>
+                    <p style={h2Style}>Contract Address</p>
+                    <p style={h2Style}>Principal</p>
+                    <p style={h2Style}>Withdrawn Balance</p>
+
+                  </div>
+                  <div style={h3Style}>
+                    <p style={h2Style}>NULL</p>
+                    <p style={h2Style}>NULL</p>
+                    <p style={h2Style}>NULL</p>
+
+                  </div>
+                </div>
               </div>
               <div>
                 <h1 style={h1Style}>Collateral</h1>
-                <div style={{display: 'flex', gap: '10px'}}>
-                <div>
-                 <p style={h2Style}>Contract Address</p>
-                 <p style={h2Style}>Locked Balance</p>
-                 <p style={h2Style}>Discounted Market Value</p>
-                
-                 </div>
-                 <div style={h3Style}>
-                 <p style={h2Style}>0x3456...7890</p>
-                 <p style={h2Style}>$ 10,000,000.00</p>
-                 <p style={h2Style}>$ 76</p>
-               
-                 </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div>
+                    <p style={h2Style}>Contract Address</p>
+                    <p style={h2Style}>Locked Balance</p>
+                    <p style={h2Style}>Discounted Market Value</p>
+
+                  </div>
+                  <div style={h3Style}>
+                    <p style={h2Style}>0x3456...7890</p>
+                    <p style={h2Style}>$ 10,000,000.00</p>
+                    <p style={h2Style}>$ 76</p>
+
+                  </div>
+                </div>
               </div>
-              </div>
-              <div style={{marginBottom: '30px'}}>
+              <div style={{ marginBottom: '30px' }}>
                 <h1 style={h1Style}>Interest</h1>
-                <div style={{display: 'flex', gap: '10px'}}>
-                <div>
-                 <p style={h2Style}>Accured Interest</p>
-                
-                
-                 </div>
-                 <div style={h3Style}>
-                 <p style={h2Style}>$99,999.99</p>
-                 </div>
-              </div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <div>
+                    <p style={h2Style}>Accured Interest</p>
+
+
+                  </div>
+                  <div style={h3Style}>
+                    <p style={h2Style}>$99,999.99</p>
+                  </div>
+                </div>
               </div>
               <div style={{
+<<<<<<< HEAD
       display: 'flex',       
       justifyContent: 'center' 
     }}>
+=======
+                display: 'flex',        // 启用 Flexbox
+                justifyContent: 'center' // 水平居中
+              }}>
+>>>>>>> main
 
-              <button style={{ width: '180px',
-                
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    
-                  }}>Create</button>
-                </div>
+                <button style={{
+                  width: '180px',
+
+                  height: '40px',
+                  background: '#C67EFF',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+
+                }}>Create</button>
+              </div>
             </div>
 
           </StyledCard>
