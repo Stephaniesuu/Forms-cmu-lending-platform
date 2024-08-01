@@ -5,7 +5,8 @@ import APPLayout from '../components/APPLayout/APPlayout';
 import { useAccount } from 'wagmi'
 import { Row, Col, Typography, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-
+import { BitcoinCircleColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
 import '../Market/style.css';
 const { Title } = Typography;
 // import { Address, NFTCard } from '@ant-design/web3';
@@ -41,6 +42,7 @@ const h1Style = {
   // position: 'fixed',
   fontSize: '12px',
   color: '#525C76',
+  display: 'flex',
   // fontWeight: 'bold',
   fontntFamily: 'Poppins',
   marginLeft: '63px',
@@ -137,14 +139,143 @@ const contentList = {
           fontSize: '16px',
           fontWeight: 'bold',
           marginLeft: '63px',
-          marginBottom: '37px',
+          marginBottom: '45px',
         }
 
       }>Lock</button>
     </div>
   ),
-  Withdraw: <p>content2</p>,
-  Repay: <p>content2</p>,
+  Withdraw: (<div>
+    <header >
+      <div style={{
+        display: 'flex',
+        marginLeft: '63px',
+        marginTop: '37px',
+      }}>
+        <img src='images/Lockicon.png' alt='Lock' style={{
+          width: '30px',
+          height: '30px',
+          marginTop: '10px',
+        }} />
+        <h1 style={IcontextStyle}>Withdraw</h1>
+      </div>
+      <h2 style={h2Style} >Withdraw your Loan Coin</h2>
+    </header>
+    <div>
+      <p style={h1Style}>Coin</p>
+      <div style={{ display: 'flex', }}>
+        <BitcoinCircleColorful style={{
+          fontSize: 30,
+          marginLeft: '63px',
+          // marginTop: '20px',
+          marginRight: '10px',
+        }} />
+        <div>
+          <h1 style={{
+            fontSize: '15px',
+            color: '#000000',
+          }}>BitCoin</h1>
+          <h2>BTC</h2>
+        </div>
+      </div>
+    </div>
+    <div style={{ marginTop: '20px', }}>
+      <h1 style={h1Style}>Amount </h1>
+      <p style={h2Style}>4.000,000</p>
+    </div>
+    <div>
+    </div>
+    <button style={
+      {
+        width: '150%',
+        height: '40px',
+        background: '#C67EFF',
+        color: '#ffffff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        marginLeft: '63px',
+        marginBottom: '45px',
+      }
+
+    }>Lock</button>
+  </div>
+  ),
+  Repay: (<div>
+    <header >
+      <div style={{
+        display: 'flex',
+        marginLeft: '63px',
+        marginTop: '37px',
+      }}>
+        <img src='images/Lockicon.png' alt='Lock' style={{
+          width: '30px',
+          height: '30px',
+          marginTop: '10px',
+        }} />
+        <h1 style={IcontextStyle}>Repay</h1>
+      </div>
+      <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2>
+    </header>
+    <div style={{ marginTop: '20px' }}>
+      <h1 style={h1Style}>Countdown </h1>
+      <p style={h2Style}>24 Days</p>
+    </div>
+    <div style={{ display: 'flex', marginBottom: '20px', }}>
+      <div>
+        <p style={h1Style}>Coin</p>
+        <div style={{ display: 'flex', }}>
+
+          <BitcoinCircleColorful style={{
+            fontSize: 30,
+            marginLeft: '63px',
+            // marginTop: '20px',
+            marginRight: '10px',
+          }} />
+          <div>
+            <h1 style={{
+              fontSize: '15px',
+              color: '#000000',
+            }}>BitCoin</h1>
+            <h2>BTC</h2>
+          </div>
+        </div>
+      </div>
+      <div style={{ marginLeft: '80px', }}>
+        <h1 style={h1Style}>
+          Total Amount
+        </h1>
+        <h2 style={{
+          fontSize: '20px',
+          color: '#0F1D40',
+          marginLeft: '63px',
+        }}>4.200,000</h2>
+
+      </div>
+    </div>
+
+    <div>
+    </div>
+    <button style={
+      {
+        width: '85%',
+        height: '40px',
+        background: '#C67EFF',
+        color: '#ffffff',
+        border: 'none',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        marginLeft: '63px',
+        marginBottom: '45px',
+      }
+
+    }>Lock</button>
+  </div>
+  ),
 };
 export default function CMULending() {
   const account = useAccount()
@@ -173,11 +304,11 @@ export default function CMULending() {
               style={modalStyle}
               title={
                 <>
-                <Button
+                  <Button
                     type="text"
                     icon={<CloseOutlined />}
                     onClick={() => setShowCard(false)}
-                    style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20}}
+                    style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                   />
                   <div style={{
                     display: 'flex',
@@ -186,7 +317,7 @@ export default function CMULending() {
                     marginTop: '37px',
                     marginBottom: '27px',
                   }}>
-                    
+
                     <h2 style={h1Style}>
                       <p>Buyer Address</p>
                       <p>0x23...5678</p>
@@ -196,8 +327,8 @@ export default function CMULending() {
                       right: 105,
                     }}>
                       <div style={h1Style}>
-                      <p>Seller Address</p>
-                      <p>0x23...5678</p>
+                        <p>Seller Address</p>
+                        <p>0x23...5678</p>
                       </div>
                     </h2>
                   </div>
