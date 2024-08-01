@@ -6,6 +6,10 @@ import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { market } from './data';
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
+import styled from '@emotion/styled';
+
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -169,15 +173,30 @@ const tableContainerStyle: React.CSSProperties = {
   margin: '0 auto',
 };
 
+const StyledTable = styled(Table)`
+  .table-row-even {
+    background-color: #FCF9FF;
+  }
+
+  .table-row-odd {
+    background-color: #ffffff;
+  }
+`;
+
+const rowClassName = (record: any, index: number): string => {
+  return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
+};
+
 export default function CMULending() {
   return (
     <APPLayout>
       <div style={tableContainerStyle}>
-        <Table
+        <StyledTable
           columns={columns}
           dataSource={market}
           onChange={onChange}
           style={tableStyle}
+          rowClassName={rowClassName}
           title={() => <Title level={1}>Market</Title>}
         />
       </div>
