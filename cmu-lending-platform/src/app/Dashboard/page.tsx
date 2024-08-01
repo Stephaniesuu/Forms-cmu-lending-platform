@@ -102,11 +102,9 @@ const columns: TableColumnsType<DataType> = [
     title: 'Counterparty',
     dataIndex: 'counterparty',
     key: 'counterparty',
-    sorter: {
-      compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
-    },
     align: 'center',
     render: (counterparty: string) => formatAddress(counterparty),
+    width: '20%',
   },
   {
     title: 'Amount',
@@ -162,7 +160,6 @@ const columns: TableColumnsType<DataType> = [
     align: 'center',
   },
   {
-    title: 'Action',
     dataIndex: 'action',
     render: () => <BorrowDetailButton />,
   }
