@@ -10,7 +10,11 @@ import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';import { text } from 'stream/consumers';
+
+const formatAddress = (address: string): string => {
+  return `${address.slice(0, 4)}...${address.slice(-5)}`;
+};
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -83,12 +87,26 @@ const columns: TableColumnsType<DataType> = [
     onFilter: (value, record) => record.assest.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
+    render(assest: string) {
+      const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+      };
+      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {IconComponent}
+          <span style={{ marginLeft: 8 }}>{assest}</span>
+        </div>
+      )
+    },
   },
   {
     title: 'Creditor',
     dataIndex: 'creditor',
     align: 'center',
-    width: '5%',
+    render: (creditor: string) => formatAddress(creditor),
+    width: '10%',
   },
   {
     title: 'Amount',
@@ -153,6 +171,11 @@ const columns: TableColumnsType<DataType> = [
     },
     width: '10%',
   },
+  {
+    title: '',
+    key: 'action',
+    render: (text, record) => (
+  }
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
