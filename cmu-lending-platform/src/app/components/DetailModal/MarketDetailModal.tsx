@@ -93,9 +93,9 @@ export default function MarketDetailButton() {
   return (
 
     <>
-      {/* <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
+       <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
       {showCard && (
-        <> */}
+        <> 
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
           <StyledCard
             style={modalStyle}
@@ -203,8 +203,8 @@ export default function MarketDetailButton() {
 
           </StyledCard>
 
-        {/* </>
-      )} */}
+        </>
+      )}
     </>
   );
 
