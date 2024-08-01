@@ -12,66 +12,14 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
+import { compareValues, compareDates, formatAddress } from '../components/functions';
+import { dashboardTable } from '../components/datatypes';
 
-
-
-function compareValues(a: string, b: string) {
-  const parseValue = (value: string) => {
-    const number = parseFloat(value.slice(1, -1));
-    const unit = value.slice(-1);
-    let multiplier = 1;
-
-    if (unit === 'M') {
-      multiplier = 1000;
-    } else if (unit === 'K') {
-      multiplier = 1;
-    }
-
-    return number * multiplier;
-  };
-
-  const valueA = parseValue(a);
-  const valueB = parseValue(b);
-
-  if (valueA > valueB) return 1;
-  if (valueA < valueB) return -1;
-  return 0;
-}
-
-function compareDates(date1: string, date2: string) {
-  const parseDate = (dateStr: string) => {
-    const [day, month, year] = dateStr.split('-').map(Number);
-    // Assuming the year is in the format 'yy', convert it to 'yyyy'
-    const fullYear = year < 50 ? 2000 + year : 1900 + year; // Adjust as needed for your use case
-    return new Date(fullYear, month - 1, day); // month is 0-indexed in Date
-  };
-
-  const dateObj1 = parseDate(date1);
-  const dateObj2 = parseDate(date2);
-
-  if (dateObj1 > dateObj2) return 1;
-  if (dateObj1 < dateObj2) return -1;
-  return 0;
-}
-
-const formatAddress = (address: string): string => {
-  return `${address.slice(0, 4)}...${address.slice(-5)}`;
-};
-
-interface DataType {
-  key: React.Key;
-  assest: string,
-  counterparty: string,
-  amount: number,
-  value: string,
-  status: string,
-  deadline: string,
-}
-
-const columns = (isSupply: boolean): TableColumnsType<DataType> => [
+const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
     title: 'Assest',
     dataIndex: 'assest',
+    align: 'center',
     filters: [
       { text: 'Bitcoin (BTC)', value: 'BTC' },
       { text: 'Ethereum (ETH)', value: 'ETH' },
@@ -84,7 +32,6 @@ const columns = (isSupply: boolean): TableColumnsType<DataType> => [
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.assest.indexOf(value) === 0,
-    align: 'center',
     render(assest: string) {
       const assetIconMap: { [key: string]: React.ReactNode } = {
         'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
