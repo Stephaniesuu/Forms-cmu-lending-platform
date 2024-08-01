@@ -344,7 +344,7 @@ export default function BorrowDetailButton() {
                         tabList={tabList}
                         activeTabKey={activeTabKey}
                         onTabChange={onTabChange}
-                    >
+                    </div>
                         <div style={{
                             display: 'flex',
                             height: '405px',
@@ -352,7 +352,7 @@ export default function BorrowDetailButton() {
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
                         }}>
-                            {contentList[activeTabKey]}
+                          
 
             </div>
           </StyledCard>
