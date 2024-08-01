@@ -94,7 +94,7 @@ const StyledCard = styled(Card)`
 
 const contentList = {
     Lock: (
-        <div>
+        <div style={{width:"100%"}}>
             <header >
                 <div style={{
                     display: 'flex',
@@ -132,25 +132,30 @@ const contentList = {
                 <h1 style={h1Style}>Remaining time</h1>
                 <p style={h2Style}>23 hours 59 minutes</p>
             </div>
+            <div style={{
+              display: 'flex',       
+              justifyContent: 'center',
+            }}>
             <button style={
                 {
-                    width: '100%',
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginLeft: '63px',
-                    marginBottom: '37px',
+                  width: '400px',
+                
+                  height: '40px',
+                  background: '#C67EFF',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  marginBottom: '37px',
                 }
 
             }>Lock</button>
         </div>
+      </div>
     ),
-    Withdraw: (<div>
+    Withdraw: (<div style={{width:"100%"}}>
         <header >
           <div style={{
             display: 'flex',
@@ -166,7 +171,7 @@ const contentList = {
           </div>
           <h2 style={h2Style} >Withdraw your Loan Coin</h2>
         </header>
-        <div>
+        <div style={{ marginTop: '30px', }}>
           <p style={h1Style}>Coin</p>
           <div style={{ display: 'flex', }}>
             <BitcoinCircleColorful style={{
@@ -184,31 +189,38 @@ const contentList = {
             </div>
           </div>
         </div>
-        <div style={{ marginTop: '20px', }}>
+        <div style={{ marginTop: '30px', }}>
           <h1 style={h1Style}>Amount </h1>
           <p style={h2Style}>4.000,000</p>
         </div>
         <div>
         </div>
-        <button style={
-          {
-            width: '150%',
-            height: '40px',
-            background: '#C67EFF',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            marginLeft: '63px',
-            marginBottom: '45px',
-          }
-    
-        }>Lock</button>
+        <div style={{
+     display: 'flex',       
+     justifyContent: 'center',
+     padding: '31px', 
+     paddingBottom: '0px',
+    }}>
+            <button style={
+                {
+                  width: '400px',
+                
+                  height: '40px',
+                  background: '#C67EFF',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  marginBottom: '37px',
+                }
+
+            }>Lock</button>
+            </div>
       </div>
       ),
-      Repay: (<div>
+      Repay: (<div style={{width:"100%"}}>
         <header >
           <div style={{
             display: 'flex',
@@ -228,7 +240,7 @@ const contentList = {
           <h1 style={h1Style}>Countdown </h1>
           <p style={h2Style}>24 Days</p>
         </div>
-        <div style={{ display: 'flex', marginBottom: '20px', }}>
+        <div style={{ display: 'flex', marginTop: '40px', marginBottom: '10px', }}>
           <div>
             <p style={h1Style}>Coin</p>
             <div style={{ display: 'flex', }}>
@@ -263,22 +275,29 @@ const contentList = {
     
         <div>
         </div>
-        <button style={
-          {
-            width: '85%',
-            height: '40px',
-            background: '#C67EFF',
-            color: '#ffffff',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            marginLeft: '63px',
-            marginBottom: '45px',
-          }
-    
-        }>Lock</button>
+        <div style={{
+      display: 'flex',       
+      justifyContent: 'center',
+      padding: '41px', 
+      paddingBottom: '0px',
+    }}>
+            <button style={
+                {
+                  width: '400px',
+                
+                  height: '40px',
+                  background: '#C67EFF',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  marginBottom: '37px',
+                }
+
+            }>Lock</button>
+            </div>
       </div>
       ),
 };
@@ -337,6 +356,7 @@ export default function BorrowDetailButton() {
                     >
                         <div style={{
                             display: 'flex',
+                            height: '405px',
                             gap: '100px',
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
