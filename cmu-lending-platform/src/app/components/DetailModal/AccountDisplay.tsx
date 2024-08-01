@@ -1,8 +1,9 @@
-import { Address } from "@ant-design/web3";
+import { Address, useAccount } from "@ant-design/web3";
 import styled from "@emotion/styled";
 import { Badge } from "antd";
 import { useEffect, useRef } from "react";
 import createWeb3Avatar from 'web3-avatar';
+
 
 const containerStyle = {
     display: 'flex',
@@ -67,7 +68,9 @@ const CustomAvatar = ({ Address }: { Address: string }) => {
     return <div ref={avatarRef} style={{ width: '40px', height: '40px' }}></div>;
 };
 
-export default function AccountDisplay() {
+export default function AccountDisplay({ IsBorrow }: { IsBorrow: boolean }) {
+    const { account } = useAccount();
+    const counterpartyAddress = '0xBc0aD2D4F8A177d1A9854Fb40B7F159B2DC32232';
     return (
         <div style={containerStyle}>
             <div style={rowgapStyle}>
@@ -76,7 +79,13 @@ export default function AccountDisplay() {
                     alignItems: 'center',
                     gap: '20px',
                 }}>
-                    <CustomAvatar Address={'0xBc0aD2D4F8A177d1A9854Fb40B7F159B2DC32232'} />
+                    {IsBorrow ? (
+                        <CustomAvatar Address={counterpartyAddress} />
+                    ) : (
+                        <Badge count={'you'}>
+                            <CustomAvatar Address={account.address} />
+                        </Badge>
+                    )}
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -84,8 +93,9 @@ export default function AccountDisplay() {
                         alignItems: 'flex-start',
                         gap: '2px',
                     }}>
+
                         <p style={headingStyle}>Buyer</p>
-                        <StyledAddress ellipsis address={'0xBc0aD2D4F8A177d1A9854Fb40B7F159B2DC32232'} tooltip />
+                        <StyledAddress ellipsis address={IsBorrow ? counterpartyAddress : account.address} tooltip />
                     </div>
                 </div>
             </div>
@@ -95,9 +105,13 @@ export default function AccountDisplay() {
                     alignItems: 'center',
                     gap: '20px',
                 }}>
-                    <Badge count={'you'}>
-                        <CustomAvatar Address={'0xcAF37ebf324306731311F92b63E90D97d541569e'} />
-                    </Badge>
+                    {IsBorrow ? (
+                        <Badge count={'you'}>
+                            <CustomAvatar Address={account.address} />
+                        </Badge>
+                    ) : (
+                        <CustomAvatar Address={counterpartyAddress} />
+                    )}
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -106,7 +120,7 @@ export default function AccountDisplay() {
                         gap: '2px',
                     }}>
                         <p style={headingStyle}>Seller</p>
-                        <StyledAddress ellipsis address={'0xcAF37ebf324306731311F92b63E90D97d541569e'} tooltip />
+                        <StyledAddress ellipsis address={IsBorrow ? account.address : counterpartyAddress} tooltip />
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -10,7 +10,8 @@ import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';import { text } from 'stream/consumers';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+import { text } from 'stream/consumers';
 
 import { compareValues, compareDates, formatAddress } from '../components/functions';
 import { marketTable } from '../components/datatypes';
@@ -120,7 +121,7 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     dataIndex: 'action',
-    render: () => <MarketDetailButton/>,
+    render: () => <MarketDetailButton />,
     width: '5%'
   },
 ];
@@ -198,12 +199,11 @@ const backdropStyle = {
   zIndex: 999, // Just below the modal
 };
 
-   
+
 export default function Market() {
   return (
     <APPLayout>
       <div style={tableContainerStyle}>
-
         <StyledTable
           columns={columns}
           dataSource={market}
