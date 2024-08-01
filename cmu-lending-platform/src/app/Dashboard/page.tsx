@@ -10,8 +10,6 @@ import { borrows } from './borrows';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
-
 
 function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
@@ -51,6 +49,10 @@ function compareDates(date1: string, date2: string) {
   if (dateObj1 < dateObj2) return -1;
   return 0;
 }
+
+const formatAddress = (address: string): string => {
+  return `${address.slice(0, 4)}...${address.slice(-5)}`;
+};
 
 interface DataType {
   key: React.Key;
@@ -96,11 +98,12 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Counterparty',
     dataIndex: 'counterparty',
+    key: 'counterparty',
     sorter: {
       compare: (a, b) => a.counterparty.localeCompare(b.counterparty),
     },
     align: 'center',
-    render: (counterparty: string) => <a>{counterparty}</a>,
+    render: (counterparty: string) => formatAddress(counterparty),
   },
   {
     title: 'Amount',
@@ -158,7 +161,7 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Action',
     dataIndex: 'action',
-    render: () => <BorrowDetailButton/> 
+    render: () => <Button size='small' >Details</Button>,
   }
 ];
 
@@ -200,6 +203,7 @@ export default function Dashboard() {
               dataSource={supplies}
               onChange={onChange}
               rowClassName={rowClassName}
+              scroll={{ y: 1000 }}
               title={() => <Title level={1}>Your supplies</Title>}
             />
           </div>
@@ -211,6 +215,7 @@ export default function Dashboard() {
               dataSource={borrows}
               onChange={onChange}
               rowClassName={rowClassName}
+              scroll={{ y: 1000 }}
               title={() => <Title level={1}>Your borrows</Title>}
             />
           </div>
