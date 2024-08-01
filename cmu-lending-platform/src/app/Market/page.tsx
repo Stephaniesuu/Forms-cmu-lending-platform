@@ -280,7 +280,7 @@ const contentList = {
 export default function CMULending() {
   const account = useAccount()
   const [showCard, setShowCard] = useState(false);
-  const [activeTabKey, setActiveTabKey] = useState('tab1');
+  const [activeTabKey, setActiveTabKey] = useState('Lock');
 
   const onTabChange = key => {
     setActiveTabKey(key);
