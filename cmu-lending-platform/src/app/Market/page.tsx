@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React , { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -9,7 +9,8 @@ import { market } from './data';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
-
+import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 
 function compareValues(a, b) {
   const parseValue = (value) => {
@@ -226,200 +227,21 @@ const backdropStyle = {
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
   zIndex: 999, // Just below the modal
 };
-const contentList = {
-  Lock: (
-    <div>
-      <header >
-        <div style={{
-          display: 'flex',
-          marginLeft: '63px',
-          marginTop: '37px',
-        }}>
-          <img src='images/Lockicon.png' alt='Lock' style={{
-            width: '30px',
-            height: '30px',
-            marginTop: '10px',
-          }} />
-          <h1 style={IcontextStyle}>Lock</h1>
-        </div>
-        <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
-      </header>
-      <div>
-        <p style={h1Style}>Collateral</p>
-        <Select
-          defaultValue="Select"
-          style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
-          onChange={handleChange}
-          options={[
-            { value: 'Ethereum', label: 'Ethereum' },
-            { value: 'BitCoin', label: 'BitCoin' },
-            { value: 'PakCoin', label: 'PakCoin' },
-            { value: 'HeiCoin', label: 'HeiCoin' },
-          ]}
-        />
-      </div>
-      <div>
-        <h1 style={h1Style}>Amount Required</h1>
-        <p style={h2Style}>To be estimated</p>
-      </div>
-      <div>
-        <h1 style={h1Style}>Remaining time</h1>
-        <p style={h2Style}>23 hours 59 minutes</p>
-      </div>
-      <button style={
-        {
-          width: '100%',
-          height: '40px',
-          background: '#C67EFF',
-          color: '#ffffff',
-          border: 'none',
-          borderRadius: '6px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          marginLeft: '63px',
-          marginBottom: '45px',
-        }
 
-      }>Lock</button>
-    </div>
-  ),
-  Withdraw: (<div>
-    <header >
-      <div style={{
-        display: 'flex',
-        marginLeft: '63px',
-        marginTop: '37px',
-      }}>
-        <img src='images/Lockicon.png' alt='Lock' style={{
-          width: '30px',
-          height: '30px',
-          marginTop: '10px',
-        }} />
-        <h1 style={IcontextStyle}>Withdraw</h1>
-      </div>
-      <h2 style={h2Style} >Withdraw your Loan Coin</h2>
-    </header>
-    <div>
-      <p style={h1Style}>Coin</p>
-      <div style={{ display: 'flex', }}>
-        <BitcoinCircleColorful style={{
-          fontSize: 30,
-          marginLeft: '63px',
-          // marginTop: '20px',
-          marginRight: '10px',
-        }} />
-        <div>
-          <h1 style={{
-            fontSize: '15px',
-            color: '#000000',
-          }}>BitCoin</h1>
-          <h2>BTC</h2>
-        </div>
-      </div>
-    </div>
-    <div style={{ marginTop: '20px', }}>
-      <h1 style={h1Style}>Amount </h1>
-      <p style={h2Style}>4.000,000</p>
-    </div>
-    <div>
-    </div>
-    <button style={
-      {
-        width: '150%',
-        height: '40px',
-        background: '#C67EFF',
-        color: '#ffffff',
-        border: 'none',
-        borderRadius: '6px',
-        cursor: 'pointer',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        marginLeft: '63px',
-        marginBottom: '45px',
-      }
-
-    }>Lock</button>
-  </div>
-  ),
-  Repay: (<div>
-    <header >
-      <div style={{
-        display: 'flex',
-        marginLeft: '63px',
-        marginTop: '37px',
-      }}>
-        <img src='images/Lockicon.png' alt='Lock' style={{
-          width: '30px',
-          height: '30px',
-          marginTop: '10px',
-        }} />
-        <h1 style={IcontextStyle}>Repay</h1>
-      </div>
-      <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2>
-    </header>
-    <div style={{ marginTop: '20px' }}>
-      <h1 style={h1Style}>Countdown </h1>
-      <p style={h2Style}>24 Days</p>
-    </div>
-    <div style={{ display: 'flex', marginBottom: '20px', }}>
-      <div>
-        <p style={h1Style}>Coin</p>
-        <div style={{ display: 'flex', }}>
-
-          <BitcoinCircleColorful style={{
-            fontSize: 30,
-            marginLeft: '63px',
-            // marginTop: '20px',
-            marginRight: '10px',
-          }} />
-          <div>
-            <h1 style={{
-              fontSize: '15px',
-              color: '#000000',
-            }}>BitCoin</h1>
-            <h2>BTC</h2>
-          </div>
-        </div>
-      </div>
-      <div style={{ marginLeft: '80px', }}>
-        <h1 style={h1Style}>
-          Total Amount
-        </h1>
-        <h2 style={{
-          fontSize: '20px',
-          color: '#0F1D40',
-          marginLeft: '63px',
-        }}>4.200,000</h2>
-
-      </div>
-    </div>
-
-    <div>
-    </div>
-    <button style={
-      {
-        width: '85%',
-        height: '40px',
-        background: '#C67EFF',
-        color: '#ffffff',
-        border: 'none',
-        borderRadius: '6px',
-        cursor: 'pointer',
-        fontSize: '16px',
-        fontWeight: 'bold',
-        marginLeft: '63px',
-        marginBottom: '45px',
-      }
-
-    }>Lock</button>
-  </div>
-  ),
-};
+   
 export default function CMULending() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
   return (
     <APPLayout>
       <div style={tableContainerStyle}>
+        <button onClick={toggleModal}>Toggle Card</button>
+        {isModalVisible && <MarketDetailButton />}
+
         <StyledTable
           columns={columns}
           dataSource={market}

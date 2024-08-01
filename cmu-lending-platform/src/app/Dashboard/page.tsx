@@ -10,13 +10,9 @@ import { borrows } from './borrows';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
-<<<<<<< HEAD
-import {BorrowDetailButton} from '../components/BorrowDetailButton/BorrowDetailButton';
-=======
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 
 
->>>>>>> main
 
 function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
