@@ -292,7 +292,7 @@ export default function BorrowDetailButton() {
     return (
 
         <>
-            <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
+            <Button type="primary" onClick={() => setShowCard(!showCard)}>Details</Button>
             {showCard && (
                 <>
                     <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
