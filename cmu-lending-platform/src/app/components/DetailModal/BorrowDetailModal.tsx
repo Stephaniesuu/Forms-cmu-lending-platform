@@ -6,7 +6,7 @@ import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
-
+import  AccountDisplay  from './AccountDisplay';
 
 const tabList = [
     {
@@ -27,7 +27,7 @@ const handleChange = (value: string) => {
 };
 
 
-const h1Style = {
+export const h1Style = {
     // position: 'fixed',
     fontSize: '12px',
     color: '#525C76',
@@ -306,28 +306,7 @@ export default function BorrowDetailButton() {
                                     onClick={() => setShowCard(false)}
                                     style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                                 />
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '100px',
-                                    marginTop: '37px',
-                                    marginBottom: '27px',
-                                }}>
-
-                                    <h2 style={h1Style}>
-                                        <p>Buyer Address</p>
-                                        <p>0x23...5678</p>
-                                    </h2>
-                                    <h2 style={{
-                                        position: 'fixed',
-                                        right: 105,
-                                    }}>
-                                        <div style={h1Style}>
-                                            <p>Seller Address</p>
-                                            <p>0x23...5678</p>
-                                        </div>
-                                    </h2>
-                                </div>
+                                <AccountDisplay />
                             </>
                         }
 
