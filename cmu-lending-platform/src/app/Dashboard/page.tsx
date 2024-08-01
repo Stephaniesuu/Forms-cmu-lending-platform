@@ -10,7 +10,8 @@ import { borrows } from './borrows';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+
 
 function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
@@ -137,7 +138,7 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Action',
     dataIndex: 'action',
-    render: () => <Button size='small' >Details</Button>,
+    render: () => <BorrowDetailButton/> 
   }
 ];
 
@@ -176,7 +177,7 @@ const rowClassName = (record: any, index: number): string => {
   return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
 };
 
-export default function CMULending() {
+export default function Dashboard() {
   return (
     <APPLayout>
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
