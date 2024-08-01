@@ -10,6 +10,9 @@ import { borrows } from './borrows';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+
+
 
 function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
@@ -161,7 +164,7 @@ const columns: TableColumnsType<DataType> = [
   {
     title: 'Action',
     dataIndex: 'action',
-    render: () => <Button size='small' >Details</Button>,
+    render: () => <BorrowDetailButton />,
   }
 ];
 
@@ -204,7 +207,6 @@ export default function Dashboard() {
               onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
-              style={tableStyle}
               pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your supplies</Title>}
             />
@@ -218,7 +220,6 @@ export default function Dashboard() {
               onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
-              style={tableStyle}
               pagination={{ pageSize: 10 }}
               title={() => <Title level={1}>Your borrows</Title>}
             />
