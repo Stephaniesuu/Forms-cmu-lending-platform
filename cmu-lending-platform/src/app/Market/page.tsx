@@ -1,17 +1,27 @@
 'use client'
 import React, { useState } from 'react';
+import { Card, Select, Space } from 'antd';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Typography, } from 'antd';
-
+import { useAccount } from 'wagmi'
+import { Row, Col, Typography, Button } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
+import DetailButton from '../components/DetailModal/SupplyDetailModal';
+import '../Market/style.css';
 const { Title } = Typography;
+// import { Address, NFTCard } from '@ant-design/web3';
 
 
-const style: React.CSSProperties = {
+
+const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
+  console.log('params', pagination, filters, sorter, extra);
+};
+
+const tableStyle: React.CSSProperties = {
   opacity: 'initial',
   background: 'linear-gradient(to right, #f7f7f7, rgba(255,255,255,0))',
-  padding: '12px',
+  padding: '20px',
   height: '100%',
-  borderRadius: '6px',
+  borderRadius: '20px',
   boxShadow: '0 3px 5px 0 rgba(0,0,0,0.2)',
 
 };
@@ -35,7 +45,5 @@ export default function Market() {
         </Col>
       </Row>
     </APPLayout>
-
   );
-
 }
