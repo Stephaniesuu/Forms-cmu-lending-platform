@@ -30,10 +30,6 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
       key: '/Market',
       label: <Link href="/Market">Market</Link>
     },
-    {
-      key: '/Market',
-      label: <Link href="/Market">Market</Link>
-    }
   ];
 
   return (
