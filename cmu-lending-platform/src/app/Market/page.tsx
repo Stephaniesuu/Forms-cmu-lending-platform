@@ -10,7 +10,8 @@ import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';import { text } from 'stream/consumers';
+import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
+import { text } from 'stream/consumers';
 
 const formatAddress = (address: string): string => {
   return `${address.slice(0, 4)}...${address.slice(-5)}`;
@@ -171,11 +172,7 @@ const columns: TableColumnsType<DataType> = [
     },
     width: '10%',
   },
-  {
-    title: '',
-    key: 'action',
-    render: (text, record) => (
-  }
+ 
 ];
 
 const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {

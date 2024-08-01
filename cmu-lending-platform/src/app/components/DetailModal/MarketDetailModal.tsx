@@ -5,8 +5,7 @@ import { useState } from "react";
 
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { BitcoinCircleColorful } from '@ant-design/web3-icons';
-import { text } from "stream/consumers";
+
 
 
 
