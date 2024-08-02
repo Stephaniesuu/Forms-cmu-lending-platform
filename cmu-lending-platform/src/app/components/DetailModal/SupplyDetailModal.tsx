@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Select, ConfigProvider, Tooltip } from "antd";
+import { Button, Card, Select, ConfigProvider, Tooltip,Alert } from "antd";
 import { useState } from "react";
 
 import { CloseOutlined, MoneyCollectOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -104,7 +104,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
-const contentList = {
+const contentList = (toggleAlert, alertVisible, isButtonDisabled, handleCloseAlert) => ({
     Lock: (
         <div style={{ width: "100%" }}>
             <header >
@@ -206,6 +206,7 @@ const contentList = {
                     <div style={{ marginLeft: '63px' }}>
                         <p style={h1Style}>Repayment</p>
                         <div style={{ display: 'flex' }}>
+
                             <BitcoinCircleColorful style={{
                                 fontSize: 30,
                                 marginLeft: '63px',
@@ -230,6 +231,7 @@ const contentList = {
                     </h1>
                     <h2 style={{
                         fontSize: '20px',
+                        color: '#0F1D40',
                         marginLeft: '63px',
                     }}>44.240000</h2>
                 </div>
@@ -239,16 +241,19 @@ const contentList = {
                     </h1>
                     <h2 style={{
                         fontSize: '20px',
+                        color: '#0F1D40',
                         marginLeft: '63px',
                     }}>2.479000</h2>
                 </div>
             </div>
             <div style={{ marginTop: '5px', marginBottom: '20px' }}>
-                <div style={{ display: 'flex',alignItems:'center' }}>
+                <div style={{ display: 'flex' }}>
                     <h1 style={h1Style}>Current Value </h1>
+                    <div>
                         <Tooltip placement="rightTop" title={text} arrow={false}>
-                            <QuestionCircleOutlined style={{ fontSize: 12, color: '#8247E5', marginLeft: '4px'}} />
+                            <QuestionCircleOutlined style={{ fontSize: 15, color: '#8247E5', marginLeft: '10px' }} />
                         </Tooltip>
+                    </div>
                 </div>
                 <p style={h3Style}>1,162,850.02</p>
                 <p style={h1Style}>Deposit time</p>
@@ -312,7 +317,7 @@ const contentList = {
                 padding: '11px',
                 paddingBottom: '0px',
             }}>
-                <Button type='primary' style={
+                <Button type="primary" style={
                     {
                         width: '400px',
                         height: '40px',
@@ -321,18 +326,50 @@ const contentList = {
                         cursor: 'pointer',
                         fontSize: '16px',
                         marginBottom: '37px',
-                    }}>Liquidate</Button>
+                    }}
+                    onClick={toggleAlert}
+                    disabled={isButtonDisabled}
+                >Liquidation</Button>
+                {alertVisible && (
+                    <Alert
+                        message="Success Text"
+                        description="Liquidation has been done. The contract is terminated."
+                        type="success"
+                        closable={true}
+                        onClose={handleCloseAlert}
+                        style={{
+                            position: 'fixed',
+                            top: '50%',
+                            left: '50%',
+                            width: '400px',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1000, // High z-index to make sure it is on top
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                            padding: '40px'
+                        }}
+                    />
+                )}
             </div>
         </div>
     ),
-};
+});
 
 export default function BorrowDetailButton() {
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
     const [isBorrow, setIsBorrow] = useState(false);
+    const [alertVisible, setAlertVisible] = useState(false);
     const onTabChange = (key: React.SetStateAction<string>) => {
         setActiveTabKey(key);
+    };
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const toggleAlert = () => {
+        setAlertVisible(!alertVisible);
+        setIsButtonDisabled(true);
+    };
+    const handleCloseAlert = () => {
+        setAlertVisible(false); // 关闭警告
+        // 注意这里不重置按钮的禁用状态
     };
     return (
 
@@ -366,7 +403,7 @@ export default function BorrowDetailButton() {
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
                         }}>
-                            {contentList[activeTabKey]}
+                            {contentList(toggleAlert, isButtonDisabled, alertVisible,)[activeTabKey]}
 
                         </div>
                     </StyledCard>
