@@ -7,6 +7,7 @@ import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { supplies } from './supplies';
 import { borrows } from './borrows';
+import { contracts } from '../data/contracts';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
