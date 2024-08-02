@@ -216,7 +216,7 @@ const contentList = {
                   marginBottom: '37px',
                 }
 
-            }>Lock</button>
+            }>Withdraw</button>
             </div>
       </div>
       ),
@@ -236,11 +236,11 @@ const contentList = {
           </div>
           <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2>
         </header>
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '30px' }}>
           <h1 style={h1Style}>Countdown </h1>
           <p style={h2Style}>24 Days</p>
         </div>
-        <div style={{ display: 'flex', marginTop: '40px', marginBottom: '10px', }}>
+        <div style={{ display: 'flex', marginTop: '30px', marginBottom: '10px', }}>
           <div>
             <p style={h1Style}>Coin</p>
             <div style={{ display: 'flex', }}>
@@ -296,7 +296,7 @@ const contentList = {
                   marginBottom: '37px',
                 }
 
-            }>Lock</button>
+            }>Repay</button>
             </div>
       </div>
       ),
