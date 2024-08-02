@@ -1,9 +1,9 @@
 'use client';
 
-import { Button, Card, Select } from "antd";
+import { Button, Card, Select, Tooltip } from "antd";
 import { useState } from "react";
 
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import AccountDisplay from './AccountDisplay';
@@ -253,7 +253,13 @@ const contentList = {
         </div>
         <div style={{ marginLeft: '80px', }}>
           <h1 style={h1Style}>
-            Total Amount
+            <Tooltip title="Include 5% interest">
+              <span>Total Amount
+                <div style={{ display: 'inline-block', marginLeft: '5px', }}>
+                  <QuestionCircleOutlined />
+                </div>
+              </span>
+            </Tooltip>
           </h1>
           <h2 style={{
             fontSize: '20px',
