@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Select, Tooltip, Alert } from "antd";
+import { Button, Card, Select, ConfigProvider, Tooltip,Alert } from "antd";
 import { useState } from "react";
 
 import { CloseOutlined, MoneyCollectOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
@@ -106,7 +106,7 @@ const StyledCard = styled(Card)`
 const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
 const contentList = (toggleAlert, alertVisible, isButtonDisabled, handleCloseAlert) => ({
     Lock: (
-        <div>
+        <div style={{ width: "100%" }}>
             <header >
                 <div style={{
                     display: 'flex',
@@ -144,239 +144,213 @@ const contentList = (toggleAlert, alertVisible, isButtonDisabled, handleCloseAle
                 <h1 style={h1Style}>Remaining time</h1>
                 <p style={h2Style}>23 hours 59 minutes</p>
             </div>
-            <button style={
-                {
-                    width: '100%',
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginLeft: '63px',
-                    marginBottom: '37px',
-                }
-
-            }>Lock</button>
-        </div>
-    ),
-    Status: (<div style={{ width: "100%" }}>
-        <header >
             <div style={{
                 display: 'flex',
-                marginLeft: '63px',
-                marginTop: '37px',
-
+                justifyContent: 'center',
             }}>
-                <FileSearchOutlined style={{
-                    width: '30px',
-                    height: '30px',
-                    marginTop: '10px',
-                    marginBottom: '20px',
-                    fontSize: 30,
-                    color: '#8247E5',
-                }} />
-                <h1 style={IcontextStyle}>Status</h1>
+                <Button type='primary' style={
+                    {
+                        width: '400px',
+                        height: '40px',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        marginBottom: '37px',
+                    }}>Lock</Button>
             </div>
-            {/* <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2> */}
-        </header>
-        <div style={{ display: 'flex', marginBottom: '10px', }}>
-            <div style={{ display: 'flex', }}>
-                <div>
-                    <p style={h1Style}>Collateral</p>
-                    <div style={{ display: 'flex', }}>
+        </div>
+    ),
+    Status: (
+        <div style={{ width: "100%" }}>
+            <header >
+                <div style={{
+                    display: 'flex',
+                    marginLeft: '63px',
+                    marginTop: '37px',
 
-                        <EthereumCircleColorful style={{
-                            fontSize: 30,
-                            marginLeft: '63px',
-                            // marginTop: '20px',
-                            marginRight: '10px',
-                        }} />
-                        <div>
-                            <h1 style={{
-                                fontSize: '15px',
-                                color: '#000000',
-                            }}>Ethereum</h1>
-                            <h2>ETH</h2>
+                }}>
+                    <FileSearchOutlined style={{
+                        width: '30px',
+                        height: '30px',
+                        marginTop: '10px',
+                        marginBottom: '20px',
+                        fontSize: 30,
+                        color: '#8247E5',
+                    }} />
+                    <h1 style={IcontextStyle}>Status</h1>
+                </div>
+                {/* <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2> */}
+            </header>
+            <div style={{ display: 'flex', marginBottom: '10px', }}>
+                <div style={{ display: 'flex', }}>
+                    <div>
+                        <p style={h1Style}>Collateral</p>
+                        <div style={{ display: 'flex', }}>
+
+                            <EthereumCircleColorful style={{
+                                fontSize: 30,
+                                marginLeft: '63px',
+                                // marginTop: '20px',
+                                marginRight: '10px',
+                            }} />
+                            <div>
+                                <h1 style={{
+                                    fontSize: '15px',
+                                    color: '#000000',
+                                }}>Ethereum</h1>
+                                <h2>ETH</h2>
+                            </div>
                         </div>
                     </div>
+                    <div style={{ marginLeft: '63px' }}>
+                        <p style={h1Style}>Repayment</p>
+                        <div style={{ display: 'flex' }}>
+
+                            <BitcoinCircleColorful style={{
+                                fontSize: 30,
+                                marginLeft: '63px',
+                                // marginTop: '20px',
+                                marginRight: '10px',
+                            }} />
+                            <div>
+                                <h1 style={{
+                                    fontSize: '15px',
+                                    color: '#000000',
+                                }}>BitCoin</h1>
+                                <h2>BTC</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style={{ display: "flex" }}>
+                <div>
+                    <h1 style={h1Style}>
+                        Total Amount
+                    </h1>
+                    <h2 style={{
+                        fontSize: '20px',
+                        color: '#0F1D40',
+                        marginLeft: '63px',
+                    }}>44.240000</h2>
                 </div>
                 <div style={{ marginLeft: '63px' }}>
-                    <p style={h1Style}>Repayment</p>
-                    <div style={{ display: 'flex' }}>
+                    <h1 style={h1Style}>
+                        Total Amount
+                    </h1>
+                    <h2 style={{
+                        fontSize: '20px',
+                        color: '#0F1D40',
+                        marginLeft: '63px',
+                    }}>2.479000</h2>
+                </div>
+            </div>
+            <div style={{ marginTop: '5px', marginBottom: '20px' }}>
+                <div style={{ display: 'flex' }}>
+                    <h1 style={h1Style}>Current Value </h1>
+                    <div>
+                        <Tooltip placement="rightTop" title={text} arrow={false}>
+                            <QuestionCircleOutlined style={{ fontSize: 15, color: '#8247E5', marginLeft: '10px' }} />
+                        </Tooltip>
+                    </div>
+                </div>
+                <p style={h3Style}>1,162,850.02</p>
+                <p style={h1Style}>Deposit time</p>
 
-                        <BitcoinCircleColorful style={{
-                            fontSize: 30,
-                            marginLeft: '63px',
-                            // marginTop: '20px',
-                            marginRight: '10px',
-                        }} />
-                        <div>
-                            <h1 style={{
-                                fontSize: '15px',
-                                color: '#000000',
-                            }}>BitCoin</h1>
-                            <h2>BTC</h2>
-                        </div>
+            </div>
+
+            <div style={{ marginTop: '5px' }}>
+                <h1 style={h1Style}>Remaining time </h1>
+                <p style={h3Style}>2 months 29 days</p>
+            </div>
+        </div>
+    ),
+    Liquidate: (
+        <div style={{ width: "100%" }}>
+            <header >
+                <div style={{
+                    display: 'flex',
+                    marginLeft: '63px',
+                    marginTop: '37px',
+                }}>
+                    <MoneyCollectOutlined style={{
+                        fontSize: 30,
+                        marginTop: '10px',
+                        marginRight: '5px',
+                        marginBottom: '5px',
+                        color: '#8247E5',
+                    }} />
+                    <h1 style={IcontextStyle}>Liquidation</h1>
+                </div>
+                <h2 style={h3Style} >All collateral will transfer to your wallet if the repayment is overdue.</h2>
+            </header>
+            <div >
+                <p style={h1Style}>Collateral</p>
+                <div style={{ display: 'flex', }}>
+                    <BitcoinCircleColorful style={{
+                        fontSize: 30,
+                        marginLeft: '63px',
+                        // marginTop: '20px',
+                        marginRight: '10px',
+                    }} />
+                    <div>
+                        <h1 style={{
+                            fontSize: '15px',
+                            color: '#000000',
+                        }}>BitCoin</h1>
+                        <h2>BTC</h2>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style={{ display: "flex" }}>
-            <div>
-                <h1 style={h1Style}>
-                    Total Amount
-                </h1>
-                <h2 style={{
-                    fontSize: '20px',
-                    color: '#0F1D40',
-                    marginLeft: '63px',
-                }}>44.240000</h2>
+            <div >
+                <h1 style={h1Style}>Amount </h1>
+                <p style={h3Style}>4.000,000</p>
             </div>
-            <div style={{ marginLeft: '63px' }}>
-                <h1 style={h1Style}>
-                    Total Amount
-                </h1>
-                <h2 style={{
-                    fontSize: '20px',
-                    color: '#0F1D40',
-                    marginLeft: '63px',
-                }}>2.479000</h2>
+            <div >
+                <h1 style={h1Style}>Deadline </h1>
+                <p style={h3Style}>24 June 2024</p>
             </div>
-        </div>
-        <div style={{ marginTop: '5px', marginBottom: '20px' }}>
-            <div style={{ display: 'flex' }}>
-                <h1 style={h1Style}>Current Value </h1>
-                <div>
-                    <Tooltip placement="rightTop" title={text} arrow={false}>
-                        <QuestionCircleOutlined style={{ fontSize: 15, color: '#8247E5', marginLeft: '10px' }} />
-                    </Tooltip>
-                </div>
-            </div>
-            <p style={h3Style}>1,162,850.02</p>
-            <p style={h1Style}>Deposit time</p>
-
-        </div>
-
-        <div style={{ marginTop: '5px' }}>
-            <h1 style={h1Style}>Remaining time </h1>
-            <p style={h3Style}>2 months 29 days</p>
-        </div>
-        {/* <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '41px',
-          paddingBottom: '0px',
-        }}>
-          <Button type="primary" style={
-            {
-              width: '400px',
-    
-              height: '40px',
-              background: '#C67EFF',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              marginBottom: '37px',
-            }
-    
-          }>Repay</Button>
-        </div> */}
-    </div>
-    ),
-    Liquidate: (<div style={{ width: "100%" }}>
-        <header >
             <div style={{
                 display: 'flex',
-                marginLeft: '63px',
-                marginTop: '37px',
+                justifyContent: 'center',
+                padding: '11px',
+                paddingBottom: '0px',
             }}>
-                <MoneyCollectOutlined style={{
-                    fontSize: 30,
-                    marginTop: '10px',
-                    marginRight: '5px',
-                    marginBottom: '5px',
-                    color: '#8247E5',
-                }} />
-                <h1 style={IcontextStyle}>Liquidation</h1>
-            </div>
-            <h2 style={h3Style} >All collateral will transfer to your wallet if the repayment is overdue.</h2>
-        </header>
-        <div >
-            <p style={h1Style}>Collateral</p>
-            <div style={{ display: 'flex', }}>
-                <BitcoinCircleColorful style={{
-                    fontSize: 30,
-                    marginLeft: '63px',
-                    // marginTop: '20px',
-                    marginRight: '10px',
-                }} />
-                <div>
-                    <h1 style={{
-                        fontSize: '15px',
-                        color: '#000000',
-                    }}>BitCoin</h1>
-                    <h2>BTC</h2>
-                </div>
-            </div>
-        </div>
-        <div >
-            <h1 style={h1Style}>Amount </h1>
-            <p style={h3Style}>4.000,000</p>
-        </div>
-        <div >
-            <h1 style={h1Style}>Deadline </h1>
-            <p style={h3Style}>24 June 2024</p>
-        </div>
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '11px',
-            paddingBottom: '0px',
-        }}>
-            <Button type="primary" style={
-                {
-                    width: '400px',
-                    height: '40px',
-                    // background: isButtonDisabled ? '#D3D3D3' : '#C67EFF',
-                    // color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginBottom: '37px',
-                }
-            }
-                onClick={toggleAlert}
-                disabled={isButtonDisabled}
-            >Liquidation</Button>
-            {alertVisible && (
-                <Alert
-                    message="Success Text"
-                    description="Liquidation has been done. The contract is terminated."
-                    type="success"
-                    closable={true}
-                    onClose={handleCloseAlert}
-                    style={{
-                        position: 'fixed',
-                        top: '50%',
-                        left: '50%',
+                <Button type="primary" style={
+                    {
                         width: '400px',
-                        transform: 'translate(-50%, -50%)',
-                        zIndex: 1000, // High z-index to make sure it is on top
-                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                        padding: '40px'
+                        height: '40px',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        marginBottom: '37px',
                     }}
-                />
-            )}
+                    onClick={toggleAlert}
+                    disabled={isButtonDisabled}
+                >Liquidation</Button>
+                {alertVisible && (
+                    <Alert
+                        message="Success Text"
+                        description="Liquidation has been done. The contract is terminated."
+                        type="success"
+                        closable={true}
+                        onClose={handleCloseAlert}
+                        style={{
+                            position: 'fixed',
+                            top: '50%',
+                            left: '50%',
+                            width: '400px',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: 1000, // High z-index to make sure it is on top
+                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                            padding: '40px'
+                        }}
+                    />
+                )}
+            </div>
         </div>
-    </div>
     ),
 });
 
@@ -429,7 +403,7 @@ export default function BorrowDetailButton() {
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
                         }}>
-                            {contentList(toggleAlert,isButtonDisabled,alertVisible,)[activeTabKey]}
+                            {contentList(toggleAlert, isButtonDisabled, alertVisible,)[activeTabKey]}
 
                         </div>
                     </StyledCard>
