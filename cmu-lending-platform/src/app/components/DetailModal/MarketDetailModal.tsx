@@ -5,8 +5,7 @@ import { useState } from "react";
 
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
-
-
+import CreateSuccessResult from "./CreateSucessModal";
 
 
 const handleChange = (value: string) => {
@@ -89,6 +88,15 @@ const StyledCard = styled(Card)`
 
 export default function MarketDetailButton() {
   const [showCard, setShowCard] = useState(false);
+  const [showCreateResult, setShowCreateResult] = useState(false);
+  const [isCreated, setIsCreated] = useState(false);
+
+  const handleCreateButtonClick = (params) => {
+    // 处理点击事件的逻辑
+    console.log('Create button clicked');
+    setShowCreateResult(true);
+    setIsCreated(true);
+  };
   return (
 
     <>
@@ -112,7 +120,6 @@ export default function MarketDetailButton() {
             <div style={{
               // display: 'flex',
               gap: '100px',
-
               // background: 'rgba(234, 72, 92, 0.05)',
               borderRadius: '16px',
             }}>
@@ -184,7 +191,6 @@ export default function MarketDetailButton() {
                 display: 'flex',        // 启用 Flexbox
                 justifyContent: 'center' // 水平居中
               }}>
-
                 <Button type='primary' style={
                   {
                     width: '400px',
@@ -194,14 +200,14 @@ export default function MarketDetailButton() {
                     cursor: 'pointer',
                     fontSize: '16px',
                     marginBottom: '37px',
-                  }}>Create</Button>
+                  }} onClick={() => handleCreateButtonClick({})} disabled={isCreated}>{isCreated ? 'Created' : 'Create'}</Button>
               </div>
             </div>
-
+            <CreateSuccessResult visible={showCreateResult} onClose={() => setShowCreateResult(false)} contractaddress={"0xdbf325102952018AE2412"} />
           </StyledCard>
-
         </>
-      )}
+      )
+      }
     </>
   );
 
