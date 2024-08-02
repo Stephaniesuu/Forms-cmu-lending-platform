@@ -181,15 +181,9 @@ export default function MarketDetailButton() {
                 </div>
               </div>
               <div style={{
-<<<<<<< HEAD
-      display: 'flex',       
-      justifyContent: 'center' 
-    }}>
-=======
                 display: 'flex',        // 启用 Flexbox
                 justifyContent: 'center' // 水平居中
               }}>
->>>>>>> main
 
                 <button style={{
                   width: '180px',
