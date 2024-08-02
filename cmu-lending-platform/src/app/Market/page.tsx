@@ -10,11 +10,9 @@ import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
-import { text } from 'stream/consumers';
 
-import { compareValues, compareDates, formatAddress } from '../components/DetailModal/Table/functions';
-import { marketTable } from '../components/DetailModal/Table/datatypes';
+import { compareValues, compareDates, formatAddress } from '../components/Table/functions';
+import { marketTable } from '../components/Table/datatypes';
 
 const columns: TableColumnsType<marketTable> = [
   {
