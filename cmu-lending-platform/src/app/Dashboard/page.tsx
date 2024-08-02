@@ -12,8 +12,8 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
-import { compareValues, compareDates, formatAddress } from '../components/functions';
-import { dashboardTable } from '../components/datatypes';
+import { compareValues, compareDates, formatAddress } from '../components/DetailModal/Table/functions';
+import { dashboardTable } from '../components/DetailModal/Table/datatypes';
 
 const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
