@@ -310,7 +310,7 @@ export default function BorrowDetailButton() {
                                     onClick={() => setShowCard(false)}
                                     style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                                 />
-                            <AccountDisplay IsBorrow={isBorrow}/>
+                                <AccountDisplay IsBorrow={isBorrow} />
                             </>
                         }
 

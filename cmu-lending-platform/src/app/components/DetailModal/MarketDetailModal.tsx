@@ -181,29 +181,20 @@ export default function MarketDetailButton() {
                 </div>
               </div>
               <div style={{
-<<<<<<< HEAD
-      display: 'flex',       
-      justifyContent: 'center' 
-    }}>
-=======
                 display: 'flex',        // 启用 Flexbox
                 justifyContent: 'center' // 水平居中
               }}>
->>>>>>> main
 
-                <button style={{
-                  width: '180px',
-
-                  height: '40px',
-                  background: '#C67EFF',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-
-                }}>Create</button>
+                <Button type='primary' style={
+                  {
+                    width: '400px',
+                    height: '40px',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    marginBottom: '37px',
+                  }}>Create</Button>
               </div>
             </div>
 
