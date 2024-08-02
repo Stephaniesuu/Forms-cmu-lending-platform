@@ -1,11 +1,11 @@
 'use client';
 
-import { Button, Card, Select } from "antd";
+import { Button, Card, Select, ConfigProvider, Tooltip } from "antd";
 import { useState } from "react";
 
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, MoneyCollectOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { BitcoinCircleColorful } from '@ant-design/web3-icons';
+import { BitcoinCircleColorful, EthereumCircleColorful } from '@ant-design/web3-icons';
 import AccountDisplay from "./AccountDisplay";
 
 
@@ -45,6 +45,17 @@ const h2Style = {
     fontntFamily: 'Poppins',
     marginLeft: '63px',
     marginBottom: '20px',
+    marginRight: '63px',
+};
+const h3Style = {
+    // position: 'fixed',
+    fontSize: '16px',
+    // color: '#0F1D40',
+    // fontWeight: 'bold',
+    fontntFamily: 'Poppins',
+    marginLeft: '63px',
+    marginBottom: '10px',
+    marginRight: '63px',
 };
 const IcontextStyle = {
     // position: 'fixed',
@@ -92,10 +103,10 @@ const StyledCard = styled(Card)`
   padding: 40px;
   radius: 16px;
 `;
-
+const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
 const contentList = {
     Lock: (
-        <div>
+        <div style={{ width: "100%" }}>
             <header >
                 <div style={{
                     display: 'flex',
@@ -133,43 +144,144 @@ const contentList = {
                 <h1 style={h1Style}>Remaining time</h1>
                 <p style={h2Style}>23 hours 59 minutes</p>
             </div>
-            <button style={
-                {
-                    width: '100%',
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginLeft: '63px',
-                    marginBottom: '37px',
-                }
-
-            }>Lock</button>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+            }}>
+                <Button type='primary' style={
+                    {
+                        width: '400px',
+                        height: '40px',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        marginBottom: '37px',
+                    }}>Lock</Button>
+            </div>
         </div>
     ),
-    Withdraw: (
-        <div>
+    Status: (
+        <div style={{ width: "100%" }}>
+            <header >
+                <div style={{
+                    display: 'flex',
+                    marginLeft: '63px',
+                    marginTop: '37px',
+
+                }}>
+                    <FileSearchOutlined style={{
+                        width: '30px',
+                        height: '30px',
+                        marginTop: '10px',
+                        marginBottom: '20px',
+                        fontSize: 30,
+                        color: '#8247E5',
+                    }} />
+                    <h1 style={IcontextStyle}>Status</h1>
+                </div>
+                {/* <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2> */}
+            </header>
+            <div style={{ display: 'flex', marginBottom: '10px', }}>
+                <div style={{ display: 'flex', }}>
+                    <div>
+                        <p style={h1Style}>Collateral</p>
+                        <div style={{ display: 'flex', }}>
+
+                            <EthereumCircleColorful style={{
+                                fontSize: 30,
+                                marginLeft: '63px',
+                                // marginTop: '20px',
+                                marginRight: '10px',
+                            }} />
+                            <div>
+                                <h1 style={{
+                                    fontSize: '15px',
+                                    color: '#000000',
+                                }}>Ethereum</h1>
+                                <h2>ETH</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{ marginLeft: '63px' }}>
+                        <p style={h1Style}>Repayment</p>
+                        <div style={{ display: 'flex' }}>
+                            <BitcoinCircleColorful style={{
+                                fontSize: 30,
+                                marginLeft: '63px',
+                                // marginTop: '20px',
+                                marginRight: '10px',
+                            }} />
+                            <div>
+                                <h1 style={{
+                                    fontSize: '15px',
+                                    color: '#000000',
+                                }}>BitCoin</h1>
+                                <h2>BTC</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style={{ display: "flex" }}>
+                <div>
+                    <h1 style={h1Style}>
+                        Total Amount
+                    </h1>
+                    <h2 style={{
+                        fontSize: '20px',
+                        marginLeft: '63px',
+                    }}>44.240000</h2>
+                </div>
+                <div style={{ marginLeft: '63px' }}>
+                    <h1 style={h1Style}>
+                        Total Amount
+                    </h1>
+                    <h2 style={{
+                        fontSize: '20px',
+                        marginLeft: '63px',
+                    }}>2.479000</h2>
+                </div>
+            </div>
+            <div style={{ marginTop: '5px', marginBottom: '20px' }}>
+                <div style={{ display: 'flex',alignItems:'center' }}>
+                    <h1 style={h1Style}>Current Value </h1>
+                        <Tooltip placement="rightTop" title={text} arrow={false}>
+                            <QuestionCircleOutlined style={{ fontSize: 12, color: '#8247E5', marginLeft: '4px'}} />
+                        </Tooltip>
+                </div>
+                <p style={h3Style}>1,162,850.02</p>
+                <p style={h1Style}>Deposit time</p>
+
+            </div>
+
+            <div style={{ marginTop: '5px' }}>
+                <h1 style={h1Style}>Remaining time </h1>
+                <p style={h3Style}>2 months 29 days</p>
+            </div>
+        </div>
+    ),
+    Liquidate: (
+        <div style={{ width: "100%" }}>
             <header >
                 <div style={{
                     display: 'flex',
                     marginLeft: '63px',
                     marginTop: '37px',
                 }}>
-                    <img src='images/Lockicon.png' alt='Lock' style={{
-                        width: '30px',
-                        height: '30px',
+                    <MoneyCollectOutlined style={{
+                        fontSize: 30,
                         marginTop: '10px',
+                        marginRight: '5px',
+                        marginBottom: '5px',
+                        color: '#8247E5',
                     }} />
-                    <h1 style={IcontextStyle}>Withdraw</h1>
+                    <h1 style={IcontextStyle}>Liquidation</h1>
                 </div>
-                <h2 style={h2Style} >Withdraw your Loan Coin</h2>
+                <h2 style={h3Style} >All collateral will transfer to your wallet if the repayment is overdue.</h2>
             </header>
-            <div>
-                <p style={h1Style}>Coin</p>
+            <div >
+                <p style={h1Style}>Collateral</p>
                 <div style={{ display: 'flex', }}>
                     <BitcoinCircleColorful style={{
                         fontSize: 30,
@@ -186,102 +298,31 @@ const contentList = {
                     </div>
                 </div>
             </div>
-            <div style={{ marginTop: '20px', }}>
+            <div >
                 <h1 style={h1Style}>Amount </h1>
-                <p style={h2Style}>4.000,000</p>
+                <p style={h3Style}>4.000,000</p>
             </div>
-            <div>
+            <div >
+                <h1 style={h1Style}>Deadline </h1>
+                <p style={h3Style}>24 June 2024</p>
             </div>
-            <button style={
-                {
-                    width: '150%',
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginLeft: '63px',
-                    marginBottom: '45px',
-                }
-
-            }>Lock</button>
-        </div>
-    ),
-    Repay: (
-        <div>
-            <header >
-                <div style={{
-                    display: 'flex',
-                    marginLeft: '63px',
-                    marginTop: '37px',
-                }}>
-                    <img src='images/Lockicon.png' alt='Lock' style={{
-                        width: '30px',
-                        height: '30px',
-                        marginTop: '10px',
-                    }} />
-                    <h1 style={IcontextStyle}>Repay</h1>
-                </div>
-                <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2>
-            </header>
-            <div style={{ marginTop: '20px' }}>
-                <h1 style={h1Style}>Countdown </h1>
-                <p style={h2Style}>24 Days</p>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                padding: '11px',
+                paddingBottom: '0px',
+            }}>
+                <Button type='primary' style={
+                    {
+                        width: '400px',
+                        height: '40px',
+                        border: 'none',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        marginBottom: '37px',
+                    }}>Liquidate</Button>
             </div>
-            <div style={{ display: 'flex', marginBottom: '20px', }}>
-                <div>
-                    <p style={h1Style}>Coin</p>
-                    <div style={{ display: 'flex', }}>
-
-                        <BitcoinCircleColorful style={{
-                            fontSize: 30,
-                            marginLeft: '63px',
-                            // marginTop: '20px',
-                            marginRight: '10px',
-                        }} />
-                        <div>
-                            <h1 style={{
-                                fontSize: '15px',
-                                color: '#000000',
-                            }}>BitCoin</h1>
-                            <h2>BTC</h2>
-                        </div>
-                    </div>
-                </div>
-                <div style={{ marginLeft: '80px', }}>
-                    <h1 style={h1Style}>
-                        Total Amount
-                    </h1>
-                    <h2 style={{
-                        fontSize: '20px',
-                        color: '#0F1D40',
-                        marginLeft: '63px',
-                    }}>4.200,000</h2>
-
-                </div>
-            </div>
-
-            <div>
-            </div>
-            <button style={
-                {
-                    width: '85%',
-                    height: '40px',
-                    background: '#C67EFF',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    marginLeft: '63px',
-                    marginBottom: '45px',
-                }
-
-            }>Lock</button>
         </div>
     ),
 };
@@ -320,6 +361,7 @@ export default function BorrowDetailButton() {
                     >
                         <div style={{
                             display: 'flex',
+                            height: '405px',
                             gap: '100px',
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
