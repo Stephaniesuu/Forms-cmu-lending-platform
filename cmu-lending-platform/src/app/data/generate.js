@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const coinArray = [
     { name: 'Bitcoin', shortForm: 'BTC', value: 502103.25 },
-    { name: 'Ethereum', shortForm: 'ETH', value: 24603.69},
+    { name: 'Ethereum', shortForm: 'ETH', value: 24603.69 },
     { name: 'PAK Coin', shortForm: 'PAK', value: 10000.00 },
     { name: 'Hei Coin', shortForm: 'HEI', value: 8888.88 },
     { name: 'Jorey Coin', shortForm: 'JORE', value: 777.77 },
@@ -94,7 +94,7 @@ function generateRandomAddress() {
     return '0x' + Math.random().toString(16).substring(2, 42).padEnd(40, '0');
 }
 
-function generateContract() {
+function generateDashboardContract() {
     const buyer = generateRandomBuyer();
     const seller = generateRandomSeller(buyer);
     const asset = generateRandomAsset();
@@ -138,12 +138,80 @@ function generateContract() {
     };
 }
 
+function generateContract(isMarket) {
+    let address;
+    let buyer;
+    let assetAmount;
+    let assetValue;
+    let collateral;
+    let collateralAmount;
+    let originalCollateralValue;
+    let margin;
+    let status;
+    let deadline;
+
+    if (isMarket) {
+        status = 'Pairing';
+        deadline = 'NULL';
+        buyer = 'Pairing';
+        collateral = 'NULL';
+        originalCollateralValue = -1;
+        collateralAmount = -1;
+        address = 'NULL';
+    } else {
+        status = generateStatusBasedOnDates(createDate, deadline);
+        deadline = generateRandomDeadline(createDate, loanDuration);
+        buyer = generateRandomBuyer();
+        collateral = generateRandomCollateral(asset);
+        originalCollateralValue = (repayValue * 1.2).toFixed(5);
+        collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
+        address = generateRandomAddress();
+    }
+    const seller = generateRandomSeller(buyer);
+    const asset = generateRandomAsset();
+
+    // Ensure assetValue is at least 1000 HKD
+    do {
+        assetAmount = generateRandomAssetAmount();
+        assetValue = assetAmount * asset.value;
+    } while (assetValue < 1000);
+    assetValue = assetValue.toFixed(5);
+    const repaymentAmount = generateRandomRepaymentAmount(assetAmount);
+    const repayment = asset.shortForm;
+    const repayValue = repaymentAmount * asset.value;
+    const createDate = generateRandomCreateDate();
+    const loanDuration = generateRandomLoanDuration();
+
+    return {
+        address,
+        buyer,
+        seller,
+        asset: asset.shortForm,
+        assetAmount,
+        assetValue,
+        repayment,
+        repaymentAmount,
+        collateral: collateral.shortForm,
+        collateralAmount,
+        originalCollateralValue,
+        margin: 10,
+        loanDuration,
+        status,
+        createDate,
+        deadline
+    };
+}
 for (let i = 0; i < 5; i++) {
-    const contract = generateContract();
+    const contract = generateContract(true);   // Create market contract (unpaired): true, else: false
     const contractString = JSON.stringify(contract, null, 2) + ',\n';
 
-    fs.appendFile('contracts.js', contractString, (err) => {
+    // console.log(contractString);
+    // fs.appendFile('contracts.js', contractString, (err) => {
+    //     if (err) throw err;
+    //     console.log(`Contract ${i + 1} has been appended to contracts.js!`);
+    // });
+    fs.appendFile('market.js', contractString, (err) => {
         if (err) throw err;
-        console.log(`Contract ${i + 1} has been appended to contracts.js!`);
+        console.log(`Contract ${i + 1} has been appended!`);
     });
 }
