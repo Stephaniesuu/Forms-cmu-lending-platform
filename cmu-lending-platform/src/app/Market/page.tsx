@@ -13,8 +13,8 @@ import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import { text } from 'stream/consumers';
 
-import { compareValues, compareDates, formatAddress } from '../components/functions';
-import { marketTable } from '../components/datatypes';
+import { compareValues, compareDates, formatAddress } from '../components/DetailModal/Table/functions';
+import { marketTable } from '../components/DetailModal/Table/datatypes';
 
 const columns: TableColumnsType<marketTable> = [
   {
@@ -159,45 +159,7 @@ const rowClassName = (record: any, index: number): string => {
   return index % 2 === 0 ? 'table-row-even' : 'table-row-odd';
 };
 
-const h2Style = {
-  // position: 'fixed',
-  fontSize: '16px',
-  color: '#0F1D40',
-  // fontWeight: 'bold',
-  fontntFamily: 'Poppins',
-  marginLeft: '63px',
-  marginBottom: '20px',
-};
-const IcontextStyle = {
-  // position: 'fixed',
-  fontSize: '28px',
-  color: '#8247E5',
-  // fontWeight: 'bold',
-  fontntFamily: 'Poppins',
-  marginLeft: '10px',
-};
 
-const modalStyle = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 1000, // High z-index to make sure it is on top
-  width: '651px', // Adjust based on your preference
-  highth: '600px', // Adjust based on your preference
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  padding: '40px',
-};
-
-const backdropStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  zIndex: 999, // Just below the modal
-};
 
 
 export default function Market() {

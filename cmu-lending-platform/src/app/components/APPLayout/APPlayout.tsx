@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Layout, theme, Menu } from 'antd';
-import WalletConnector from '../walletConnector';
+import WalletConnector from '../Web3/walletConnector';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
