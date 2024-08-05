@@ -1,4 +1,4 @@
-'use client';
+
 import React, { useEffect, useState,CSSProperties } from 'react';
 import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../Web3/walletConnector';

@@ -4,10 +4,10 @@ import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
 
 
-export default function BorrowWithdraw() {
-    const [isWithdraw, setIsWithdraw] = useState(false);
+export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw}: {IsWithdraw: boolean, SetIsWithdraw: Function}) {
+
     const handleWithdrawButtonClick = () => {
-        setIsWithdraw(true);
+        SetIsWithdraw(true);
         message.success('Withdraw successful');
     };
 
@@ -69,7 +69,7 @@ export default function BorrowWithdraw() {
                         marginBottom: '37px',
                     }}
                     onClick={handleWithdrawButtonClick}
-                    disabled={isWithdraw}
+                    disabled={IsWithdraw}
                     >Withdraw</Button>
             </div>
         </div>

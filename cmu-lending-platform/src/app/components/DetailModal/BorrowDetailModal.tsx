@@ -24,10 +24,6 @@ const tabList = [
   },
 ];
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-
 export const h1Style = {
   // position: 'fixed',
   fontSize: '12px',
@@ -99,32 +95,31 @@ export default function BorrowDetailButton() {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
+  const [isWithdraw, setIsWithdraw] = useState(false);
+  const [isRepay, setIsRepay] = useState(false);
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const toggleAlert = () => {
-    setAlertVisible(!alertVisible);
-    setIsButtonDisabled(true);
-};
- const handleCloseAlert = () => {
-        setAlertVisible(false); // 关闭警告
-    };
-const [alertVisible, setAlertVisible] = useState(false);
-const contentList = {
+
+const contentList: { [key: string]: React.ReactNode } = {
   Lock: (
     <BorrowLock 
-    ToggleAlert={toggleAlert}
-    AlertVisible={alertVisible}
-    IsButtonDisabled={isButtonDisabled}
-    HandleCloseAlert={handleCloseAlert}
+      IsLocked={isLocked}
+      SetIsLocked={setIsLocked}
     />
   ),
   Withdraw: (
-    <BorrowWithdraw />
+    <BorrowWithdraw 
+    IsWithdraw={isWithdraw}
+    SetIsWithdraw={setIsWithdraw}
+    />
   ),
   Repay: (
-    <BorrowRepay />
+    <BorrowRepay 
+    IsRepay={isRepay}
+    SetIsRepay={setIsRepay}
+    />
   ), 
 };
   return (
