@@ -404,7 +404,6 @@ export default function BorrowDetailButton() {
                             borderRadius: '16px',
                         }}>
                             {contentList(toggleAlert, isButtonDisabled, alertVisible,)[activeTabKey]}
-
                         </div>
                     </StyledCard>
 
