@@ -1,5 +1,23 @@
 import { Tooltip } from "antd";
 import { coinArray } from "@/app/data/coinsPrice";
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
+
+export const renderCoin = (asset: string) => {
+  const assetIconMap: { [key: string]: React.ReactNode } = {
+    'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+    'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+    'PAK': <span style={{ fontSize: 20 }}>🫄</span>,
+    'HEI': <span style={{ fontSize: 20 }}>🫄🏿</span>,
+  };
+  const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 20 }} />;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {IconComponent}
+      <span style={{ marginLeft: 8 }}>{asset}</span>
+    </div>
+  );
+};
 
 export function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
