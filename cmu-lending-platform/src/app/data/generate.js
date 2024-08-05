@@ -17,6 +17,7 @@ const metamask = [
     '0x88E43897C7bF54320085372f375CE0c833B603BA',
     '0xFE5579F671408a5B87F5AEf515263f57aac47373',
     '0x4A549B0344a6c8d80360EddE72047b82e8F98b2D',
+    "0x49528817138DaeBb820d30e9cD628F84D5951b91"
 ];
 
 const statuses = ['Active', 'Matured', 'Pending', 'Pairing'];
