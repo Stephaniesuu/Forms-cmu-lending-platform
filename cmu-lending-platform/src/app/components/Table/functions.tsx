@@ -65,9 +65,14 @@ const getCoinValue = (shortForm: string, amount: number): number => {
   return coin.value * amount;
 };
 
+export const renderValue = (value: number): string => {
+  return `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}`;
+};
+
+
 export const renderCoinValue = (shortForm: string, amount: number) => {
   const value = getCoinValue(shortForm, amount);
-  return `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}`;
+  return renderValue(value);
 };
 
 export const renderAmount = (amount: number) => {

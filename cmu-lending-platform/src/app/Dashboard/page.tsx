@@ -117,8 +117,6 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
     dataIndex: 'action',
     render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress = {record.seller}/> : <BorrowDetailButton BuyerAddress = {record.buyer}/>,
-    width: '14%',
-    align: 'center',
   },
 ];
 
