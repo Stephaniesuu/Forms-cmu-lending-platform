@@ -10,19 +10,18 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
-import { compareValues, compareDates, formatAddress } from '../components/Table/functions';
+import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount } from '../components/Table/functions';
 import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-import { contracts } from '../data/contracts';
-import { get } from 'http';
 
 const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
     title: 'Asset',
     dataIndex: 'asset',
     align: 'center',
+    width: '12%',
     filters: [
       { text: 'Bitcoin (BTC)', value: 'BTC' },
       { text: 'Ethereum (ETH)', value: 'ETH' },
@@ -53,11 +52,7 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
     title: isSupply ? 'Seller' : 'Buyer',
     dataIndex: isSupply ? 'seller' : 'buyer',
     align: 'center',
-    render: (value: string) => (
-      <Tooltip title={value}>
-        <span>{formatAddress(value)}</span>
-      </Tooltip>
-    ),
+    render: renderAddress,
     width: '15%',
   },
   {
@@ -67,9 +62,9 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => a.assetAmount - b.assetAmount,
     },
     align: 'center',
-    render: (text, record) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(record.assetAmount),
+    render: (text, record) => renderAmount(record.assetAmount),
     sortDirections: ['descend', 'ascend'],
-    width: '15%',
+    width: '16%',
   },
   {
     title: 'Value',
@@ -78,14 +73,15 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => a.assetValue - b.assetValue,
     },
     align: 'center',
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
+    render: (text, record) => renderCoinValue(record.asset, record.assetAmount),
     sortDirections: ['descend', 'ascend'],
-    width: '20%',
+    width: '16%',
   },
   {
     title: 'Status',
     key: 'status',
     dataIndex: 'status',
+    width: '11%',
     filters: [
       { text: 'Active', value: 'Active' },
       { text: 'Matured', value: 'Matured' },
@@ -116,10 +112,13 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
     align: 'center',
+    width: '16%',
   },
   {
     dataIndex: 'action',
-    render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress={record.seller} /> : <BorrowDetailButton BuyerAddress={record.buyer} />,
+    render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress = {record.seller}/> : <BorrowDetailButton BuyerAddress = {record.buyer}/>,
+    width: '14%',
+    align: 'center',
   },
 ];
 
