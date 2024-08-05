@@ -19,5 +19,5 @@ interface Contract {
     status: string; // Active, Matured, Pending, Pairing
 
     createDate: string; // Date, e.g.: 2021-09-01
-    deadline: string; // Date, e.g.: 2021-09-01
+    deadline: string; // Date, e.g.: 2021-09-01, NULL if not paired
 }

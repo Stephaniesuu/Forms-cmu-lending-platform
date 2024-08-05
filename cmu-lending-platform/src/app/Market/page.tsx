@@ -5,7 +5,7 @@ import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
-import { market } from './data';
+import { filteredMarketData } from '../data/market';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -16,8 +16,8 @@ import { marketTable } from '../components/Table/datatypes';
 
 const columns: TableColumnsType<marketTable> = [
   {
-    title: 'Assest',
-    dataIndex: 'assest',
+    title: 'Asset',
+    dataIndex: 'asset',
     align: 'center',
     // sorter: {
     //   compare: (a, b) => a.assest.localeCompare(b.assest),
@@ -49,26 +49,26 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     title: 'Creditor',
-    dataIndex: 'creditor',
+    dataIndex: 'seller',
     align: 'center',
-    render: (creditor: string) => formatAddress(creditor),
+    render: (seller: string) => formatAddress(seller),
     width: '10%',
   },
   {
     title: 'Amount',
-    dataIndex: 'amount',
+    dataIndex: 'assetAmount',
     align: 'center',
     sorter: {
-      compare: (a, b) => a.amount - b.amount,
+      compare: (a, b) => a.assetAmount - b.assetAmount,
     },
     width: '5%',
   },
   {
     title: 'Value',
-    dataIndex: 'amountValue',
+    dataIndex: 'assetValue',
     align: 'center',
     sorter: {
-      compare: (a, b) => compareValues(a.amountValue, b.amountValue),
+      compare: (a, b) => compareValues(a.assetValue, b.assetValue),
     },
     width: '10%',
   },
@@ -92,7 +92,7 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     title: 'Required Collateral',
-    dataIndex: 'requiredCollateral',
+    dataIndex: 'repaymentAmount',
     align: 'center',
     sorter: {
       compare: (a, b) => compareValues(a.requiredCollateral, b.requiredCollateral),
@@ -101,10 +101,10 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     title: 'Duration',
-    dataIndex: 'duration',
+    dataIndex: 'loanDuration',
     align: 'center',
     sorter: {
-      compare: (a, b) => a.duration.localeCompare(b.duration),
+      compare: (a, b) => a.loanDuration.localeCompare(b.loanDuration),
     },
     width: '8%',
   },
@@ -166,7 +166,7 @@ export default function Market() {
       <div style={tableContainerStyle}>
         <StyledTable
           columns={columns}
-          dataSource={market}
+          dataSource={filteredMarketData}
           onChange={onChange}
           style={tableStyle}
           rowClassName={rowClassName}
