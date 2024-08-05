@@ -11,8 +11,7 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 
-import { compareValues, compareDates, formatAddress } from '../components/Table/functions';
-import { marketTable } from '../components/Table/datatypes';
+import { compareValues, compareDates, formatAddress, renderAddress, renderLoanDuration, } from '../components/Table/functions';
 
 const columns: TableColumnsType<marketTable> = [
   {
@@ -54,7 +53,7 @@ const columns: TableColumnsType<marketTable> = [
     title: 'Creditor',
     dataIndex: 'seller',
     align: 'center',
-    render: (seller: string) => formatAddress(seller),
+    render: renderAddress,
     width: '10%',
   },
   {
@@ -126,7 +125,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.loanDuration - b.loanDuration,
     },
-    render: (text, record) => `${record.loanDuration} Months`,
+    render: renderLoanDuration,
     width: '8%',
   },
   {
@@ -140,7 +139,7 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     dataIndex: 'action',
-    render: () => <MarketDetailButton />,
+    render: (text, record) => <MarketDetailButton contract={record} />,
     width: '5%',
     align: 'center',
   },

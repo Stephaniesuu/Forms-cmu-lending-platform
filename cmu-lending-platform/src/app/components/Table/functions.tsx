@@ -1,3 +1,5 @@
+import { Tooltip } from "antd";
+
 export function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
     const number = parseFloat(value.slice(1, -1));
@@ -36,4 +38,30 @@ export function compareDates(date1: string, date2: string): number {
 
 export const formatAddress = (address: string): string => {
   return `${address.slice(0, 4)}...${address.slice(-3)}`;
+};
+
+export const renderAddress = (value: string) => (
+  <Tooltip title={value}>
+    <span>{formatAddress(value)}</span>
+  </Tooltip>
+);
+
+export const coinArray = [
+  { name: 'Bitcoin', shortForm: 'BTC', value: 502103.25 },
+  { name: 'Ethereum', shortForm: 'ETH', value: 24603.69 },
+  { name: 'PAK Coin', shortForm: 'PAK', value: 10000.00 },
+  { name: 'Hei Coin', shortForm: 'HEI', value: 8888.88 },
+  { name: 'Jorey Coin', shortForm: 'JORE', value: 777.77 },
+  { name: 'Stephanie Coin', shortForm: 'STEP', value: 666.66 },
+  { name: 'Forms Coin', shortForm: 'FRMS', value: 1.00 },
+];
+
+// Function to get the full name of the coin
+export const getFullName = (shortForm) => {
+  const coin = coinArray.find(c => c.shortForm === shortForm);
+  return coin ? coin.name : shortForm;
+};
+
+export const renderLoanDuration = (text, record) => {
+  return `${record.loanDuration} Months`;
 };
