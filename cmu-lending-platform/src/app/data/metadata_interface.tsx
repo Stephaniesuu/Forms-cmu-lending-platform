@@ -9,6 +9,7 @@ interface Contract {
 
     repayment: string;  // Coins
     repaymentAmount: number; // Amount of Coins
+    repayValue: number; // The value of the repayment
     
     collateral: string; // Coins, e.g.: Bitcoin, Ethereum
     collateralAmount: number; // Amount of coins, e.g.: 0.1
@@ -19,5 +20,5 @@ interface Contract {
     status: string; // Active, Matured, Pending, Pairing
 
     createDate: string; // Date, e.g.: 2021-09-01
-    deadline: string; // Date, e.g.: 2021-09-01, NULL if not paired
+    deadline: string; // Date, e.g.: 2021-09-01
 }

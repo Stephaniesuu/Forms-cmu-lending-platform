@@ -38,5 +38,5 @@ export function compareValues(a: string, b: string) {
   }
   
   export const formatAddress = (address: string): string => {
-    return `${address.slice(0, 4)}...${address.slice(-5)}`;
+    return `${address.slice(0, 4)}...${address.slice(-3)}`;
   };

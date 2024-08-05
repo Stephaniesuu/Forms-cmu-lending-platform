@@ -94,68 +94,33 @@ function generateRandomAddress() {
     return '0x' + Math.random().toString(16).substring(2, 42).padEnd(40, '0');
 }
 
-function generateDashboardContract() {
-    const buyer = generateRandomBuyer();
-    const seller = generateRandomSeller(buyer);
-    const asset = generateRandomAsset();
-    let assetAmount;
-    let assetValue;
-
-    // Ensure assetValue is at least 1000 HKD
-    do {
-        assetAmount = generateRandomAssetAmount();
-        assetValue = assetAmount * asset.value;
-    } while (assetValue < 1000);
-    assetValue = assetValue.toFixed(5);
-    const repaymentAmount = generateRandomRepaymentAmount(assetAmount);
-    const repayment = asset.shortForm;
-    const repayValue = repaymentAmount * asset.value;
-    const collateral = generateRandomCollateral(asset);
-    const originalCollateralValue = (repayValue * 1.2).toFixed(5);
-    const collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
-    const createDate = generateRandomCreateDate();
-    const loanDuration = generateRandomLoanDuration();
-    const deadline = generateRandomDeadline(createDate, loanDuration);
-    const status = generateStatusBasedOnDates(createDate, deadline);
-
-    return {
-        address: generateRandomAddress(),
-        buyer,
-        seller,
-        asset: asset.shortForm,
-        assetAmount,
-        assetValue,
-        repayment,
-        repaymentAmount,
-        collateral: collateral.shortForm,
-        collateralAmount,
-        originalCollateralValue,
-        margin: 10,
-        loanDuration,
-        status,
-        createDate,
-        deadline
-    };
-}
-
 function generateContract(isMarket) {
     let address;
     let buyer;
     let assetAmount;
     let assetValue;
-    let collateral;
+    let collateral = 'NULL';
     let collateralAmount;
     let originalCollateralValue;
     let margin;
     let status;
     let deadline;
+    const seller = generateRandomSeller(buyer);
+    const asset = generateRandomAsset();
+
+    assetValue = (Math.random() * (1000000 - 1000) + 1000).toFixed(5);
+    assetAmount = (assetValue / asset.value).toFixed(5);
+
+    const repaymentAmount = generateRandomRepaymentAmount(assetAmount);
+    const repayment = asset.shortForm;
+    const repayValue = repaymentAmount * asset.value;
+    const createDate = generateRandomCreateDate();
+    const loanDuration = generateRandomLoanDuration();
 
     if (isMarket) {
         status = 'Pairing';
         deadline = 'NULL';
         buyer = 'Pairing';
-        collateral = 'NULL';
-        originalCollateralValue = -1;
         collateralAmount = -1;
         address = 'NULL';
     } else {
@@ -163,46 +128,62 @@ function generateContract(isMarket) {
         deadline = generateRandomDeadline(createDate, loanDuration);
         buyer = generateRandomBuyer();
         collateral = generateRandomCollateral(asset);
-        originalCollateralValue = (repayValue * 1.2).toFixed(5);
         collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
         address = generateRandomAddress();
     }
-    const seller = generateRandomSeller(buyer);
-    const asset = generateRandomAsset();
 
     // Ensure assetValue is at least 1000 HKD
-    do {
-        assetAmount = generateRandomAssetAmount();
-        assetValue = assetAmount * asset.value;
-    } while (assetValue < 1000);
-    assetValue = assetValue.toFixed(5);
-    const repaymentAmount = generateRandomRepaymentAmount(assetAmount);
-    const repayment = asset.shortForm;
-    const repayValue = repaymentAmount * asset.value;
-    const createDate = generateRandomCreateDate();
-    const loanDuration = generateRandomLoanDuration();
+    // do {
+    //     assetAmount = generateRandomAssetAmount();
+    //     assetValue = assetAmount * asset.value;
+    // } while (assetValue < 1000);
+    // assetValue = assetValue.toFixed(5);
+    originalCollateralValue = (repayValue * 1.2).toFixed(5);
 
+    if (isMarket) {
+        return {
+            address,
+            buyer,
+            seller,
+            asset: asset.shortForm,
+            assetAmount: Number(assetAmount),
+            assetValue: Number(assetValue),
+            repayment,
+            repaymentAmount: Number(repaymentAmount),
+            repayValue: Number(repayValue),
+            collateral: 'NULL',
+            collateralAmount: Number(collateralAmount),
+            originalCollateralValue: Number(originalCollateralValue),
+            margin: 10,
+            loanDuration: Number(loanDuration),
+            status,
+            createDate,
+            deadline
+        };
+    }
     return {
         address,
         buyer,
         seller,
         asset: asset.shortForm,
-        assetAmount,
-        assetValue,
+        assetAmount: Number(assetAmount),
+        assetValue: Number(assetValue),
         repayment,
-        repaymentAmount,
+        repaymentAmount: Number(repaymentAmount),
+        repayValue: Number(repayValue),
         collateral: collateral.shortForm,
-        collateralAmount,
-        originalCollateralValue,
+        collateralAmount: Number(collateralAmount),
+        originalCollateralValue: Number(originalCollateralValue),
         margin: 10,
-        loanDuration,
+        loanDuration: Number(loanDuration),
         status,
         createDate,
         deadline
     };
 }
-for (let i = 0; i < 5; i++) {
-    const contract = generateContract(true);   // Create market contract (unpaired): true, else: false
+for (let i = 0; i < 400; i++) {
+    const isUnpaired = Math.random() < 0.6;
+    const contract = generateContract(isUnpaired);   // Create market contract (unpaired): true, else: false
     const contractString = JSON.stringify(contract, null, 2) + ',\n';
 
     // console.log(contractString);
@@ -210,8 +191,9 @@ for (let i = 0; i < 5; i++) {
     //     if (err) throw err;
     //     console.log(`Contract ${i + 1} has been appended to contracts.js!`);
     // });
-    fs.appendFile('market.js', contractString, (err) => {
+    fs.appendFile('contracts.tsx', contractString, (err) => {
         if (err) throw err;
         console.log(`Contract ${i + 1} has been appended!`);
     });
+    // console.log(contractString);
 }

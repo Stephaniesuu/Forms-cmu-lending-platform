@@ -5,7 +5,7 @@ import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
-import { filteredMarketData } from '../data/market';
+import { filteredMarketData } from '../data/contracts';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -27,10 +27,13 @@ const columns: TableColumnsType<marketTable> = [
       { text: 'Ethereum (ETH)', value: 'ETH' },
       { text: 'Pak Coin (PAK)', value: 'PAK' },
       { text: 'Hei Coin (HEI)', value: 'HEI' },
+      { text: 'Jorey Coin (JORE)', value: 'JORE' },
+      { text: 'Stephanie Coin (STEP)', value: 'STEP' },
+      { text: 'Forms Coin (FRMS)', value: 'FRMS' },
     ],
     filterMode: 'tree',
     filterSearch: true,
-    onFilter: (value, record) => record.assest.indexOf(value) === 0,
+    onFilter: (value, record) => record.asset.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
     render(assest: string) {
@@ -61,6 +64,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.assetAmount - b.assetAmount,
     },
+    render: (text, record) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(record.assetAmount),
     width: '5%',
   },
   {
@@ -68,8 +72,9 @@ const columns: TableColumnsType<marketTable> = [
     dataIndex: 'assetValue',
     align: 'center',
     sorter: {
-      compare: (a, b) => compareValues(a.assetValue, b.assetValue),
+      compare: (a, b) => a.assetValue - b.assetValue,
     },
+    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
     width: '10%',
   },
   {
@@ -77,26 +82,28 @@ const columns: TableColumnsType<marketTable> = [
     dataIndex: 'repayment',
     align: 'center',
     sorter: {
-      compare: (a, b) => a.repayment - b.repayment,
+      compare: (a, b) => a.repayment.localeCompare(b.repayment),
     },
     width: '5%',
   },
   {
     title: 'Value',
-    dataIndex: 'repaymentValue',
+    dataIndex: 'repaymentAmount',
     align: 'center',
     sorter: {
-      compare: (a, b) => compareValues(a.repaymentValue, b.repaymentValue),
+      compare: (a, b) => a.repayValue - b.repayValue,
     },
+    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.repayValue)}`,
     width: '10%',
   },
   {
     title: 'Required Collateral',
-    dataIndex: 'repaymentAmount',
+    dataIndex: 'originalCollateralValue',
     align: 'center',
     sorter: {
-      compare: (a, b) => compareValues(a.requiredCollateral, b.requiredCollateral),
+      compare: (a, b) => a.originalCollateralValue - b.originalCollateralValue,
     },
+    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.originalCollateralValue)}`,
     width: '12%',
   },
   {
@@ -104,8 +111,9 @@ const columns: TableColumnsType<marketTable> = [
     dataIndex: 'loanDuration',
     align: 'center',
     sorter: {
-      compare: (a, b) => a.loanDuration.localeCompare(b.loanDuration),
+      compare: (a, b) => a.loanDuration - b.loanDuration,
     },
+    render: (text, record) => `${record.loanDuration} Months`,
     width: '8%',
   },
   {
