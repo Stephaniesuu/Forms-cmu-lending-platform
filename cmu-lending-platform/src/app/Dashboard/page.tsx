@@ -2,7 +2,7 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table, Divider, Button, Tag, Space, Tooltip } from 'antd';
+import { Row, Col, Table, Divider, Button, Tag, Space, Tooltip, Alert } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
@@ -119,7 +119,7 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   },
   {
     dataIndex: 'action',
-    render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress = {record.seller}/> : <BorrowDetailButton BuyerAddress = {record.buyer}/>,
+    render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress={record.seller} /> : <BorrowDetailButton BuyerAddress={record.buyer} />,
   },
 ];
 
@@ -152,9 +152,22 @@ const rowClassName = (record: any, index: number): string => {
 
 export default function Dashboard() {
   const account = useAccount();
-  console.log(account.address)
+
   return (
     <APPLayout>
+      {account.isDisconnected ? (
+        <>
+          <Alert
+            message="Error"
+            description="You need to connect your wallet to see your dashboard."
+            type="error"
+            showIcon />
+          <br />
+        </>
+      ) : (
+        null
+      )
+      }
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <div style={containerStyle}>

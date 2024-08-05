@@ -93,7 +93,6 @@ export default function MarketDetailButton() {
 
   const handleCreateButtonClick = (params) => {
     // 处理点击事件的逻辑
-    console.log('Create button clicked');
     setShowCreateResult(true);
     setIsCreated(true);
   };
