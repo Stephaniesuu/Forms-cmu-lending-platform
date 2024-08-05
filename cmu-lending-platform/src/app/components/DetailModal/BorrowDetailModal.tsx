@@ -95,7 +95,7 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton() {
+export default function BorrowDetailButton({assetData}) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
@@ -118,6 +118,7 @@ const contentList = {
     AlertVisible={alertVisible}
     IsButtonDisabled={isButtonDisabled}
     HandleCloseAlert={handleCloseAlert}
+    AssetData={assetData}
     />
   ),
   Withdraw: (
@@ -127,6 +128,7 @@ const contentList = {
     <BorrowRepay />
   ), 
 };
+
   return (
 
     <>

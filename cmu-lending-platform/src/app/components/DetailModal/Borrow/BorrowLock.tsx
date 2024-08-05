@@ -1,28 +1,48 @@
 import { Alert, Button, message, Select } from "antd";
 import { SetStateAction, useState } from "react";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
+import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
+import { dashboardTable } from '../../../components/Table/datatypes';
 // import toggleAlert from "../BorrowDetailModal";
 // import isButtonDisabled from "../BorrowDetailModal";
 // import handleCloseAlert from "../BorrowDetailModal";
 // import alertVisible from "../BorrowDetailModal";
 
-export default function BorrowLock(ToggleAlert, AlertVisible, IsButtonDisabled,HandleCloseAlert) {
-    // const [showCard, setShowCard] = useState(false);
-    // const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
-    // const [isBorrow, setIsBorrow] = useState(false);
-    // const [alertVisible, setAlertVisible] = useState(false);
-    // const onTabChange = (key: React.SetStateAction<string>) => {
-    //     setActiveTabKey(key);
-    // };
-    // const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    // const toggleAlert = () => {
-    //     setAlertVisible(!alertVisible);
-    //     setIsButtonDisabled(true);
-    // };
-    // const handleCloseAlert = () => {
-    //     setAlertVisible(false); // 关闭警告
-    //     // 注意这里不重置按钮的禁用状态
-    // };
+export default function BorrowLock({ToggleAlert, AlertVisible, IsButtonDisabled,HandleCloseAlert,AssetData}) {
+    const AssetDisplay = () => {
+        const  asset = AssetData;
+    
+        return (
+            <div>
+                <p style={{
+                    fontSize: '12px',
+                    color: '#525C76',
+                    marginLeft: '63px',
+                 
+                }}>Collateral</p>
+                <div style={{
+                    display: 'flex',
+                   
+                    marginLeft: '63px',
+                    marginBottom: '20px'
+                }}>
+                    {IconComponent} 
+                    <div style={{ marginLeft: '10px',fontSize:'30px', color: '#525C76',}}>
+                        <p>{`${asset}`}</p>
+                       
+                    </div>
+                </div>
+            </div>
+        );
+    };
+    const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 30 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 30 }} />,
+      };
+
+      const IconComponent = assetIconMap[AssetData] || <PayCircleFilled style={{ fontSize: 30 }} />;
+    
     return (
         <div style={{ width: "100%" }}>
             <header >
@@ -41,17 +61,9 @@ export default function BorrowLock(ToggleAlert, AlertVisible, IsButtonDisabled,H
                 <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
             </header>
             <div>
-                <p style={h1Style}>Collateral</p>
-                <Select
-                    defaultValue="Select"
-                    style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
-                    options={[
-                        { value: 'Ethereum', label: 'Ethereum' },
-                        { value: 'BitCoin', label: 'BitCoin' },
-                        { value: 'PakCoin', label: 'PakCoin' },
-                        { value: 'HeiCoin', label: 'HeiCoin' },
-                    ]}
-                />
+                {/* <p style={h1Style}>Collateral</p> */}
+                
+                <AssetDisplay />
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
@@ -77,7 +89,7 @@ export default function BorrowLock(ToggleAlert, AlertVisible, IsButtonDisabled,H
                     }}
                     onClick={ToggleAlert}
                     disabled={IsButtonDisabled}
-                >Liquidation</Button>
+                >Lock</Button>
                 {AlertVisible && (
                     <Alert
                         message="Success Text"
