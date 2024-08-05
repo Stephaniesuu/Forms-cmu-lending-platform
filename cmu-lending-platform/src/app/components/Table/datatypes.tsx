@@ -12,6 +12,10 @@ export interface marketTable {
 }
 
 export interface dashboardTable {
+  [x: string]: any;
+  seller: any;
+  assetValue: any;
+  assetAmount: any;
   key: React.Key;
   assest: string,
   counterparty: string,

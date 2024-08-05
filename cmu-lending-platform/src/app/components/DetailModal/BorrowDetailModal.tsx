@@ -91,7 +91,7 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton() {
+export default function BorrowDetailButton({BuyerAddress}) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
@@ -139,7 +139,7 @@ export default function BorrowDetailButton() {
                   onClick={() => setShowCard(false)}
                   style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                 />
-                <AccountDisplay IsBorrow={isBorrow} />
+                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={BuyerAddress}/>
               </>
             }
 

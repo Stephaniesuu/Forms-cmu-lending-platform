@@ -106,7 +106,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function SupplyDetailButton() {
+export default function SupplyDetailButton({SellerAddress}) {
 
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
@@ -152,7 +152,7 @@ export default function SupplyDetailButton() {
                                     onClick={() => setShowCard(false)}
                                     style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                                 />
-                                <AccountDisplay IsBorrow={isBorrow} />
+                                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress = {SellerAddress} />
                             </>
                         }
 
