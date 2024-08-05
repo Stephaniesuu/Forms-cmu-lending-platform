@@ -11,7 +11,7 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 
-import { compareValues, compareDates, formatAddress, renderAddress, renderLoanDuration, } from '../components/Table/functions';
+import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue } from '../components/Table/functions';
 
 const columns: TableColumnsType<marketTable> = [
   {
@@ -73,7 +73,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.assetValue - b.assetValue,
     },
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
+    render: (text, record) => renderCoinValue(record.asset, record.assetAmount),
     width: '10%',
   },
   {
@@ -105,7 +105,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.repayValue - b.repayValue,
     },
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.repayValue)}`,
+    render: (text, record) => renderCoinValue(record.repayment, record.repaymentAmount),
     width: '10%',
   },
   {

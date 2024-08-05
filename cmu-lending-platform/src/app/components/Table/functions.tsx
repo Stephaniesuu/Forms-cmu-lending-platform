@@ -65,3 +65,20 @@ export const getFullName = (shortForm) => {
 export const renderLoanDuration = (text, record) => {
   return `${record.loanDuration} Months`;
 };
+
+export const getCoinValue = (shortForm: string, amount: number): number => {
+  const coin = coinArray.find(c => c.shortForm === shortForm);
+  if (!coin) {
+    return -1;
+  }
+  return coin.value * amount;
+};
+
+export const renderCoinValue = (shortForm: string, amount: number) => {
+  const value = getCoinValue(shortForm, amount);
+  return `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value)}`;
+};
+
+export const renderAmount = (amount: number) => {
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(amount);
+};

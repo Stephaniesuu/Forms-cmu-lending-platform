@@ -152,7 +152,7 @@ export default function MarketDetailButton({contract}) {
                   <div style={h3Style}>
                     <p style={h2Style}>{getFullName(contract.asset)}</p>
                     <p style={h2Style}>{contract.assetAmount}</p>
-                    <p style={h2Style}>{contract.assetValue}</p>
+                    <p style={h2Style}>{getCoinValue(contract.asset, contract.assetAmount)}</p>
                     <p style={h2Style}>{renderLoanDuration(null,{ loanDuration: contract.loanDuration })}</p>
 
                   </div>
