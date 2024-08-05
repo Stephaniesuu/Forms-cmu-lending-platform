@@ -100,7 +100,7 @@ export default function MarketDetailButton() {
   return (
 
     <>
-      <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
+      <Button type="primary" onClick={() => setShowCard(!showCard)}>Details</Button>
       {showCard && (
         <>
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
@@ -124,18 +124,18 @@ export default function MarketDetailButton() {
               borderRadius: '16px',
             }}>
               <div>
-                <h1 style={h1Style}>Contract Meta</h1>
+                <h1 style={h1Style}>Contract Metadata</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
                     <p style={h2Style}>Contract Address</p>
-                    <p style={h2Style}>Counterparty</p>
-                    <p style={h2Style}>Days Till Maturity</p>
+                    <p style={h2Style}>Seller</p>
+                    <p style={h2Style}>Create Date</p>
                     <p style={h2Style}>Status</p>
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>0x1234...7890</p>
-                    <p style={h2Style}>0xrichard.eth</p>
-                    <p style={h2Style}> NULL</p>
+                    <p style={h2Style}>NULL</p>
+                    <p style={h2Style}>address</p>
+                    <p style={h2Style}>NULL</p>
                     <p style={h2Style}>Request</p>
                   </div>
                 </div>

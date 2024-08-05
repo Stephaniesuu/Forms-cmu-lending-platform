@@ -84,6 +84,19 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.repayment.localeCompare(b.repayment),
     },
+    render(assest: string) {
+      const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
+      };
+      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
+      return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {IconComponent}
+          <span style={{ marginLeft: 8 }}>{assest}</span>
+        </div>
+      )
+    },
     width: '5%',
   },
   {
@@ -128,7 +141,8 @@ const columns: TableColumnsType<marketTable> = [
   {
     dataIndex: 'action',
     render: () => <MarketDetailButton />,
-    width: '5%'
+    width: '5%',
+    align: 'center',
   },
 ];
 

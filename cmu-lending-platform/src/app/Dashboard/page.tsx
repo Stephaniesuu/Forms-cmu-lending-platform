@@ -15,14 +15,13 @@ import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-import { contracts } from '../data/contracts';
-import { get } from 'http';
 
 const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
     title: 'Asset',
     dataIndex: 'asset',
     align: 'center',
+    width: '12%',
     filters: [
       { text: 'Bitcoin (BTC)', value: 'BTC' },
       { text: 'Ethereum (ETH)', value: 'ETH' },
@@ -69,7 +68,7 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
     align: 'center',
     render: (text, record) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(record.assetAmount),
     sortDirections: ['descend', 'ascend'],
-    width: '15%',
+    width: '16%',
   },
   {
     title: 'Value',
@@ -80,12 +79,13 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
     align: 'center',
     render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
     sortDirections: ['descend', 'ascend'],
-    width: '20%',
+    width: '16%',
   },
   {
     title: 'Status',
     key: 'status',
     dataIndex: 'status',
+    width: '11%',
     filters: [
       { text: 'Active', value: 'Active' },
       { text: 'Matured', value: 'Matured' },
@@ -116,10 +116,13 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
     align: 'center',
+    width: '16%',
   },
   {
     dataIndex: 'action',
     render: () => isSupply ? <SupplyDetailButton /> : <BorrowDetailButton />,
+    width: '14%',
+    align: 'center',
   },
 ];
 
