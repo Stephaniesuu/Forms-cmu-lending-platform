@@ -5,9 +5,9 @@ import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import AccountDisplay from './AccountDisplay';
-import BorrowLock from './BorrowLock';
-import BorrowWithdraw from './BorrowWithdraw';
-import BorrowRepay from './BorrowRepay';
+import BorrowLock from './Borrow/BorrowLock';
+import BorrowWithdraw from './Borrow/BorrowWithdraw';
+import BorrowRepay from './Borrow/BorrowRepay';
 
 const tabList = [
   {
@@ -93,17 +93,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-const contentList = {
-  Lock: (
-    <BorrowLock />
-  ),
-  Withdraw: (
-    <BorrowWithdraw />
-  ),
-  Repay: (
-    <BorrowRepay />
-  ),
-};
+
 
 export default function BorrowDetailButton() {
   const [showCard, setShowCard] = useState(false);
@@ -112,6 +102,31 @@ export default function BorrowDetailButton() {
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const toggleAlert = () => {
+    setAlertVisible(!alertVisible);
+    setIsButtonDisabled(true);
+};
+ const handleCloseAlert = () => {
+        setAlertVisible(false); // 关闭警告
+    };
+const [alertVisible, setAlertVisible] = useState(false);
+const contentList = {
+  Lock: (
+    <BorrowLock 
+    ToggleAlert={toggleAlert}
+    AlertVisible={alertVisible}
+    IsButtonDisabled={isButtonDisabled}
+    HandleCloseAlert={handleCloseAlert}
+    />
+  ),
+  Withdraw: (
+    <BorrowWithdraw />
+  ),
+  Repay: (
+    <BorrowRepay />
+  ), 
+};
   return (
 
     <>
@@ -145,7 +160,7 @@ export default function BorrowDetailButton() {
               background: 'rgba(234, 72, 92, 0.05)',
               borderRadius: '16px',
             }}>
-              {contentList[activeTabKey]}
+            {contentList[activeTabKey]}
 
             </div>
           </StyledCard>
