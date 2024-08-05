@@ -1,9 +1,20 @@
 import { Button, Tooltip, Alert } from "antd";
 import { MoneyCollectOutlined } from '@ant-design/icons';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
+import { useState } from "react";
 
 
-const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleCloseAlert }) => {
+export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { IsLiquidated: boolean, SetIsLiquidated: Function }) {
+
+    const [alertVisible, setAlertVisible] = useState(false);
+    const handleCloseAlert = () => {
+        setAlertVisible(false); // 关闭警告
+    };
+
+    const toggleAlert = () => {
+        setAlertVisible(!alertVisible);
+        SetIsLiquidated(true);
+    };
     return (
         <div style={{ width: "100%" }}>
             <header>
@@ -22,7 +33,6 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
                     <h1 style={{
                         fontSize: '28px',
                         color: '#8247E5',
-                        fontntFamily: 'Poppins',
                         marginLeft: '10px',
                     }}>Liquidation</h1>
                 </div>
@@ -37,7 +47,6 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
                 <p style={{
                     fontSize: '12px',
                     color: '#525C76',
-                    fontntFamily: 'Poppins',
                     marginLeft: '63px',
                 }}>Collateral</p>
                 <div style={{ display: 'flex', }}>
@@ -59,7 +68,6 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
                 <h1 style={{
                     fontSize: '12px',
                     color: '#525C76',
-                    fontntFamily: 'Poppins',
                     marginLeft: '63px',
                 }}>Amount </h1>
                 <p style={{
@@ -73,7 +81,6 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
                 <h1 style={{
                     fontSize: '12px',
                     color: '#525C76',
-                    fontntFamily: 'Poppins',
                     marginLeft: '63px',
                 }}>Deadline </h1>
                 <p style={{
@@ -100,10 +107,11 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
                         marginBottom: '37px',
                     }}
                     onClick={toggleAlert}
-                    disabled={isButtonDisabled}
-                >Liquidation</Button>
+                    disabled={IsLiquidated}
+                >{IsLiquidated ? 'liqidated' : 'liqidate'}</Button>
                 {alertVisible && (
                     <Alert
+                        showIcon
                         message="Success Text"
                         description="Liquidation has been done. The contract is terminated."
                         type="success"
@@ -126,4 +134,4 @@ const LiquidateTab = ({ toggleAlert, alertVisible, isButtonDisabled, handleClose
     );
 };
 
-export default LiquidateTab;
+

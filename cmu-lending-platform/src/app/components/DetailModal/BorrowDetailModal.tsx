@@ -102,26 +102,26 @@ export default function BorrowDetailButton() {
     setActiveTabKey(key);
   };
 
-const contentList: { [key: string]: React.ReactNode } = {
-  Lock: (
-    <BorrowLock 
-      IsLocked={isLocked}
-      SetIsLocked={setIsLocked}
-    />
-  ),
-  Withdraw: (
-    <BorrowWithdraw 
-    IsWithdraw={isWithdraw}
-    SetIsWithdraw={setIsWithdraw}
-    />
-  ),
-  Repay: (
-    <BorrowRepay 
-    IsRepay={isRepay}
-    SetIsRepay={setIsRepay}
-    />
-  ), 
-};
+  const contentList: { [key: string]: React.ReactNode } = {
+    Lock: (
+      <BorrowLock
+        IsLocked={isLocked}
+        SetIsLocked={setIsLocked}
+      />
+    ),
+    Withdraw: (
+      <BorrowWithdraw
+        IsWithdraw={isWithdraw}
+        SetIsWithdraw={setIsWithdraw}
+      />
+    ),
+    Repay: (
+      <BorrowRepay
+        IsRepay={isRepay}
+        SetIsRepay={setIsRepay}
+      />
+    ),
+  };
   return (
 
     <>
@@ -155,7 +155,7 @@ const contentList: { [key: string]: React.ReactNode } = {
               background: 'rgba(234, 72, 92, 0.05)',
               borderRadius: '16px',
             }}>
-            {contentList[activeTabKey]}
+              {contentList[activeTabKey]}
 
             </div>
           </StyledCard>
