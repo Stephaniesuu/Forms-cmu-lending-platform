@@ -106,7 +106,10 @@ function generateContract(isMarket) {
     let status;
     let deadline;
     const seller = generateRandomSeller(buyer);
-    const asset = generateRandomAsset();
+    let asset;
+    do {
+        asset = generateRandomAsset();
+    } while (asset.shortForm === 'FormsCoin');
 
     assetValue = (Math.random() * (1000000 - 1000) + 1000).toFixed(5);
     assetAmount = (assetValue / asset.value).toFixed(5);
@@ -126,7 +129,9 @@ function generateContract(isMarket) {
     } else {
         status = generateStatusBasedOnDates(createDate, deadline);
         deadline = generateRandomDeadline(createDate, loanDuration);
-        buyer = generateRandomBuyer();
+        do {
+            buyer = generateRandomBuyer();
+          } while (buyer === seller);
         collateral = generateRandomCollateral(asset);
         collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
         address = generateRandomAddress();
@@ -155,6 +160,7 @@ function generateContract(isMarket) {
             collateralAmount: Number(collateralAmount),
             originalCollateralValue: Number(originalCollateralValue),
             margin: 10,
+            interest: 10,
             loanDuration: Number(loanDuration),
             status,
             createDate,
@@ -175,6 +181,7 @@ function generateContract(isMarket) {
         collateralAmount: Number(collateralAmount),
         originalCollateralValue: Number(originalCollateralValue),
         margin: 10,
+        interest: 10,
         loanDuration: Number(loanDuration),
         status,
         createDate,

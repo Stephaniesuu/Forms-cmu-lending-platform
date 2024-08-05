@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
 import { contracts } from "../../data/contracts";
 import { Tooltip } from 'antd';
-import { renderAddress, getFullName, renderLoanDuration, getCoinValue } from "../Table/functions";
+import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount } from "../Table/functions";
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
 };
@@ -151,8 +151,8 @@ export default function MarketDetailButton({contract}) {
                   </div>
                   <div style={h3Style}>
                     <p style={h2Style}>{getFullName(contract.asset)}</p>
-                    <p style={h2Style}>{contract.assetAmount}</p>
-                    <p style={h2Style}>{getCoinValue(contract.asset, contract.assetAmount)}</p>
+                    <p style={h2Style}>{renderAmount(contract.assetAmount)}</p>
+                    <p style={h2Style}>{renderCoinValue(contract.asset, contract.assetAmount)}</p>
                     <p style={h2Style}>{renderLoanDuration(null,{ loanDuration: contract.loanDuration })}</p>
 
                   </div>
@@ -170,8 +170,9 @@ export default function MarketDetailButton({contract}) {
                   </div>
                   <div style={h3Style}>
                     <p style={h2Style}>{getFullName(contract.repayment)}</p>
-                    <p style={h2Style}>{contract.repaymentAmount}</p>
-                    <p style={h2Style}>{getCoinValue(contract.repayment, contract.repaymentAmount)}</p>
+                    <p style={h2Style}>{renderAmount(contract.repaymentAmount)}</p>
+                    <p style={h2Style}>{renderCoinValue(contract.repayment, contract.repaymentAmount)}</p>
+                    <p style={h2Style}>{contract.margin}%</p>
 
                   </div>
                 </div>
