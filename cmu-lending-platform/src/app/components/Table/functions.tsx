@@ -9,6 +9,9 @@ export const renderCoin = (asset: string) => {
     'ETH': <EthwColorful style={{ fontSize: 20 }} />,
     'PAK': <span style={{ fontSize: 20 }}>🫄</span>,
     'HEI': <span style={{ fontSize: 20 }}>🫄🏿</span>,
+    'JORE': <span style={{ fontSize: 20 }}>🫄🏾</span>,
+    'STEP': <span style={{ fontSize: 20 }}>🐈‍⬛</span>,
+    'FRMS': <span style={{ fontSize: 20 }}>💩</span>,
   };
   const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 20 }} />;
   return (
