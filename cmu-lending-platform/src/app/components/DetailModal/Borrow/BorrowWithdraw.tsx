@@ -1,5 +1,5 @@
 import { Button, message } from "antd";
-import { h1Style, h2Style, IcontextStyle } from "./BorrowDetailModal";
+import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
 
