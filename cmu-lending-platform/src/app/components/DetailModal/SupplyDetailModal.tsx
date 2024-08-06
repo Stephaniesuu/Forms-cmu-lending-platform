@@ -106,7 +106,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function SupplyDetailButton({SellerAddress,AssetData}) {
+export default function SupplyDetailButton({ contract }) {
 
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
@@ -122,11 +122,11 @@ export default function SupplyDetailButton({SellerAddress,AssetData}) {
             <SupplyLock
                 IsLocked={isLocked}
                 SetIsLocked={setIsLocked}
-                AssetData = {AssetData}
-                />
+                contract={contract}
+            />
         ),
         Status: (
-            <SupplyStatus />
+            <SupplyStatus contract={contract}/>
         ),
         Liquidate: (
             <SupplyLiquidation
@@ -154,7 +154,7 @@ export default function SupplyDetailButton({SellerAddress,AssetData}) {
                                     onClick={() => setShowCard(false)}
                                     style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                                 />
-                                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress = {SellerAddress} />
+                                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={contract.seller} />
                             </>
                         }
 

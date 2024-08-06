@@ -1,11 +1,12 @@
 import { Select, Button, message } from "antd";
 import { IcontextStyle, h2Style, h1Style } from "../BorrowDetailModal";
+import { renderCoin } from "../../Table/functions";
 
 const handleChange = (value: string) => {
     console.log(`selected ${value}`);
 };
 
-export default function SupplyLock({ IsLocked, SetIsLocked,AssetData}: { IsLocked: boolean, SetIsLocked: Function, AssetData: String }) {
+export default function SupplyLock({ IsLocked, SetIsLocked, contract}: { IsLocked: boolean, SetIsLocked: Function, contract: any }) {
 
     const toggleAlert = () => {
         // setLockAlertVisible(!lockAlertVisible);
@@ -32,21 +33,11 @@ export default function SupplyLock({ IsLocked, SetIsLocked,AssetData}: { IsLocke
             </header>
             <div>
                 <p style={h1Style}>Coin</p>
-                <Select
-                    defaultValue="Select"
-                    style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
-                    onChange={handleChange}
-                    options={[
-                        { value: 'Ethereum', label: 'Ethereum' },
-                        { value: 'BitCoin', label: 'BitCoin' },
-                        { value: 'PakCoin', label: 'PakCoin' },
-                        { value: 'HeiCoin', label: 'HeiCoin' },
-                    ]}
-                />
+                <p style={h2Style}>{renderCoin(contract.asset)}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>To be estimated</p>
+                <p style={h2Style}>{contract.assetAmount}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Remaining time</h1>

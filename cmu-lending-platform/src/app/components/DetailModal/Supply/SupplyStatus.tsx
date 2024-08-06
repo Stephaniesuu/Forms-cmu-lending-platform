@@ -9,7 +9,7 @@ import { BitcoinCircleColorful, EthereumCircleColorful } from '@ant-design/web3-
 
 
 
-export default function SupplyStatus() {
+export default function SupplyStatus(contract: any) {
     const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
 
 
@@ -85,11 +85,11 @@ export default function SupplyStatus() {
                         fontSize: '20px',
                         color: '#0F1D40',
                         marginLeft: '63px',
-                    }}>44.240000</h2>
+                    }}>{contract.collateralAmount}</h2>
                 </div>
                 <div style={{ marginLeft: '63px' }}>
                     <h1 style={h1Style}>
-                        Total Amount
+                        {contract.repaymentAmount}
                     </h1>
                     <h2 style={{
                         fontSize: '20px',
