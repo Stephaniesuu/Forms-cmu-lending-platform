@@ -2,17 +2,35 @@
 
 import React, { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, Table,Tooltip } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { filteredMarketData } from '../data/contracts';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
-import { PayCircleFilled } from '@ant-design/icons';
+import { PayCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
+const text =(
+ <p> Accepted Collateral
+  <div>
+  
+  </div>
+ </p>
+ 
+);
+const RequiredCollateral = () => {
+  return (
+    <div style={{display:'flex',}}>
+      <p>Required Collateral</p>
+      <Tooltip placement="bottom" title={text} arrow={false}>
+      <InfoCircleOutlined style={{fontSize: 20, color: '#8247E5', marginRight: '5px'}} />
+      </Tooltip>
+      </div>
+
+  );
+}
 const columns: TableColumnsType<marketTable> = [
   {
     title: 'Asset',
@@ -85,7 +103,7 @@ const columns: TableColumnsType<marketTable> = [
     width: '10%',
   },
   {
-    title: 'Required Collateral',
+    title: <RequiredCollateral />,
     dataIndex: 'originalCollateralValue',
     align: 'center',
     sorter: {
