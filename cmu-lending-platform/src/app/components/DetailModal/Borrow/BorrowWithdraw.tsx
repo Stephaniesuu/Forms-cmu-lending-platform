@@ -2,17 +2,13 @@ import { Button, message } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
-import { renderCoinLarge } from "../../Table/functions";
+import { renderCoinLarge,renderAmount } from "../../Table/functions";
 
 
-export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {IsWithdraw: boolean, SetIsWithdraw: Function, RecordData: object}) {
-    console.log(RecordData);
-    
+export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {IsWithdraw: boolean, SetIsWithdraw: Function, RecordData: object}) {    
     const asset = RecordData.asset;
     const assetAmount = RecordData.assetAmount;
-
-
-
+    
     const handleWithdrawButtonClick = () => {
         SetIsWithdraw(true);
         message.success('Withdraw successful');
@@ -38,25 +34,10 @@ export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {
             <div style={{ marginTop: '30px', }}>
                 <p style={h1Style}>Coin</p>
                 {renderCoinLarge(asset)}
-                {/* <div style={{ display: 'flex', }}>
-                    <BitcoinCircleColorful style={{
-                        fontSize: 30,
-                        marginLeft: '63px',
-                        // marginTop: '20px',
-                        marginRight: '10px',
-                    }} />
-                    <div>
-                        <h1 style={{
-                            fontSize: '15px',
-                            color: '#000000',
-                        }}>BitCoin</h1>
-                        <h2>BTC</h2>
-                    </div>
-                </div> */}
             </div>
             <div style={{ marginTop: '30px', }}>
                 <h1 style={h1Style}>Amount </h1>
-                <p style={h2Style}>{assetAmount}</p>
+                <p style={h2Style}>{renderAmount(assetAmount)}</p>
             </div>
             <div>
             </div>

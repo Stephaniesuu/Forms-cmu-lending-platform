@@ -120,7 +120,7 @@ export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAd
       <BorrowRepay
         IsRepay={isRepay}
         SetIsRepay={setIsRepay}
-        // RecordData={RecordData}
+        RecordData={RecordData}
       />
     ),
   };
