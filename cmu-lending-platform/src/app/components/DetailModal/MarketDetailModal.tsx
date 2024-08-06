@@ -6,8 +6,6 @@ import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
-import { contracts } from "../../data/contracts";
-import { Tooltip } from 'antd';
 import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount, renderValue } from "../Table/functions";
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
