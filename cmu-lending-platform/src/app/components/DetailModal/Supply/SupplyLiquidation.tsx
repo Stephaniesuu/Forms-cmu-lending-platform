@@ -2,9 +2,10 @@ import { Button, Tooltip, Alert } from "antd";
 import { MoneyCollectOutlined } from '@ant-design/icons';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
+import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue, getCoinValue } from "../../Table/functions";
 
 
-export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { IsLiquidated: boolean, SetIsLiquidated: Function }) {
+export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contract }: { IsLiquidated: boolean, SetIsLiquidated: Function, contract: any }) {
 
     const [alertVisible, setAlertVisible] = useState(false);
     const handleCloseAlert = () => {
@@ -41,7 +42,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { I
                     marginLeft: '63px',
                     marginBottom: '20px',
                     marginRight: '63px',
-                }}>All collateral will transfer to your wallet if the repayment is overdue.</h2>
+                }}>All collateral will transfer to your wallet if the repayment is overdue or margin is met.</h2>
             </header>
             <div>
                 <p style={{
@@ -49,20 +50,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { I
                     color: '#525C76',
                     marginLeft: '63px',
                 }}>Collateral</p>
-                <div style={{ display: 'flex', }}>
-                    <BitcoinCircleColorful style={{
-                        fontSize: 30,
-                        marginLeft: '63px',
-                        marginRight: '10px',
-                    }} />
-                    <div>
-                        <h1 style={{
-                            fontSize: '15px',
-                            color: '#000000',
-                        }}>BitCoin</h1>
-                        <h2>BTC</h2>
-                    </div>
-                </div>
+                {renderCoinLarge(contract.collateral)}
             </div>
             <div>
                 <h1 style={{
@@ -75,7 +63,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { I
                     marginLeft: '63px',
                     marginBottom: '20px',
                     marginRight: '63px',
-                }}>4.000,000</p>
+                }}>{renderAmount(contract.collateralAmount)}</p>
             </div>
             <div>
                 <h1 style={{
@@ -88,7 +76,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { I
                     marginLeft: '63px',
                     marginBottom: '20px',
                     marginRight: '63px',
-                }}>24 June 2024</p>
+                }}>{contract.deadline}</p>
             </div>
             <div style={{
                 display: 'flex',
@@ -108,7 +96,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated }: { I
                     }}
                     onClick={toggleAlert}
                     disabled={IsLiquidated}
-                >{IsLiquidated ? 'liqidated' : 'liqidate'}</Button>
+                >{IsLiquidated ? 'Liquidated' : 'Liquidate'}</Button>
                 {alertVisible && (
                     <Alert
                         showIcon

@@ -12,10 +12,10 @@ import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
-const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'FRMS'];
-const text = (
-  <p> <div style={{ marginBottom: '10px' }}>Accepted Collateral</div>
-    <div>
+const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'ALAN', 'FRMS'];
+const text =(
+ <p> <div style={{marginBottom:'10px'}}>Accepted Collateral</div>
+  <div>
       {assets.map((asset, index) => (
         <div key={index} style={{ marginBottom: '10px', }}>
           {renderCoin(asset)}
@@ -45,13 +45,14 @@ const columns: TableColumnsType<marketTable> = [
     //   compare: (a, b) => a.assest.localeCompare(b.assest),
     // },
     filters: [
-      { text: 'Bitcoin (BTC)', value: 'BTC' },
-      { text: 'Ethereum (ETH)', value: 'ETH' },
-      { text: 'Pak Coin (PAK)', value: 'PAK' },
-      { text: 'Hei Coin (HEI)', value: 'HEI' },
-      { text: 'Jorey Coin (JORE)', value: 'JORE' },
-      { text: 'Stephanie Coin (STEP)', value: 'STEP' },
-      { text: 'Forms Coin (FRMS)', value: 'FRMS' },
+      { text: renderCoin('BTC'), value: 'BTC' },
+      { text: renderCoin('ETH'), value: 'ETH' },
+      { text: renderCoin('PAK'), value: 'PAK' },
+      { text: renderCoin('HEI'), value: 'HEI' },
+      { text: renderCoin('JORE'), value: 'JORE' },
+      { text: renderCoin('STEP'), value: 'STEP' },
+      { text: renderCoin('ALAN'), value: 'ALAN' },
+      { text: renderCoin('FRMS'), value: 'FRMS' },
     ],
     filterMode: 'tree',
     filterSearch: true,

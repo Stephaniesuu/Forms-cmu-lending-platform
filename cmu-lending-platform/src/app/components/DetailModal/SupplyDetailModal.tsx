@@ -126,13 +126,15 @@ export default function SupplyDetailButton({ contract }) {
             />
         ),
         Status: (
-            <SupplyStatus contract={contract}/>
+            <SupplyStatus
+                contract={contract}
+            />
         ),
         Liquidate: (
             <SupplyLiquidation
                 IsLiquidated={isLiquidated}
                 SetIsLiquidated={setIsLiquidated}
-
+                contract={contract}
             />
         ),
     };
