@@ -91,13 +91,13 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton({contract}: { contract: object }) {
+export default function BorrowDetailButton({ contract }: { contract: object }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(false);
-  const [isRepay, setIsRepay] = useState(false); 
+  const [isRepay, setIsRepay] = useState(false);
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
@@ -143,7 +143,7 @@ export default function BorrowDetailButton({contract}: { contract: object }) {
                   onClick={() => setShowCard(false)}
                   style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                 />
-                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={contract.buyer}/>
+                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={contract.buyer} />
               </>
             }
 

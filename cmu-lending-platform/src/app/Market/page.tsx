@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table,Tooltip } from 'antd';
+import { Row, Col, Table, Tooltip } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { filteredMarketData } from '../data/contracts';
@@ -13,26 +13,26 @@ import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
 const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'FRMS'];
-const text =(
- <p> <div style={{marginBottom:'10px'}}>Accepted Collateral</div>
-  <div>
+const text = (
+  <p> <div style={{ marginBottom: '10px' }}>Accepted Collateral</div>
+    <div>
       {assets.map((asset, index) => (
-        <div key={index} style={{ marginBottom: '10px',}}>
+        <div key={index} style={{ marginBottom: '10px', }}>
           {renderCoin(asset)}
         </div>
       ))}
     </div>
- </p>
- 
+  </p>
+
 );
 const RequiredCollateral = () => {
   return (
-    <div style={{display:'flex',}}>
+    <div style={{ display: 'flex', }}>
       <p>Required Collateral</p>
       <Tooltip placement="bottom" title={text} arrow={false}>
-      <InfoCircleOutlined style={{fontSize: 20, color: '#8247E5', marginRight: '5px'}} />
+        <InfoCircleOutlined style={{ fontSize: 20, color: '#8247E5', marginRight: '5px' }} />
       </Tooltip>
-      </div>
+    </div>
 
   );
 }
@@ -140,7 +140,7 @@ const columns: TableColumnsType<marketTable> = [
     dataIndex: 'action',
     render: (text, record) => <MarketDetailButton contract={record} />,
     width: '5%',
-    align: 'center',
+    // align: 'center',
   },
 ];
 
