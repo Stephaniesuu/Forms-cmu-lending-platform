@@ -7,8 +7,17 @@ const coinArray = [
     { name: 'Hei Coin', shortForm: 'HEI', value: 8888.88 },
     { name: 'Jorey Coin', shortForm: 'JORE', value: 777.77 },
     { name: 'Stephanie Coin', shortForm: 'STEP', value: 666.66 },
+    { name: 'Alan Coin', shortForm: 'ALAN', value: 99.99 },
     { name: 'Forms Coin', shortForm: 'FRMS', value: 1.00 },
-];
+  ];
+
+const getCoinValue = (shortForm, amount ) => {
+    const coin = coinArray.find(c => c.shortForm === shortForm);
+    if (!coin) {
+      return -1;
+    }
+    return coin.value * amount;
+  };
 
 const metamask = [
     '0xC4962c5ffD42B3f5B346B367D320bC83221BFe5a',
@@ -56,7 +65,9 @@ function generateRandomCollateral(asset) {
 }
 
 function generateRandomCollateralAmount(collateral, originalCollateralValue) {
-    return parseFloat((originalCollateralValue / collateral.value).toFixed(5));
+    const coinValue = getCoinValue(collateral.shortForm, 1); 
+    console.log(coinValue)// Get the value of one unit of the collateral
+    return (originalCollateralValue / coinValue);
 }
 
 function generateRandomCreateDate() {
@@ -122,6 +133,7 @@ function generateContract(isMarket) {
     const repayValue = repaymentAmount * asset.value;
     const createDate = generateRandomCreateDate();
     const loanDuration = generateRandomLoanDuration();
+    originalCollateralValue = (repayValue * 1.2).toFixed(5);
 
     if (isMarket) {
         status = 'Pairing';
@@ -136,7 +148,8 @@ function generateContract(isMarket) {
             buyer = generateRandomBuyer();
         } while (buyer === seller);
         collateral = generateRandomCollateral(asset);
-        collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
+        coinValue = getCoinValue(collateral.shortForm, 1);
+        collateralAmount = originalCollateralValue / coinValue;
         address = generateRandomAddress();
     }
 
@@ -146,7 +159,6 @@ function generateContract(isMarket) {
     //     assetValue = assetAmount * asset.value;
     // } while (assetValue < 1000);
     // assetValue = assetValue.toFixed(5);
-    originalCollateralValue = (repayValue * 1.2).toFixed(5);
 
     if (isMarket) {
         return {
@@ -160,7 +172,7 @@ function generateContract(isMarket) {
             repaymentAmount: Number(repaymentAmount),
             repayValue: Number(repayValue),
             collateral: 'NULL',
-            collateralAmount: Number(collateralAmount),
+            collateralAmount,
             originalCollateralValue: Number(originalCollateralValue),
             margin: 10,
             interest: 10,
@@ -181,7 +193,7 @@ function generateContract(isMarket) {
         repaymentAmount: Number(repaymentAmount),
         repayValue: Number(repayValue),
         collateral: collateral.shortForm,
-        collateralAmount: Number(collateralAmount),
+        collateralAmount,
         originalCollateralValue: Number(originalCollateralValue),
         margin: 10,
         interest: 10,

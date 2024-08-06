@@ -91,13 +91,13 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAddress: string, RecordData: object }) {
+export default function BorrowDetailButton({ contract }: { contract: object }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(false);
-  const [isRepay, setIsRepay] = useState(false); 
+  const [isRepay, setIsRepay] = useState(false);
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
@@ -106,21 +106,21 @@ export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAd
       <BorrowLock
         IsLocked={isLocked}
         SetIsLocked={setIsLocked}
-        RecordData={RecordData}
+        RecordData={contract}
       />
     ),
     Withdraw: (
       <BorrowWithdraw
         IsWithdraw={isWithdraw}
         SetIsWithdraw={setIsWithdraw}
-        RecordData={RecordData}
+        RecordData={contract}
       />
     ),
     Repay: (
       <BorrowRepay
         IsRepay={isRepay}
         SetIsRepay={setIsRepay}
-        RecordData={RecordData}
+        RecordData={contract}
       />
     ),
   };
@@ -143,7 +143,7 @@ export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAd
                   onClick={() => setShowCard(false)}
                   style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                 />
-                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={BuyerAddress}/>
+                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={contract.buyer} />
               </>
             }
 

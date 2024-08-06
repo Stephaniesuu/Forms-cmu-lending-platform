@@ -1,5 +1,5 @@
 import { Tooltip } from "antd";
-import { coinArray } from "@/app/data/coinsPrice";
+import { coinArray } from '../../data/coinsPrice';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 
@@ -11,6 +11,7 @@ export const renderCoin = (asset: string) => {
     'HEI': <span style={{ fontSize: 20 }}>🫄🏿</span>,
     'JORE': <span style={{ fontSize: 20 }}>🏂</span>,
     'STEP': <span style={{ fontSize: 20 }}>🐈‍⬛</span>,
+    'ALAN': <span style={{ fontSize: 20 }}>👽</span>,
     'FRMS': <span style={{ fontSize: 20 }}>💩</span>,
   };
   const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 20 }} />;
@@ -31,6 +32,7 @@ export const renderCoinLarge = (shortForm: string) => {
     'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
     'JORE': <span style={{ fontSize: 30 }}>🏂</span>,
     'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
+    'ALAN': <span style={{ fontSize: 30 }}>👽</span>,
     'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
   };
 
@@ -41,6 +43,7 @@ export const renderCoinLarge = (shortForm: string) => {
     'HEI': 'Hei Coin',
     'JORE': 'Jorey Coin',
     'STEP': 'Stephanie Coin',
+    'ALAN': 'Coin Alan',
     'FRMS': 'Forms Coin',
   };
   const icon = assetIconMap[shortForm];
@@ -132,7 +135,7 @@ export const renderLoanDuration = (text, record) => {
   return `${record.loanDuration} Months`;
 };
 
-const getCoinValue = (shortForm: string, amount: number): number => {
+export const getCoinValue = (shortForm: string, amount: number): number => {
   const coin = coinArray.find(c => c.shortForm === shortForm);
   if (!coin) {
     return -1;

@@ -1,6 +1,6 @@
 import { Select, Button, message } from "antd";
 import { IcontextStyle, h2Style, h1Style } from "../BorrowDetailModal";
-import { renderCoin } from "../../Table/functions";
+import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue } from "../../Table/functions";
 
 const handleChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -33,11 +33,11 @@ export default function SupplyLock({ IsLocked, SetIsLocked, contract}: { IsLocke
             </header>
             <div>
                 <p style={h1Style}>Coin</p>
-                <p style={h2Style}>{renderCoin(contract.asset)}</p>
+                {renderCoinLarge(contract.asset)}
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>{contract.assetAmount}</p>
+                <p style={h2Style}>{renderAmount(contract.assetAmount)}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Remaining time</h1>

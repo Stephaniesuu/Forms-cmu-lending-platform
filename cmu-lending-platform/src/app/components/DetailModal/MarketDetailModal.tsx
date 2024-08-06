@@ -1,17 +1,12 @@
 'use client';
 
-import { Button, Card, Select } from "antd";
+import { Button, Card, Popconfirm } from "antd";
 import { useState } from "react";
 
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
-import { contracts } from "../../data/contracts";
-import { Tooltip } from 'antd';
 import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount, renderValue } from "../Table/functions";
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
 
 
 const h1Style = {
@@ -86,15 +81,16 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function MarketDetailButton({contract}) {
+export default function MarketDetailButton({ contract }: { contract: object }) {
   const [showCard, setShowCard] = useState(false);
-  const [showCreateResult, setShowCreateResult] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
-  const handleCreateButtonClick = (params) => {
-    // 处理点击事件的逻辑
-    setShowCreateResult(true);
-    setIsCreated(true);
+
+  const handleCreateButtonClick = () => {
+    setShowCreateModal(true);
+    // setIsCreated(true);
   };
+
   return (
 
     <>
@@ -152,7 +148,7 @@ export default function MarketDetailButton({contract}) {
                     <p style={h2Style}>{getFullName(contract.asset)}</p>
                     <p style={h2Style}>{renderAmount(contract.assetAmount)}</p>
                     <p style={h2Style}>{renderCoinValue(contract.asset, contract.assetAmount)}</p>
-                    <p style={h2Style}>{renderLoanDuration(null,{ loanDuration: contract.loanDuration })}</p>
+                    <p style={h2Style}>{renderLoanDuration(null, { loanDuration: contract.loanDuration })}</p>
 
                   </div>
                 </div>
@@ -181,8 +177,6 @@ export default function MarketDetailButton({contract}) {
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
                     <p style={h2Style}>Required Value</p>
-
-
                   </div>
                   <div style={h3Style}>
                     <p style={h2Style}>{renderValue(contract.originalCollateralValue)}</p>
@@ -202,10 +196,10 @@ export default function MarketDetailButton({contract}) {
                     cursor: 'pointer',
                     fontSize: '16px',
                     marginBottom: '37px',
-                  }} onClick={() => handleCreateButtonClick({})} disabled={isCreated}>{isCreated ? 'Created' : 'Create'}</Button>
+                  }} onClick={handleCreateButtonClick} disabled={isCreated}>{isCreated ? 'Created' : 'Request'}</Button>
               </div>
             </div>
-            <CreateSuccessResult visible={showCreateResult} onClose={() => setShowCreateResult(false)} contractaddress={"0xdbf325102952018AE2412"} />
+            <CreateSuccessResult visible={showCreateModal} onClose={() => setShowCreateModal(false)} setCreatesuccess = {setIsCreated}/>
           </StyledCard>
         </>
       )

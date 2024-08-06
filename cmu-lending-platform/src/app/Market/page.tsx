@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table,Tooltip } from 'antd';
+import { Row, Col, Table, Tooltip } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { filteredMarketData } from '../data/contracts';
@@ -12,27 +12,27 @@ import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
-const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'FRMS'];
+const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'ALAN', 'FRMS'];
 const text =(
  <p> <div style={{marginBottom:'10px'}}>Accepted Collateral</div>
   <div>
       {assets.map((asset, index) => (
-        <div key={index} style={{ marginBottom: '10px',}}>
+        <div key={index} style={{ marginBottom: '10px', }}>
           {renderCoin(asset)}
         </div>
       ))}
     </div>
- </p>
- 
+  </p>
+
 );
 const RequiredCollateral = () => {
   return (
-    <div style={{display:'flex',}}>
+    <div style={{ display: 'flex', }}>
       <p>Required Collateral</p>
       <Tooltip placement="bottom" title={text} arrow={false}>
-      <InfoCircleOutlined style={{fontSize: 20, color: '#8247E5', marginRight: '5px'}} />
+        <InfoCircleOutlined style={{ fontSize: 20, color: '#8247E5', marginRight: '5px' }} />
       </Tooltip>
-      </div>
+    </div>
 
   );
 }
@@ -45,13 +45,14 @@ const columns: TableColumnsType<marketTable> = [
     //   compare: (a, b) => a.assest.localeCompare(b.assest),
     // },
     filters: [
-      { text: 'Bitcoin (BTC)', value: 'BTC' },
-      { text: 'Ethereum (ETH)', value: 'ETH' },
-      { text: 'Pak Coin (PAK)', value: 'PAK' },
-      { text: 'Hei Coin (HEI)', value: 'HEI' },
-      { text: 'Jorey Coin (JORE)', value: 'JORE' },
-      { text: 'Stephanie Coin (STEP)', value: 'STEP' },
-      { text: 'Forms Coin (FRMS)', value: 'FRMS' },
+      { text: renderCoin('BTC'), value: 'BTC' },
+      { text: renderCoin('ETH'), value: 'ETH' },
+      { text: renderCoin('PAK'), value: 'PAK' },
+      { text: renderCoin('HEI'), value: 'HEI' },
+      { text: renderCoin('JORE'), value: 'JORE' },
+      { text: renderCoin('STEP'), value: 'STEP' },
+      { text: renderCoin('ALAN'), value: 'ALAN' },
+      { text: renderCoin('FRMS'), value: 'FRMS' },
     ],
     filterMode: 'tree',
     filterSearch: true,
@@ -140,7 +141,7 @@ const columns: TableColumnsType<marketTable> = [
     dataIndex: 'action',
     render: (text, record) => <MarketDetailButton contract={record} />,
     width: '5%',
-    align: 'center',
+    // align: 'center',
   },
 ];
 

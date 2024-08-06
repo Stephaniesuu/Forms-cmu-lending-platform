@@ -9,7 +9,7 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
-import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount, renderCoin } from '../components/Table/functions';
+import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount, renderCoin, renderCoinLarge } from '../components/Table/functions';
 import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
@@ -22,12 +22,14 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
     align: 'center',
     width: '12%',
     filters: [
-      { text: 'Bitcoin (BTC)', value: 'BTC' },
-      { text: 'Ethereum (ETH)', value: 'ETH' },
-      { text: 'Pak Coin (PAK)', value: 'PAK' },
-      { text: 'Hei Coin (HEI)', value: 'HEI' },
-      { text: 'Jorey Coin (JORE)', value: 'JORE' },
-      { text: 'Stephanie Coin (STEP)', value: 'STEP' },
+      { text: renderCoin('BTC'), value: 'BTC' },
+      { text: renderCoin('ETH'), value: 'ETH' },
+      { text: renderCoin('PAK'), value: 'PAK' },
+      { text: renderCoin('HEI'), value: 'HEI' },
+      { text: renderCoin('JORE'), value: 'JORE' },
+      { text: renderCoin('STEP'), value: 'STEP' },
+      { text: renderCoin('ALAN'), value: 'ALAN' },
+      { text: renderCoin('FRMS'), value: 'FRMS' },
     ],
     filterMode: 'tree',
     filterSearch: true,
@@ -102,7 +104,7 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   },
   {
     dataIndex: 'action',
-    render: (text, record) => isSupply ? <SupplyDetailButton contract={record} /> : <BorrowDetailButton BuyerAddress = {record.buyer} RecordData = {record}/>,
+    render: (text, record) => isSupply ? <SupplyDetailButton contract={record} /> : <BorrowDetailButton contract = {record}/>,
   },
 ];
 
