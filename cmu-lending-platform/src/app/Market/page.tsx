@@ -11,7 +11,7 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 
-import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue } from '../components/Table/functions';
+import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
 const columns: TableColumnsType<marketTable> = [
   {
@@ -35,19 +35,7 @@ const columns: TableColumnsType<marketTable> = [
     onFilter: (value, record) => record.asset.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
-    render(assest: string) {
-      const assetIconMap: { [key: string]: React.ReactNode } = {
-        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
-        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
-      };
-      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
-      return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {IconComponent}
-          <span style={{ marginLeft: 8 }}>{assest}</span>
-        </div>
-      )
-    },
+    render: (asset: string) => renderCoin(asset),
   },
   {
     title: 'Creditor',
@@ -83,19 +71,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.repayment.localeCompare(b.repayment),
     },
-    render(assest: string) {
-      const assetIconMap: { [key: string]: React.ReactNode } = {
-        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
-        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
-      };
-      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
-      return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {IconComponent}
-          <span style={{ marginLeft: 8 }}>{assest}</span>
-        </div>
-      )
-    },
+    render: (asset: string) => renderCoin(asset),
     width: '5%',
   },
   {

@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
 import { contracts } from "../../data/contracts";
 import { Tooltip } from 'antd';
-import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount } from "../Table/functions";
+import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount, renderValue } from "../Table/functions";
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
 };
@@ -185,7 +185,7 @@ export default function MarketDetailButton({contract}) {
 
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>{contract.originalCollateralValue}</p>
+                    <p style={h2Style}>{renderValue(contract.originalCollateralValue)}</p>
                   </div>
                 </div>
               </div>
