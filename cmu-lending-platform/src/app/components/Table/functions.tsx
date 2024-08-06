@@ -17,7 +17,7 @@ export const renderCoin = (asset: string) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {IconComponent}
-      <span style={{ marginLeft: 8 }}>{asset}</span>
+      <span style={{ marginLeft: 8, fontSize: 16}}>{asset}</span>
     </div>
   );
 };

@@ -101,7 +101,6 @@ export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAd
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
-  console.log('current record',RecordData);
   const contentList: { [key: string]: React.ReactNode } = {
     Lock: (
       <BorrowLock

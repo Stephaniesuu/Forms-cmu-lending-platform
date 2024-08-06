@@ -14,7 +14,6 @@ import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-import { assert } from 'console';
 
 const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
@@ -107,9 +106,6 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   },
 ];
 
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
 const containerStyle: React.CSSProperties = {
   opacity: 'initial',
@@ -158,7 +154,6 @@ export default function Dashboard() {
             <StyledTable
               columns={columns(true)}
               dataSource={getContractsByBuyer(account.address)}
-              onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}
@@ -171,7 +166,6 @@ export default function Dashboard() {
             <StyledTable
               columns={columns(false)}
               dataSource={getContractsBySeller(account.address)}
-              onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}

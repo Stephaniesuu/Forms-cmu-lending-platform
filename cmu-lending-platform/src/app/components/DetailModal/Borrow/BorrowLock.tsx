@@ -5,6 +5,7 @@ import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
 import { BitcoinCircleColorful, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
+import { renderCoin } from "../../Table/functions";
 
 const alertStyle = {
 
@@ -49,10 +50,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {IconComponent}
-                    <div style={{ marginLeft: '10px', fontSize: '30px', color: '#525C76', }}>
-                        <p>{`${asset}`}</p>
-                    </div>
+                    {renderCoin(asset)}
                 </div>
             </div>
         );
