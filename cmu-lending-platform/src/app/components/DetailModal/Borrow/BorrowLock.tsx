@@ -3,6 +3,8 @@
 import { Alert, Button, message, Select } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
+import { BitcoinCircleColorful, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
 
 const alertStyle = {
 
@@ -18,8 +20,8 @@ const alertStyle = {
 }
 
 
-export default function BorrowLock({ IsLocked, SetIsLocked }: { IsLocked: boolean, SetIsLocked: Function }) {
-
+export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: object  }) {
+    const asset = RecordData.asset;
     /**
      * This function is used to toggle the alert (old version)
         const [lockAlertVisible, setLockAlertVisible] = useState(false);
@@ -32,6 +34,34 @@ export default function BorrowLock({ IsLocked, SetIsLocked }: { IsLocked: boolea
         SetIsLocked(true);
         message.success('Lock successful');
     };
+
+    const AssetDisplay = () => {
+        
+        return (
+            <div>
+                <p style={{
+                    fontSize: '12px',
+                    color: '#525C76',
+                    marginLeft: '63px',
+                }}>Collateral</p>
+                <div style={{
+                    display: 'flex',
+                    marginLeft: '63px',
+                    marginBottom: '20px'
+                }}>
+                    {IconComponent}
+                    <div style={{ marginLeft: '10px', fontSize: '30px', color: '#525C76', }}>
+                        <p>{`${asset}`}</p>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+    const assetIconMap: { [key: string]: React.ReactNode } = {
+        'BTC': <BitcoinCircleColorful style={{ fontSize: 30 }} />,
+        'ETH': <EthwColorful style={{ fontSize: 30 }} />,
+    };
+    const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 30 }} />;
 
     return (
         <div style={{ width: "100%" }}>
@@ -51,8 +81,9 @@ export default function BorrowLock({ IsLocked, SetIsLocked }: { IsLocked: boolea
                 <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
             </header>
             <div>
-                <p style={h1Style}>Collateral</p>
-                <Select
+                {/* <p style={h1Style}>Collateral</p> */}
+                <AssetDisplay />
+                {/* <Select
                     defaultValue="Select"
                     style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
                     options={[
@@ -61,7 +92,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked }: { IsLocked: boolea
                         { value: 'PakCoin', label: 'PakCoin' },
                         { value: 'HeiCoin', label: 'HeiCoin' },
                     ]}
-                />
+                /> */}
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>

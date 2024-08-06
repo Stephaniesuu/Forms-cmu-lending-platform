@@ -106,7 +106,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function SupplyDetailButton({SellerAddress}) {
+export default function SupplyDetailButton({SellerAddress,AssetData}) {
 
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
@@ -121,7 +121,9 @@ export default function SupplyDetailButton({SellerAddress}) {
         Lock: (
             <SupplyLock
                 IsLocked={isLocked}
-                SetIsLocked={setIsLocked} />
+                SetIsLocked={setIsLocked}
+                AssetData = {AssetData}
+                />
         ),
         Status: (
             <SupplyStatus />

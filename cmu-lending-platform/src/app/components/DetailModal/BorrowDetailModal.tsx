@@ -91,22 +91,23 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton({BuyerAddress}) {
+export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAddress: string, RecordData: object }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(false);
-  const [isRepay, setIsRepay] = useState(false);
+  const [isRepay, setIsRepay] = useState(false); 
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
-
+  console.log('current record',RecordData);
   const contentList: { [key: string]: React.ReactNode } = {
     Lock: (
       <BorrowLock
         IsLocked={isLocked}
         SetIsLocked={setIsLocked}
+        RecordData={RecordData}
       />
     ),
     Withdraw: (
@@ -122,6 +123,8 @@ export default function BorrowDetailButton({BuyerAddress}) {
       />
     ),
   };
+
+
   return (
 
     <>

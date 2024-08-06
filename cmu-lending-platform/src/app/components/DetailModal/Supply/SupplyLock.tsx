@@ -5,7 +5,7 @@ const handleChange = (value: string) => {
     console.log(`selected ${value}`);
 };
 
-export default function SupplyLock({ IsLocked, SetIsLocked }: { IsLocked: boolean, SetIsLocked: Function }) {
+export default function SupplyLock({ IsLocked, SetIsLocked,AssetData}: { IsLocked: boolean, SetIsLocked: Function, AssetData: String }) {
 
     const toggleAlert = () => {
         // setLockAlertVisible(!lockAlertVisible);
