@@ -5,5 +5,6 @@ export const coinArray = [
   { name: 'Hei Coin', shortForm: 'HEI', value: 8888.88 },
   { name: 'Jorey Coin', shortForm: 'JORE', value: 777.77 },
   { name: 'Stephanie Coin', shortForm: 'STEP', value: 666.66 },
+  { name: 'Alan Coin', shortForm: 'ALAN', value: 99.99 },
   { name: 'Forms Coin', shortForm: 'FRMS', value: 1.00 },
 ];

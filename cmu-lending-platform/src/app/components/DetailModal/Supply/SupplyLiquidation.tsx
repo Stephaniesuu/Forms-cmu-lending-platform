@@ -50,7 +50,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contr
                     color: '#525C76',
                     marginLeft: '63px',
                 }}>Collateral</p>
-                {renderCoinLarge(contract.asset)}
+                {renderCoinLarge(contract.collateral)}
             </div>
             <div>
                 <h1 style={{
