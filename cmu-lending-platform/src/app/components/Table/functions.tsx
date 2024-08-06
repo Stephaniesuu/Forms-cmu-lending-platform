@@ -132,7 +132,7 @@ export const renderLoanDuration = (text, record) => {
   return `${record.loanDuration} Months`;
 };
 
-const getCoinValue = (shortForm: string, amount: number): number => {
+export const getCoinValue = (shortForm: string, amount: number): number => {
   const coin = coinArray.find(c => c.shortForm === shortForm);
   if (!coin) {
     return -1;

@@ -1,15 +1,9 @@
-
 import { Tooltip } from "antd";
-
 import { h1Style, h3Style, IcontextStyle } from "../SupplyDetailModal";
-
 import { FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { BitcoinCircleColorful, EthereumCircleColorful } from '@ant-design/web3-icons';
+import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue, getCoinValue } from "../../Table/functions";
 
-
-
-
-export default function SupplyStatus(contract: any) {
+export default function SupplyStatus({ contract }: { any }) {
     const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
 
 
@@ -37,65 +31,35 @@ export default function SupplyStatus(contract: any) {
             <div style={{ display: 'flex', marginBottom: '10px', }}>
                 <div style={{ display: 'flex', }}>
                     <div>
-                        <p style={h1Style}>Collateral</p>
-                        <div style={{ display: 'flex', }}>
-
-                            <EthereumCircleColorful style={{
-                                fontSize: 30,
-                                marginLeft: '63px',
-                                // marginTop: '20px',
-                                marginRight: '10px',
-                            }} />
-                            <div>
-                                <h1 style={{
-                                    fontSize: '15px',
-                                    color: '#000000',
-                                }}>Ethereum</h1>
-                                <h2>ETH</h2>
-                            </div>
-                        </div>
+                        <p style={h1Style}>Supply</p>
+                        {renderCoinLarge(contract.asset)}
                     </div>
-                    <div style={{ marginLeft: '63px' }}>
+                    <div style={{ marginLeft: '20px' }}>
                         <p style={h1Style}>Repayment</p>
-                        <div style={{ display: 'flex' }}>
-
-                            <BitcoinCircleColorful style={{
-                                fontSize: 30,
-                                marginLeft: '63px',
-                                // marginTop: '20px',
-                                marginRight: '10px',
-                            }} />
-                            <div>
-                                <h1 style={{
-                                    fontSize: '15px',
-                                    color: '#000000',
-                                }}>BitCoin</h1>
-                                <h2>BTC</h2>
-                            </div>
-                        </div>
+                        {renderCoinLarge(contract.asset)}
                     </div>
                 </div>
             </div>
             <div style={{ display: "flex" }}>
                 <div>
                     <h1 style={h1Style}>
-                        Total Amount
+                        Amount
                     </h1>
                     <h2 style={{
                         fontSize: '20px',
                         color: '#0F1D40',
                         marginLeft: '63px',
-                    }}>{contract.collateralAmount}</h2>
+                    }}>{renderAmount(contract.assetAmount)}</h2>
                 </div>
                 <div style={{ marginLeft: '63px' }}>
                     <h1 style={h1Style}>
-                        {contract.repaymentAmount}
+                        Amount
                     </h1>
                     <h2 style={{
                         fontSize: '20px',
                         color: '#0F1D40',
                         marginLeft: '63px',
-                    }}>2.479000</h2>
+                    }}>{renderAmount(contract.repaymentAmount)}</h2>
                 </div>
             </div>
             <div style={{ marginTop: '5px', marginBottom: '20px' }}>
@@ -107,15 +71,14 @@ export default function SupplyStatus(contract: any) {
                         </Tooltip>
                     </div>
                 </div>
-                <p style={h3Style}>1,162,850.02</p>
-                <p style={h1Style}>Deposit time</p>
+                <p style={h3Style}>{renderCoinValue(contract.repayment, contract.repaymentAmount)}</p>
+
+                <p style={h1Style}>Create Date</p>
+                <p style={h3Style}>{contract.createDate}</p>
+
 
             </div>
 
-            <div style={{ marginTop: '5px' }}>
-                <h1 style={h1Style}>Remaining time </h1>
-                <p style={h3Style}>2 months 29 days</p>
-            </div>
         </div>
     );
 }
