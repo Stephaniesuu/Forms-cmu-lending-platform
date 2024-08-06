@@ -1,9 +1,16 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
+import { useState } from "react";
 
 
-export default function BorrowWithdraw() {
+export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw}: {IsWithdraw: boolean, SetIsWithdraw: Function}) {
+
+    const handleWithdrawButtonClick = () => {
+        SetIsWithdraw(true);
+        message.success('Withdraw successful');
+    };
+
     return (
         <div style={{ width: "100%" }}>
             <header >
@@ -60,7 +67,10 @@ export default function BorrowWithdraw() {
                         cursor: 'pointer',
                         fontSize: '16px',
                         marginBottom: '37px',
-                    }}>Withdraw</Button>
+                    }}
+                    onClick={handleWithdrawButtonClick}
+                    disabled={IsWithdraw}
+                    >Withdraw</Button>
             </div>
         </div>
     );

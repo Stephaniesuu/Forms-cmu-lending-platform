@@ -2,27 +2,25 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table, Divider, Button, Tag, Space, Tooltip } from 'antd';
+import { Row, Col, Table, Divider, Button, Tag, Space, Tooltip, Alert } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
-import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
-import { compareValues, compareDates, formatAddress } from '../components/Table/functions';
+import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount, renderCoin } from '../components/Table/functions';
 import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-import { contracts } from '../data/contracts';
-import { get } from 'http';
 
 const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
   {
     title: 'Asset',
     dataIndex: 'asset',
     align: 'center',
+    width: '12%',
     filters: [
       { text: 'Bitcoin (BTC)', value: 'BTC' },
       { text: 'Ethereum (ETH)', value: 'ETH' },
@@ -30,34 +28,17 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       { text: 'Hei Coin (HEI)', value: 'HEI' },
       { text: 'Jorey Coin (JORE)', value: 'JORE' },
       { text: 'Stephanie Coin (STEP)', value: 'STEP' },
-      { text: 'Joyful99 (JOY9)', value: 'JOY' },
     ],
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.asset.indexOf(value) === 0,
-    render(assest: string) {
-      const assetIconMap: { [key: string]: React.ReactNode } = {
-        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
-        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
-      };
-      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
-      return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {IconComponent}
-          <span style={{ marginLeft: 8 }}>{assest}</span>
-        </div>
-      )
-    },
+    render: (asset: string) => renderCoin(asset),
   },
   {
     title: isSupply ? 'Seller' : 'Buyer',
     dataIndex: isSupply ? 'seller' : 'buyer',
     align: 'center',
-    render: (value: string) => (
-      <Tooltip title={value}>
-        <span>{formatAddress(value)}</span>
-      </Tooltip>
-    ),
+    render: renderAddress,
     width: '15%',
   },
   {
@@ -67,9 +48,9 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => a.assetAmount - b.assetAmount,
     },
     align: 'center',
-    render: (text, record) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(record.assetAmount),
+    render: (text, record) => renderAmount(record.assetAmount),
     sortDirections: ['descend', 'ascend'],
-    width: '15%',
+    width: '16%',
   },
   {
     title: 'Value',
@@ -78,14 +59,15 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => a.assetValue - b.assetValue,
     },
     align: 'center',
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
+    render: (text, record) => renderCoinValue(record.asset, record.assetAmount),
     sortDirections: ['descend', 'ascend'],
-    width: '20%',
+    width: '16%',
   },
   {
     title: 'Status',
     key: 'status',
     dataIndex: 'status',
+    width: '11%',
     filters: [
       { text: 'Active', value: 'Active' },
       { text: 'Matured', value: 'Matured' },
@@ -116,18 +98,14 @@ const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
       compare: (a, b) => compareDates(a.deadline, b.deadline),
     },
     align: 'center',
+    width: '16%',
   },
   {
     dataIndex: 'action',
-    render: (text, record) => isSupply ? 
-    <SupplyDetailButton assetData={record.asset} /> : 
-    <BorrowDetailButton assetData={record.asset} />,
+    render: (text, record) => isSupply ? <SupplyDetailButton SellerAddress = {record.seller} AssetData = {record.asset}/> : <BorrowDetailButton BuyerAddress = {record.buyer} RecordData = {record}/>,
   },
 ];
 
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
 const containerStyle: React.CSSProperties = {
   opacity: 'initial',
@@ -154,16 +132,28 @@ const rowClassName = (record: any, index: number): string => {
 
 export default function Dashboard() {
   const account = useAccount();
-  console.log(account.address)
+
   return (
     <APPLayout>
+      {account.isDisconnected ? (
+        <>
+          <Alert
+            message="Error"
+            description="You need to connect your wallet to see your dashboard."
+            type="error"
+            showIcon />
+          <br />
+        </>
+      ) : (
+        null
+      )
+      }
       <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col className="gutter-row" span={12}>
           <div style={containerStyle}>
             <StyledTable
               columns={columns(true)}
               dataSource={getContractsByBuyer(account.address)}
-              onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}
@@ -176,7 +166,6 @@ export default function Dashboard() {
             <StyledTable
               columns={columns(false)}
               dataSource={getContractsBySeller(account.address)}
-              onChange={onChange}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}

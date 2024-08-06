@@ -6,8 +6,9 @@ import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
-
-
+import { contracts } from "../../data/contracts";
+import { Tooltip } from 'antd';
+import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount, renderValue } from "../Table/functions";
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
 };
@@ -85,22 +86,19 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-
-export default function MarketDetailButton() {
+export default function MarketDetailButton({contract}) {
   const [showCard, setShowCard] = useState(false);
   const [showCreateResult, setShowCreateResult] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
-
   const handleCreateButtonClick = (params) => {
     // 处理点击事件的逻辑
-    console.log('Create button clicked');
     setShowCreateResult(true);
     setIsCreated(true);
   };
   return (
 
     <>
-      <Button type="primary" onClick={() => setShowCard(!showCard)}>Detail</Button>
+      <Button type="primary" onClick={() => setShowCard(!showCard)}>Details</Button>
       {showCard && (
         <>
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
@@ -124,66 +122,70 @@ export default function MarketDetailButton() {
               borderRadius: '16px',
             }}>
               <div>
-                <h1 style={h1Style}>Contract Meta</h1>
+                <h1 style={h1Style}>Contract Metadata</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
                     <p style={h2Style}>Contract Address</p>
-                    <p style={h2Style}>Counterparty</p>
-                    <p style={h2Style}>Days Till Maturity</p>
+                    <p style={h2Style}>Seller</p>
+                    <p style={h2Style}>Create Date</p>
                     <p style={h2Style}>Status</p>
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>0x1234...7890</p>
-                    <p style={h2Style}>0xrichard.eth</p>
-                    <p style={h2Style}> NULL</p>
-                    <p style={h2Style}>Request</p>
+                    <p>{contract.address}</p>
+                    <p>{renderAddress(contract.seller)}</p>
+                    <p>{contract.createDate}</p>
+                    <p>{contract.status}</p>
                   </div>
                 </div>
               </div>
               <div>
-                <h1 style={h1Style}>Asset Borrowed</h1>
+                <h1 style={h1Style}>Assets</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
-                    <p style={h2Style}>Contract Address</p>
-                    <p style={h2Style}>Principal</p>
-                    <p style={h2Style}>Withdrawn Balance</p>
+                    <p style={h2Style}>Coin</p>
+                    <p style={h2Style}>Amount</p>
+                    <p style={h2Style}>Current Value</p>
+                    <p style={h2Style}>Loan Duration</p>
 
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>NULL</p>
-                    <p style={h2Style}>NULL</p>
-                    <p style={h2Style}>NULL</p>
+                    <p style={h2Style}>{getFullName(contract.asset)}</p>
+                    <p style={h2Style}>{renderAmount(contract.assetAmount)}</p>
+                    <p style={h2Style}>{renderCoinValue(contract.asset, contract.assetAmount)}</p>
+                    <p style={h2Style}>{renderLoanDuration(null,{ loanDuration: contract.loanDuration })}</p>
 
                   </div>
                 </div>
               </div>
               <div>
-                <h1 style={h1Style}>Collateral</h1>
+                <h1 style={h1Style}>Repayment</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
-                    <p style={h2Style}>Contract Address</p>
-                    <p style={h2Style}>Locked Balance</p>
-                    <p style={h2Style}>Discounted Market Value</p>
+                    <p style={h2Style}>Coin</p>
+                    <p style={h2Style}>Amount</p>
+                    <p style={h2Style}>Current Value</p>
+                    <p style={h2Style}>Interest</p>
 
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>0x3456...7890</p>
-                    <p style={h2Style}>$ 10,000,000.00</p>
-                    <p style={h2Style}>$ 76</p>
+                    <p style={h2Style}>{getFullName(contract.repayment)}</p>
+                    <p style={h2Style}>{renderAmount(contract.repaymentAmount)}</p>
+                    <p style={h2Style}>{renderCoinValue(contract.repayment, contract.repaymentAmount)}</p>
+                    <p style={h2Style}>{contract.margin}%</p>
 
                   </div>
                 </div>
               </div>
               <div style={{ marginBottom: '30px' }}>
-                <h1 style={h1Style}>Interest</h1>
+                <h1 style={h1Style}>Collateral</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <div>
-                    <p style={h2Style}>Accured Interest</p>
+                    <p style={h2Style}>Required Value</p>
 
 
                   </div>
                   <div style={h3Style}>
-                    <p style={h2Style}>$99,999.99</p>
+                    <p style={h2Style}>{renderValue(contract.originalCollateralValue)}</p>
                   </div>
                 </div>
               </div>

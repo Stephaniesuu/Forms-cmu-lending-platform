@@ -17,6 +17,7 @@ const metamask = [
     '0x88E43897C7bF54320085372f375CE0c833B603BA',
     '0xFE5579F671408a5B87F5AEf515263f57aac47373',
     '0x4A549B0344a6c8d80360EddE72047b82e8F98b2D',
+    "0x49528817138DaeBb820d30e9cD628F84D5951b91"
 ];
 
 const statuses = ['Active', 'Matured', 'Pending', 'Pairing'];
@@ -106,7 +107,10 @@ function generateContract(isMarket) {
     let status;
     let deadline;
     const seller = generateRandomSeller(buyer);
-    const asset = generateRandomAsset();
+    let asset;
+    do {
+        asset = generateRandomAsset();
+    } while (asset.shortForm === 'FormsCoin');
 
     assetValue = (Math.random() * (1000000 - 1000) + 1000).toFixed(5);
     assetAmount = (assetValue / asset.value).toFixed(5);
@@ -126,7 +130,9 @@ function generateContract(isMarket) {
     } else {
         status = generateStatusBasedOnDates(createDate, deadline);
         deadline = generateRandomDeadline(createDate, loanDuration);
-        buyer = generateRandomBuyer();
+        do {
+            buyer = generateRandomBuyer();
+          } while (buyer === seller);
         collateral = generateRandomCollateral(asset);
         collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
         address = generateRandomAddress();
@@ -155,6 +161,7 @@ function generateContract(isMarket) {
             collateralAmount: Number(collateralAmount),
             originalCollateralValue: Number(originalCollateralValue),
             margin: 10,
+            interest: 10,
             loanDuration: Number(loanDuration),
             status,
             createDate,
@@ -175,6 +182,7 @@ function generateContract(isMarket) {
         collateralAmount: Number(collateralAmount),
         originalCollateralValue: Number(originalCollateralValue),
         margin: 10,
+        interest: 10,
         loanDuration: Number(loanDuration),
         status,
         createDate,

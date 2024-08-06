@@ -1,37 +1,56 @@
-import { Alert, Button, message, Select } from "antd";
-import { SetStateAction, useState } from "react";
-import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
-import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
-import { PayCircleFilled } from '@ant-design/icons';
-import { dashboardTable } from '../../../components/Table/datatypes';
-// import toggleAlert from "../BorrowDetailModal";
-// import isButtonDisabled from "../BorrowDetailModal";
-// import handleCloseAlert from "../BorrowDetailModal";
-// import alertVisible from "../BorrowDetailModal";
+'use client';
 
-export default function BorrowLock({ToggleAlert, AlertVisible, IsButtonDisabled,HandleCloseAlert,AssetData}) {
+import { Alert, Button, message, Select } from "antd";
+import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
+import { useState } from "react";
+import { BitcoinCircleColorful, EthwColorful } from '@ant-design/web3-icons';
+import { PayCircleFilled } from '@ant-design/icons';
+import { renderCoin } from "../../Table/functions";
+
+const alertStyle = {
+
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    width: '400px',
+    transform: 'translate(-50%, -50%)',
+    zIndex: 1000, // High z-index to make sure it is on top
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    padding: '40px'
+
+}
+
+
+export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: object  }) {
+    const asset = RecordData.asset;
+    /**
+     * This function is used to toggle the alert (old version)
+        const [lockAlertVisible, setLockAlertVisible] = useState(false);
+        const handleCloseAlert = () => {
+        setLockAlertVisible(false); // 关闭警告
+        };
+    **/
+    const toggleAlert = () => {
+        // setLockAlertVisible(!lockAlertVisible);
+        SetIsLocked(true);
+        message.success('Lock successful');
+    };
+
     const AssetDisplay = () => {
-        const  asset = AssetData;
-    
+        
         return (
             <div>
                 <p style={{
                     fontSize: '12px',
                     color: '#525C76',
                     marginLeft: '63px',
-                 
                 }}>Collateral</p>
                 <div style={{
                     display: 'flex',
-                   
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {IconComponent} 
-                    <div style={{ marginLeft: '10px',fontSize:'30px', color: '#525C76',}}>
-                        <p>{`${asset}`}</p>
-                       
-                    </div>
+                    {renderCoin(asset)}
                 </div>
             </div>
         );
@@ -39,10 +58,9 @@ export default function BorrowLock({ToggleAlert, AlertVisible, IsButtonDisabled,
     const assetIconMap: { [key: string]: React.ReactNode } = {
         'BTC': <BitcoinCircleColorful style={{ fontSize: 30 }} />,
         'ETH': <EthwColorful style={{ fontSize: 30 }} />,
-      };
+    };
+    const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 30 }} />;
 
-      const IconComponent = assetIconMap[AssetData] || <PayCircleFilled style={{ fontSize: 30 }} />;
-    
     return (
         <div style={{ width: "100%" }}>
             <header >
@@ -62,8 +80,17 @@ export default function BorrowLock({ToggleAlert, AlertVisible, IsButtonDisabled,
             </header>
             <div>
                 {/* <p style={h1Style}>Collateral</p> */}
-                
                 <AssetDisplay />
+                {/* <Select
+                    defaultValue="Select"
+                    style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
+                    options={[
+                        { value: 'Ethereum', label: 'Ethereum' },
+                        { value: 'BitCoin', label: 'BitCoin' },
+                        { value: 'PakCoin', label: 'PakCoin' },
+                        { value: 'HeiCoin', label: 'HeiCoin' },
+                    ]}
+                /> */}
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
@@ -87,28 +114,20 @@ export default function BorrowLock({ToggleAlert, AlertVisible, IsButtonDisabled,
                         fontSize: '16px',
                         marginBottom: '37px',
                     }}
-                    onClick={ToggleAlert}
-                    disabled={IsButtonDisabled}
-                >Lock</Button>
-                {AlertVisible && (
+                    onClick={toggleAlert}
+                    disabled={IsLocked}
+                >{IsLocked ? 'Locked' : 'Lock'}</Button>
+                {/* {lockAlertVisible && (
                     <Alert
+                        showIcon
                         message="Success Text"
-                        description="Liquidation has been done. The contract is terminated."
+                        description="Lock has been done. Now you can withdraw your coins."
                         type="success"
                         closable={true}
-                        onClose={HandleCloseAlert}
-                        style={{
-                            position: 'fixed',
-                            top: '50%',
-                            left: '50%',
-                            width: '400px',
-                            transform: 'translate(-50%, -50%)',
-                            zIndex: 1000, // High z-index to make sure it is on top
-                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                            padding: '40px'
-                        }}
+                        onClose={handleCloseAlert}
+                        style={alertStyle}
                     />
-                )}
+                )} */}
             </div>
         </div>
     )

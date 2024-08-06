@@ -16,6 +16,7 @@ interface Contract {
     originalCollateralValue: number; // Price when the collateral is locked (in HKD)
     margin: number; // Percentage, e.g.: 10 = 10%, which means the price cannot drop over 10%
 
+    interest: number; // Percentage, e.g.: 10 = 10%
     loanDuration: number; // In Months, e.g.: 12 = 12 Months
     status: string; // Active, Matured, Pending, Pairing
 

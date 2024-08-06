@@ -24,10 +24,6 @@ const tabList = [
   },
 ];
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-
 export const h1Style = {
   // position: 'fixed',
   fontSize: '12px',
@@ -95,39 +91,38 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton({assetData}) {
+export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAddress: string, RecordData: object }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
+  const [isWithdraw, setIsWithdraw] = useState(false);
+  const [isRepay, setIsRepay] = useState(false); 
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const toggleAlert = () => {
-    setAlertVisible(!alertVisible);
-    setIsButtonDisabled(true);
-};
- const handleCloseAlert = () => {
-        setAlertVisible(false); // 关闭警告
-    };
-const [alertVisible, setAlertVisible] = useState(false);
-const contentList = {
-  Lock: (
-    <BorrowLock 
-    ToggleAlert={toggleAlert}
-    AlertVisible={alertVisible}
-    IsButtonDisabled={isButtonDisabled}
-    HandleCloseAlert={handleCloseAlert}
-    AssetData={assetData}
-    />
-  ),
-  Withdraw: (
-    <BorrowWithdraw />
-  ),
-  Repay: (
-    <BorrowRepay />
-  ), 
-};
+  const contentList: { [key: string]: React.ReactNode } = {
+    Lock: (
+      <BorrowLock
+        IsLocked={isLocked}
+        SetIsLocked={setIsLocked}
+        RecordData={RecordData}
+      />
+    ),
+    Withdraw: (
+      <BorrowWithdraw
+        IsWithdraw={isWithdraw}
+        SetIsWithdraw={setIsWithdraw}
+      />
+    ),
+    Repay: (
+      <BorrowRepay
+        IsRepay={isRepay}
+        SetIsRepay={setIsRepay}
+      />
+    ),
+  };
+
 
   return (
 
@@ -146,7 +141,7 @@ const contentList = {
                   onClick={() => setShowCard(false)}
                   style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                 />
-                <AccountDisplay IsBorrow={isBorrow} />
+                <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={BuyerAddress}/>
               </>
             }
 
@@ -162,7 +157,7 @@ const contentList = {
               background: 'rgba(234, 72, 92, 0.05)',
               borderRadius: '16px',
             }}>
-            {contentList[activeTabKey]}
+              {contentList[activeTabKey]}
 
             </div>
           </StyledCard>

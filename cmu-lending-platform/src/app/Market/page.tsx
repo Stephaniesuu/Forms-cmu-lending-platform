@@ -11,8 +11,7 @@ import { PayCircleFilled } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 
-import { compareValues, compareDates, formatAddress } from '../components/Table/functions';
-import { marketTable } from '../components/Table/datatypes';
+import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
 const columns: TableColumnsType<marketTable> = [
   {
@@ -36,25 +35,13 @@ const columns: TableColumnsType<marketTable> = [
     onFilter: (value, record) => record.asset.indexOf(value) === 0,
     defaultSortOrder: 'ascend',
     width: '5%',
-    render(assest: string) {
-      const assetIconMap: { [key: string]: React.ReactNode } = {
-        'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
-        'ETH': <EthwColorful style={{ fontSize: 20 }} />,
-      };
-      const IconComponent = assetIconMap[assest] || <PayCircleFilled style={{ fontSize: 20 }} />;
-      return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {IconComponent}
-          <span style={{ marginLeft: 8 }}>{assest}</span>
-        </div>
-      )
-    },
+    render: (asset: string) => renderCoin(asset),
   },
   {
     title: 'Creditor',
     dataIndex: 'seller',
     align: 'center',
-    render: (seller: string) => formatAddress(seller),
+    render: renderAddress,
     width: '10%',
   },
   {
@@ -74,7 +61,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.assetValue - b.assetValue,
     },
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.assetValue)}`,
+    render: (text, record) => renderCoinValue(record.asset, record.assetAmount),
     width: '10%',
   },
   {
@@ -84,6 +71,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.repayment.localeCompare(b.repayment),
     },
+    render: (asset: string) => renderCoin(asset),
     width: '5%',
   },
   {
@@ -93,7 +81,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.repayValue - b.repayValue,
     },
-    render: (text, record) => `$ ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(record.repayValue)}`,
+    render: (text, record) => renderCoinValue(record.repayment, record.repaymentAmount),
     width: '10%',
   },
   {
@@ -113,7 +101,7 @@ const columns: TableColumnsType<marketTable> = [
     sorter: {
       compare: (a, b) => a.loanDuration - b.loanDuration,
     },
-    render: (text, record) => `${record.loanDuration} Months`,
+    render: renderLoanDuration,
     width: '8%',
   },
   {
@@ -127,8 +115,9 @@ const columns: TableColumnsType<marketTable> = [
   },
   {
     dataIndex: 'action',
-    render: () => <MarketDetailButton />,
-    width: '5%'
+    render: (text, record) => <MarketDetailButton contract={record} />,
+    width: '5%',
+    align: 'center',
   },
 ];
 
