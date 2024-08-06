@@ -70,8 +70,6 @@ export default function AccountDisplay({ IsBorrow, counterpartyAddress = '0xBc0a
      catch (error:any) {
         setError(error.message);
     }
-    console.log(error);
-
     return (
         <div style={containerStyle}>
             {error ? (

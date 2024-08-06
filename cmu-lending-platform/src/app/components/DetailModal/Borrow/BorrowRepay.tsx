@@ -5,8 +5,9 @@ import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
+import { renderAmount, renderCoinLarge } from "../../Table/functions";
 
-export default function BorrowRepay({ IsRepay, SetIsRepay }: { IsRepay: boolean, SetIsRepay: Function }) {
+export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRepay: boolean, SetIsRepay: Function,RecordData: object }) {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const showPopconfirm = () => {
@@ -64,21 +65,7 @@ export default function BorrowRepay({ IsRepay, SetIsRepay }: { IsRepay: boolean,
                     <div style={{ display: 'flex', marginTop: '30px', marginBottom: '10px', }}>
                         <div>
                             <p style={h1Style}>Coin</p>
-                            <div style={{ display: 'flex', }}>
-                                <BitcoinCircleColorful style={{
-                                    fontSize: 30,
-                                    marginLeft: '63px',
-                                    // marginTop: '20px',
-                                    marginRight: '10px',
-                                }} />
-                                <div>
-                                    <h1 style={{
-                                        fontSize: '15px',
-                                        color: '#000000',
-                                    }}>BitCoin</h1>
-                                    <h2>BTC</h2>
-                                </div>
-                            </div>
+                            {renderCoinLarge(RecordData.repayment)}
                         </div>
                         <div style={{ marginLeft: '80px', }}>
                             <h1 style={h1Style}>
@@ -93,7 +80,9 @@ export default function BorrowRepay({ IsRepay, SetIsRepay }: { IsRepay: boolean,
                             <h2 style={{
                                 fontSize: '20px',
                                 marginLeft: '63px',
-                            }}>4.200,000</h2>
+                            }}>
+                                {renderAmount(RecordData.repaymentAmount)}
+                                </h2>
                         </div>
                     </div>
                 </>

@@ -4,7 +4,7 @@ import { Alert, Button, message, Select } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
 import { renderCoin } from "../../Table/functions";
-import { calculateCoinsNeeded } from "../../Table/functions";
+import { calculateCoinsNeeded,renderAmount } from "../../Table/functions";
 const alertStyle = {
 
     position: 'fixed',
@@ -76,7 +76,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>{calculateCoinsNeeded(RecordData.collateral,RecordData.originalCollateralValue)}</p>
+                <p style={h2Style}>{renderAmount(calculateCoinsNeeded(RecordData.collateral,RecordData.originalCollateralValue))}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Remaining time</h1>
