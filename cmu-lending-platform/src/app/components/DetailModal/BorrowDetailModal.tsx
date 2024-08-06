@@ -113,12 +113,14 @@ export default function BorrowDetailButton({BuyerAddress, RecordData}: { BuyerAd
       <BorrowWithdraw
         IsWithdraw={isWithdraw}
         SetIsWithdraw={setIsWithdraw}
+        RecordData={RecordData}
       />
     ),
     Repay: (
       <BorrowRepay
         IsRepay={isRepay}
         SetIsRepay={setIsRepay}
+        // RecordData={RecordData}
       />
     ),
   };

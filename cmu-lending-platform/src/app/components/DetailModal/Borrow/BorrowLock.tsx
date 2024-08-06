@@ -3,10 +3,8 @@
 import { Alert, Button, message, Select } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
-import { BitcoinCircleColorful, EthwColorful } from '@ant-design/web3-icons';
-import { PayCircleFilled } from '@ant-design/icons';
 import { renderCoin } from "../../Table/functions";
-
+import { calculateCoinsNeeded } from "../../Table/functions";
 const alertStyle = {
 
     position: 'fixed',
@@ -22,7 +20,7 @@ const alertStyle = {
 
 
 export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: object  }) {
-    const asset = RecordData.asset;
+    const collateral = RecordData.collateral;
     /**
      * This function is used to toggle the alert (old version)
         const [lockAlertVisible, setLockAlertVisible] = useState(false);
@@ -36,7 +34,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
         message.success('Lock successful');
     };
 
-    const AssetDisplay = () => {
+    const CollateralDisplay = () => {
         
         return (
             <div>
@@ -50,16 +48,11 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {renderCoin(asset)}
+                    {renderCoin(collateral)}
                 </div>
             </div>
         );
     };
-    const assetIconMap: { [key: string]: React.ReactNode } = {
-        'BTC': <BitcoinCircleColorful style={{ fontSize: 30 }} />,
-        'ETH': <EthwColorful style={{ fontSize: 30 }} />,
-    };
-    const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 30 }} />;
 
     return (
         <div style={{ width: "100%" }}>
@@ -79,22 +72,11 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                 <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
             </header>
             <div>
-                {/* <p style={h1Style}>Collateral</p> */}
-                <AssetDisplay />
-                {/* <Select
-                    defaultValue="Select"
-                    style={{ width: 120, marginLeft: '63px', marginBottom: '20px' }}
-                    options={[
-                        { value: 'Ethereum', label: 'Ethereum' },
-                        { value: 'BitCoin', label: 'BitCoin' },
-                        { value: 'PakCoin', label: 'PakCoin' },
-                        { value: 'HeiCoin', label: 'HeiCoin' },
-                    ]}
-                /> */}
+                <CollateralDisplay />
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>To be estimated</p>
+                <p style={h2Style}>{calculateCoinsNeeded(RecordData.collateral,RecordData.originalCollateralValue)}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Remaining time</h1>

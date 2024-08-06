@@ -2,9 +2,16 @@ import { Button, message } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
+import { renderCoinLarge } from "../../Table/functions";
 
 
-export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw}: {IsWithdraw: boolean, SetIsWithdraw: Function}) {
+export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {IsWithdraw: boolean, SetIsWithdraw: Function, RecordData: object}) {
+    console.log(RecordData);
+    
+    const asset = RecordData.asset;
+    const assetAmount = RecordData.assetAmount;
+
+
 
     const handleWithdrawButtonClick = () => {
         SetIsWithdraw(true);
@@ -30,7 +37,8 @@ export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw}: {IsWithdraw:
             </header>
             <div style={{ marginTop: '30px', }}>
                 <p style={h1Style}>Coin</p>
-                <div style={{ display: 'flex', }}>
+                {renderCoinLarge(asset)}
+                {/* <div style={{ display: 'flex', }}>
                     <BitcoinCircleColorful style={{
                         fontSize: 30,
                         marginLeft: '63px',
@@ -44,11 +52,11 @@ export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw}: {IsWithdraw:
                         }}>BitCoin</h1>
                         <h2>BTC</h2>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div style={{ marginTop: '30px', }}>
                 <h1 style={h1Style}>Amount </h1>
-                <p style={h2Style}>4.000,000</p>
+                <p style={h2Style}>{assetAmount}</p>
             </div>
             <div>
             </div>

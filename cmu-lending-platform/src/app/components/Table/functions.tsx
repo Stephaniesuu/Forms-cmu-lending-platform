@@ -17,10 +17,64 @@ export const renderCoin = (asset: string) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       {IconComponent}
-      <span style={{ marginLeft: 8, fontSize: 16}}>{asset}</span>
+      <span style={{ marginLeft: 8, fontSize: 16 }}>{asset}</span>
     </div>
   );
 };
+
+export const renderCoinLarge = (shortForm: string) => {
+
+  const assetIconMap: { [key: string]: React.ReactNode } = {
+    'BTC': <BitcoinCircleColorful style={{ fontSize:30 }} />,
+    'ETH': <EthwColorful style={{ fontSize: 30 }} />,
+    'PAK': <span style={{ fontSize: 30 }}>🫄</span>,
+    'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
+    'JORE': <span style={{ fontSize: 30 }}>🫄🏾</span>,
+    'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
+    'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
+  };
+
+  const coinNameMap: { [key: string]: string } = {
+    'BTC': 'BitCoin',
+    'ETH': 'Ethereum',
+    'PAK': 'PAK Coin',
+    'HEI': 'Hei Coin',
+    'JORE': 'Jorey Coin',
+    'STEP': 'Stephanie Coin',
+    'FRMS': 'Forms Coin',
+  };
+  const icon = assetIconMap[shortForm];
+  const name = coinNameMap[shortForm];
+  return (
+    <div style={{ display: 'flex' }}>
+      <div style={{
+        fontSize: 30,
+        marginLeft: '63px',
+        marginRight: '10px',
+      }}>
+        {icon}
+      </div>
+      <div>
+        <h1 style={{
+          fontSize: '15px',
+          color: '#000000',
+        }}>{name}</h1>
+        <h2>{shortForm}</h2>
+      </div>
+    </div>
+  );
+};
+
+export const calculateCoinsNeeded = (shortForm: string, requiredValue: number): number | null => {
+  const coin = coinArray.find(c => c.shortForm === shortForm);
+  if (!coin) {
+    return null; // 如果找不到指定的币种，返回null
+  }
+  return requiredValue / coin.value;
+};
+
+
+
 
 export function compareValues(a: string, b: string) {
   const parseValue = (value: string) => {
