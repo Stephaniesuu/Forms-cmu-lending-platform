@@ -1,5 +1,5 @@
 import { Tooltip } from "antd";
-import { coinArray } from "@/app/data/coinsPrice";
+import { coinArray } from '../../data/coinsPrice';
 import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
 
