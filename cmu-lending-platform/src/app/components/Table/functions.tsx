@@ -51,9 +51,53 @@ export const renderCoinLarge = (shortForm: string) => {
   return (
     <div style={{ display: 'flex' }}>
       <div style={{
-        fontSize: 30,
+        fontSize: 25,
         marginLeft: '63px',
         marginRight: '10px',
+      }}>
+        {icon}
+      </div>
+      <div>
+        <h1 style={{
+          fontSize: '15px',
+          color: '#000000',
+        }}>{name}</h1>
+        <h2>{shortForm}</h2>
+      </div>
+    </div>
+  );
+};
+export const renderCoinMiddle = (shortForm: string) => {
+
+  const assetIconMap: { [key: string]: React.ReactNode } = {
+    'BTC': <BitcoinCircleColorful style={{ fontSize:30 }} />,
+    'ETH': <EthwColorful style={{ fontSize: 30 }} />,
+    'PAK': <span style={{ fontSize: 30 }}>🫄</span>,
+    'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
+    'JORE': <span style={{ fontSize: 30 }}>🏂</span>,
+    'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
+    'ALAN': <span style={{ fontSize: 30 }}>👽</span>,
+    'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
+  };
+
+  const coinNameMap: { [key: string]: string } = {
+    'BTC': 'BitCoin',
+    'ETH': 'Ethereum',
+    'PAK': 'PAK Coin',
+    'HEI': 'Hei Coin',
+    'JORE': 'Jorey Coin',
+    'STEP': 'Stephanie Coin',
+    'ALAN': 'Coin Alan',
+    'FRMS': 'Forms Coin',
+  };
+  const icon = assetIconMap[shortForm];
+  const name = coinNameMap[shortForm];
+  return (
+    <div style={{ display: 'flex' }}>
+      <div style={{
+        fontSize: 20,
+        marginRight: '10px',
+        marginTop: '5px',
       }}>
         {icon}
       </div>

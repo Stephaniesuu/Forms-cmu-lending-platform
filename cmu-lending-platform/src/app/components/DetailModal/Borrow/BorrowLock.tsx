@@ -1,5 +1,5 @@
 'use client';
-
+import {renderCoinLarge, renderCoinMiddle} from "../../Table/functions";
 import { Alert, Button, message, Select } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
@@ -48,7 +48,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {renderCoin(collateral)}
+                    {renderCoinMiddle(collateral)}
                 </div>
             </div>
         );
