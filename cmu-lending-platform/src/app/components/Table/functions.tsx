@@ -29,7 +29,7 @@ export const renderCoinLarge = (shortForm: string) => {
     'ETH': <EthwColorful style={{ fontSize: 30 }} />,
     'PAK': <span style={{ fontSize: 30 }}>🫄</span>,
     'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
-    'JORE': <span style={{ fontSize: 30 }}>🫄🏾</span>,
+    'JORE': <span style={{ fontSize: 30 }}>🏂</span>,
     'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
     'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
   };
