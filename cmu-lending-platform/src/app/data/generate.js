@@ -75,15 +75,17 @@ function generateStatusBasedOnDates(createDate, deadline) {
     const currentDate = new Date();
     const deadlineDate = new Date(deadline);
     const createDateObj = new Date(createDate);
+    const oneWeekAgo = new Date();
     const oneMonthAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
     if (currentDate > deadlineDate) {
         return 'Matured';
-    } else if (createDateObj <= oneMonthAgo) {
+    } else if (createDateObj >= oneMonthAgo) {
         return 'Pending';
     } else {
-        return Math.random() < 0.5 ? 'Active' : 'Matured';
+        return 'Active';
     }
 }
 
@@ -128,11 +130,11 @@ function generateContract(isMarket) {
         collateralAmount = -1;
         address = 'NULL';
     } else {
-        status = generateStatusBasedOnDates(createDate, deadline);
         deadline = generateRandomDeadline(createDate, loanDuration);
+        status = generateStatusBasedOnDates(createDate, deadline);
         do {
             buyer = generateRandomBuyer();
-          } while (buyer === seller);
+        } while (buyer === seller);
         collateral = generateRandomCollateral(asset);
         collateralAmount = generateRandomCollateralAmount(collateral, originalCollateralValue);
         address = generateRandomAddress();
@@ -189,19 +191,47 @@ function generateContract(isMarket) {
         deadline
     };
 }
-for (let i = 0; i < 400; i++) {
-    const isUnpaired = Math.random() < 0.6;
+
+let activeCount = 0;
+let pendingCount = 0;
+let maturedCount = 0;
+let pairingCount = 0;
+const totalContracts = 400;
+
+for (let i = 0; i < totalContracts; i++) {
+    const isUnpaired = Math.random() < 0.3;
     const contract = generateContract(isUnpaired);   // Create market contract (unpaired): true, else: false
     const contractString = JSON.stringify(contract, null, 2) + ',\n';
 
-    // console.log(contractString);
-    // fs.appendFile('contracts.js', contractString, (err) => {
-    //     if (err) throw err;
-    //     console.log(`Contract ${i + 1} has been appended to contracts.js!`);
-    // });
-    fs.appendFile('contracts.tsx', contractString, (err) => {
+    switch (contract.status) {
+        case 'Active':
+            activeCount++;
+            break;
+        case 'Pending':
+            pendingCount++;
+            break;
+        case 'Matured':
+            maturedCount++;
+            break;
+        case 'Pairing':
+            pairingCount++;
+            break;
+    }
+
+    fs.appendFile('contractData.tsx', contractString, (err) => {
         if (err) throw err;
-        console.log(`Contract ${i + 1} has been appended!`);
     });
-    // console.log(contractString);
 }
+
+// Calculate percentages
+const activePercentage = (activeCount / totalContracts) * 100;
+const pendingPercentage = (pendingCount / totalContracts) * 100;
+const maturedPercentage = (maturedCount / totalContracts) * 100;
+const pairingPercentage = (pairingCount / totalContracts) * 100;
+
+// Display the counters and percentages
+console.log(`Active: ${activeCount} (${activePercentage.toFixed(2)}%)`);
+console.log(`Pending: ${pendingCount} (${pendingPercentage.toFixed(2)}%)`);
+console.log(`Matured: ${maturedCount} (${maturedPercentage.toFixed(2)}%)`);
+console.log(`Pairing: ${pairingCount} (${pairingPercentage.toFixed(2)}%)`);
+console.log(`Total contracts: ${totalContracts}`);
