@@ -12,11 +12,16 @@ import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
+const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'FRMS'];
 const text =(
- <p> Accepted Collateral
+ <p> <div style={{marginBottom:'10px'}}>Accepted Collateral</div>
   <div>
-  
-  </div>
+      {assets.map((asset, index) => (
+        <div key={index} style={{ marginBottom: '10px',}}>
+          {renderCoin(asset)}
+        </div>
+      ))}
+    </div>
  </p>
  
 );
