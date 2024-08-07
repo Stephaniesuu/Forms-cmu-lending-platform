@@ -59,7 +59,7 @@ export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {
                     }}
                     onClick={handleWithdrawButtonClick}
                     disabled={IsWithdraw}
-                    >Withdraw</Button>
+                    >{IsWithdraw ? 'Withdrew':'Withdraw'}</Button>
             </div>
         </div>
     );

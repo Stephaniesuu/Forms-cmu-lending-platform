@@ -21,6 +21,7 @@ const alertStyle = {
 
 export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: object  }) {
     const collateral = RecordData.collateral;
+    const active= RecordData.active;
     /**
      * This function is used to toggle the alert (old version)
         const [lockAlertVisible, setLockAlertVisible] = useState(false);

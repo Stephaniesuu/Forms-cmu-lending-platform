@@ -95,9 +95,10 @@ export default function BorrowDetailButton({ contract }: { contract: object }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
-  const [isLocked, setIsLocked] = useState(false);
-  const [isWithdraw, setIsWithdraw] = useState(false);
-  const [isRepay, setIsRepay] = useState(false);
+  //写一个函数，当contract.active为active时设置[isLocked, setIsLocked]=useState(true)，否则设置useState(false)
+  const [isLocked, setIsLocked] = useState(contract.status !== 'Pending');
+  const [isWithdraw, setIsWithdraw] = useState(contract.status !== 'Active');
+  const [isRepay, setIsRepay] = useState(contract.status !== 'Active');
   const onTabChange = (key: React.SetStateAction<string>) => {
     setActiveTabKey(key);
   };
