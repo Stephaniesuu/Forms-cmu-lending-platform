@@ -9,6 +9,9 @@ contract LoanContractFactory is Ownable {
     mapping(uint256 => address) private indexToContractAddress;
     mapping(address => uint256) private contractAddressToIndex;
 
+    mapping(address => uint256[]) private buyerToIndex;
+    mapping(address => uint256[]) private sellerToIndex;
+
     // Set the owner of the factory contract = msg.sender and do some initalizations
     constructor() Ownable(msg.sender) {
         // totalContracts = 0;
@@ -35,15 +38,21 @@ contract LoanContractFactory is Ownable {
             collateralCoinAddress,
             loanCoinAddress
         );
+        
+        // Push the contract into Contracts[]
         Contracts.push(newContract);
+        
+        // Store the index-address pair
         indexToContractAddress[totalContracts] = address(newContract);
         contractAddressToIndex[address(newContract)] = totalContracts;
+
+        // Push the index to the buyer and seller's array, so that they can get all their contracts index as a buyer/ seller,
+        // and check the address by the index
+        buyerToIndex[buyer].push(totalContracts);
+        sellerToIndex[seller].push(totalContracts);
+
+
         totalContracts++;
-
-        // // Push the address to both buyer and seller
-        // buyerToIndex[buyer].push(totalContracts);
-        // sellerToIndex[seller].push(totalContracts);
-
         return address(newContract);
     }
 
@@ -51,6 +60,21 @@ contract LoanContractFactory is Ownable {
         return indexToContractAddress[index];
     }
 
+    function getTotalContractsByBuyer(address buyer) external view onlyOwner returns (uint256[] memory) {
+        return buyerToIndex[buyer].length;
+    }
+    
+    function getTotalContractsBySeller(address seller) external view onlyOwner returns (uint256[] memory) {
+        return sellerToIndex[seller].length;
+    }
+
+    function getAddressByBuyerIndex(address buyer, uint256 index) external view onlyOwner returns (address) {
+        return indexToContractAddress[buyerToIndex[buyer][index]];
+    }
+
+    function getAddressBySellerIndex(address seller, uint256 index) external view onlyOwner returns (address) {
+        return indexToContractAddress[sellerToIndex[seller][index]];
+    }
 
     /*********************************************
     The following codes are usable but may not be necessary
