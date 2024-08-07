@@ -52,7 +52,7 @@ const modalStyle = {
 };
 
 const backdropStyle: React.CSSProperties = {
-  position: undefined,
+  position: "fixed",
   top: 0,
   left: 0,
   right: 0,
@@ -71,7 +71,7 @@ const StyledCard = styled(Card)`
   transform: translate(-50%, -50%);
   z-index: 1000; /* High z-index to make sure it is on top */
   width: 651px; /* Adjust based on your preference */
-  height: 700px; /* Adjust based on your preference */
+  height: 850px; /* Adjust based on your preference */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 40px;
   radius: 16px;
