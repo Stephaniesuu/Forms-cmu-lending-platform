@@ -5,6 +5,9 @@ import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
 import { renderCoin } from "../../Table/functions";
 import { calculateCoinsNeeded,renderAmount } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
+
+
 const alertStyle = {
 
     position: 'fixed',
@@ -19,9 +22,9 @@ const alertStyle = {
 }
 
 
-export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: object  }) {
+export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: RecordDataType }) {
     const collateral = RecordData.collateral;
-    const active= RecordData.active;
+    // const active= RecordData.active;
     /**
      * This function is used to toggle the alert (old version)
         const [lockAlertVisible, setLockAlertVisible] = useState(false);
@@ -77,7 +80,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
             </div>
             <div>
                 <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>{renderAmount(calculateCoinsNeeded(RecordData.collateral,RecordData.originalCollateralValue))}</p>
+                <p style={h2Style}>{renderAmount(calculateCoinsNeeded(RecordData.collateral, RecordData.originalCollateralValue) || 0)}</p>
             </div>
             <div>
                 <h1 style={h1Style}>Remaining time</h1>

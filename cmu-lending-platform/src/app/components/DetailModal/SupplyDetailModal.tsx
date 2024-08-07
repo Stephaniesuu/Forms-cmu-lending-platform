@@ -111,8 +111,8 @@ export default function SupplyDetailButton({ contract }) {
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
     const [isBorrow, setIsBorrow] = useState(false);
-    const [isLocked, setIsLocked] = useState(contract.status !== 'Pending');
-    const [isLiquidated, setIsLiquidated] = useState(contract.status !== 'Active');
+    const [isLocked, setIsLocked] = useState(false);
+    const [isLiquidated, setIsLiquidated] = useState(false);
     const onTabChange = (key: React.SetStateAction<string>) => {
         setActiveTabKey(key);
     };

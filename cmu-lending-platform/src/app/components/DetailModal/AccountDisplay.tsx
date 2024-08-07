@@ -17,7 +17,7 @@ const containerStyle = {
     marginBottom: '25px',
 }
 
-const rowgapStyle = {
+const rowgapStyle: React.CSSProperties = {
     display: 'flex',
     width: '180px',
     height: '80px',
