@@ -3,9 +3,11 @@ import { MoneyCollectOutlined } from '@ant-design/icons';
 import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { useState } from "react";
 import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue, getCoinValue } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
 
 
-export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contract }: { IsLiquidated: boolean, SetIsLiquidated: Function, contract: any }) {
+
+export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contract }: { IsLiquidated: boolean, SetIsLiquidated: Function, contract: RecordDataType }) {
 
     const [alertVisible, setAlertVisible] = useState(false);
     const handleCloseAlert = () => {

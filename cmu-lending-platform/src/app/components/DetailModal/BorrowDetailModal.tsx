@@ -8,6 +8,8 @@ import AccountDisplay from './AccountDisplay';
 import BorrowLock from './Borrow/BorrowLock';
 import BorrowWithdraw from './Borrow/BorrowWithdraw';
 import BorrowRepay from './Borrow/BorrowRepay';
+import { RecordDataType } from "../../data/metadata_interface";
+
 
 const tabList = [
   {
@@ -51,19 +53,8 @@ export const IcontextStyle = {
   marginLeft: '10px',
 };
 
-const modalStyle = {
-  position: 'fixed',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  zIndex: 1000, // High z-index to make sure it is on top
-  width: '651px', // Adjust based on your preference
-  highth: '600px', // Adjust based on your preference
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  padding: '40px',
-};
 
-const backdropStyle = {
+const backdropStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,
@@ -91,7 +82,7 @@ const StyledCard = styled(Card)`
 
 
 
-export default function BorrowDetailButton({ contract }: { contract: object }) {
+export default function BorrowDetailButton({ contract }: { contract: RecordDataType }) {
   const [showCard, setShowCard] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
@@ -135,7 +126,7 @@ export default function BorrowDetailButton({ contract }: { contract: object }) {
         <>
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
           <StyledCard
-            style={modalStyle}
+            // style={modalStyle}
             title={
               <>
                 <Button

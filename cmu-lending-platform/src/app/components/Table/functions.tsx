@@ -170,12 +170,12 @@ export const renderAddress = (value: string) => (
 );
 
 // Function to get the full name of the coin
-export const getFullName = (shortForm) => {
+export const getFullName = (shortForm: string) => {
   const coin = coinArray.find(c => c.shortForm === shortForm);
   return coin ? coin.name : shortForm;
 };
 
-export const renderLoanDuration = (text, record) => {
+export const renderLoanDuration = (text: null, record: { loanDuration: any; }) => {
   return `${record.loanDuration} Months`;
 };
 

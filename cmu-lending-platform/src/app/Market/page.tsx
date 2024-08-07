@@ -2,12 +2,11 @@
 
 import React, { useState } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table, Tooltip } from 'antd';
+import {Table, Tooltip } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType, TableProps } from 'antd';
 import { filteredMarketData } from '../data/contracts';
-import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
-import { PayCircleFilled, InfoCircleOutlined } from '@ant-design/icons';
+import {  InfoCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
@@ -36,7 +35,7 @@ const RequiredCollateral = () => {
 
   );
 }
-const columns: TableColumnsType<marketTable> = [
+const columns: TableColumnsType = [
   {
     title: 'Asset',
     dataIndex: 'asset',
@@ -145,9 +144,6 @@ const columns: TableColumnsType<marketTable> = [
   },
 ];
 
-const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
 const tableStyle: React.CSSProperties = {
   opacity: 'initial',
@@ -188,7 +184,6 @@ export default function Market() {
         <StyledTable
           columns={columns}
           dataSource={filteredMarketData}
-          onChange={onChange}
           style={tableStyle}
           rowClassName={rowClassName}
           title={() => <Title level={1}>Market</Title>}

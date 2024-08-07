@@ -1,5 +1,6 @@
-import { Contract } from './contractData';
+
 import { contracts } from './contractData';
+import { Contract } from './metadata_interface';
 
 export const filteredMarketData = contracts.filter(item => item.status === 'Pairing');
 

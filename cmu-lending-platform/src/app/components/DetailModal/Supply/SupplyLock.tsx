@@ -1,12 +1,10 @@
-import { Select, Button, message } from "antd";
+import { Button, message } from "antd";
 import { IcontextStyle, h2Style, h1Style } from "../BorrowDetailModal";
 import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
 
-const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-};
 
-export default function SupplyLock({ IsLocked, SetIsLocked, contract}: { IsLocked: boolean, SetIsLocked: Function, contract: any }) {
+export default function SupplyLock({ IsLocked, SetIsLocked, contract }: { IsLocked: boolean, SetIsLocked: Function, contract: RecordDataType }) {
 
     const toggleAlert = () => {
         // setLockAlertVisible(!lockAlertVisible);

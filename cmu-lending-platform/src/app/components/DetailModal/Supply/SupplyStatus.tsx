@@ -2,8 +2,10 @@ import { Tooltip } from "antd";
 import { h1Style, h3Style, IcontextStyle } from "../SupplyDetailModal";
 import { FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue, getCoinValue } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
 
-export default function SupplyStatus({ contract }: { any }) {
+
+export default function SupplyStatus({ contract }: { contract: RecordDataType }) {
     const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
 
 
@@ -72,11 +74,8 @@ export default function SupplyStatus({ contract }: { any }) {
                     </div>
                 </div>
                 <p style={h3Style}>{renderCoinValue(contract.repayment, contract.repaymentAmount)}</p>
-
                 <p style={h1Style}>Create Date</p>
                 <p style={h3Style}>{contract.createDate}</p>
-
-
             </div>
 
         </div>

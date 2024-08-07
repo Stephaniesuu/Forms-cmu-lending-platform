@@ -2,20 +2,18 @@
 
 import React from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table, Divider, Button, Tag, Space, Tooltip, Alert } from 'antd';
+import { Row, Col, Table,Tag, Alert } from 'antd';
 import Title from 'antd/es/typography/Title';
-import type { TableColumnsType, TableProps } from 'antd';
-import { PayCircleFilled } from '@ant-design/icons';
+import type { TableColumnsType } from 'antd';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
 import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount, renderCoin, renderCoinLarge } from '../components/Table/functions';
-import { dashboardTable } from '../components/Table/datatypes';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
 
-const columns = (isSupply: boolean): TableColumnsType<dashboardTable> => [
+const columns = (isSupply: boolean): TableColumnsType => [
   {
     title: 'Asset',
     dataIndex: 'asset',
@@ -155,7 +153,7 @@ export default function Dashboard() {
           <div style={containerStyle}>
             <StyledTable
               columns={columns(true)}
-              dataSource={getContractsByBuyer(account.address)}
+              dataSource={getContractsByBuyer(account.address ?? '')}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}
@@ -167,7 +165,7 @@ export default function Dashboard() {
           <div style={containerStyle}>
             <StyledTable
               columns={columns(false)}
-              dataSource={getContractsBySeller(account.address)}
+              dataSource={getContractsBySeller(account.address ?? '')}
               rowClassName={rowClassName}
               scroll={{ y: 1000 }}
               pagination={{ pageSize: 10 }}

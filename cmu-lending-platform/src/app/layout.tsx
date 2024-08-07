@@ -40,7 +40,7 @@ const themetoken = {
     Menu: {
       // itemColor: 'black',
       itemPaddingInline: '34px',
-      fontSize:'16px',
+      fontSize: 16,
     },
     Button: {
       algorithm: true

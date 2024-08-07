@@ -2,12 +2,14 @@
 
 import { Button, Tooltip, Popconfirm, message, Progress, ProgressProps } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
-import { BitcoinCircleColorful } from '@ant-design/web3-icons';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { renderAmount, renderCoinLarge } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
 
-export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRepay: boolean, SetIsRepay: Function,RecordData: object }) {
+
+
+export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRepay: boolean, SetIsRepay: Function, RecordData: RecordDataType }) {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const showPopconfirm = () => {
@@ -82,7 +84,7 @@ export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRep
                                 marginLeft: '63px',
                             }}>
                                 {renderAmount(RecordData.repaymentAmount)}
-                                </h2>
+                            </h2>
                         </div>
                     </div>
                 </>

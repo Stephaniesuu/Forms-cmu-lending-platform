@@ -10,7 +10,7 @@ export interface Contract {
     repayment: string;  // Coins
     repaymentAmount: number; // Amount of Coins
     repayValue: number; // The value of the repayment
-    
+
     collateral: string; // Coins, e.g.: Bitcoin, Ethereum
     collateralAmount: number; // Amount of coins, e.g.: 0.1
     originalCollateralValue: number; // Price when the collateral is locked (in HKD)
@@ -24,7 +24,7 @@ export interface Contract {
     deadline: string; // Date, e.g.: 2021-09-01
 };
 
-export type RecordDataType =  {
+export type RecordDataType = {
     address: string; // contract address, "NULL" if not created yet
     buyer: string;  // buyer address, e.g.: 0xdfbDA87Fe51EA50E2B5cbd6d253b6A58A6F295E3
     seller: string; // seller address, e.g.: 0xdfbDA87Fe51EA50E2B5cbd6d253b6A58A6F295E3
@@ -36,7 +36,7 @@ export type RecordDataType =  {
     repayment: string;  // Coins
     repaymentAmount: number; // Amount of Coins
     repayValue: number; // The value of the repayment
-    
+
     collateral: string; // Coins, e.g.: Bitcoin, Ethereum
     collateralAmount: number; // Amount of coins, e.g.: 0.1
     originalCollateralValue: number; // Price when the collateral is locked (in HKD)
@@ -48,4 +48,26 @@ export type RecordDataType =  {
 
     createDate: string; // Date, e.g.: 2021-09-01
     deadline: string; // Date, e.g.: 2021-09-01
-}
+};
+
+// export interface marketTable {
+//     // key: React.Key;
+//     assest: string,
+//     creditor: string,
+//     amount: number,
+//     amountValue: string,
+//     repayment: number,
+//     repaymentValue: string,
+//     requiredCollateral: string,
+//     duration: string,
+//     createDate: string,
+// };
+// export interface dashboardTable {
+//     // key: React.Key;
+//     assest: string,
+//     counterparty: string,
+//     amount: number,
+//     value: string,
+//     status: string,
+//     deadline: string,
+// }

@@ -24,16 +24,8 @@ const alertStyle = {
 
 export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: RecordDataType }) {
     const collateral = RecordData.collateral;
-    // const active= RecordData.active;
-    /**
-     * This function is used to toggle the alert (old version)
-        const [lockAlertVisible, setLockAlertVisible] = useState(false);
-        const handleCloseAlert = () => {
-        setLockAlertVisible(false); // 关闭警告
-        };
-    **/
+
     const toggleAlert = () => {
-        // setLockAlertVisible(!lockAlertVisible);
         SetIsLocked(true);
         message.success('Lock successful');
     };
@@ -103,17 +95,6 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     onClick={toggleAlert}
                     disabled={IsLocked}
                 >{IsLocked ? 'Locked' : 'Lock'}</Button>
-                {/* {lockAlertVisible && (
-                    <Alert
-                        showIcon
-                        message="Success Text"
-                        description="Lock has been done. Now you can withdraw your coins."
-                        type="success"
-                        closable={true}
-                        onClose={handleCloseAlert}
-                        style={alertStyle}
-                    />
-                )} */}
             </div>
         </div>
     )

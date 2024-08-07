@@ -1,15 +1,15 @@
 'use client';
 
-import { Button, Card, Select, ConfigProvider, Tooltip, Alert } from "antd";
+import { Button, Card} from "antd";
 import { useState } from "react";
 
-import { CloseOutlined, MoneyCollectOutlined, FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { CloseOutlined} from '@ant-design/icons';
 import styled from '@emotion/styled';
-import { BitcoinCircleColorful, EthereumCircleColorful } from '@ant-design/web3-icons';
 import AccountDisplay from "./AccountDisplay";
 import SupplyLock from "./Supply/SupplyLock";
 import SupplyStatus from "./Supply/SupplyStatus";
 import SupplyLiquidation from "./Supply/SupplyLiquidation";
+import { RecordDataType } from "../../data/metadata_interface";
 
 const tabList = [
     {
@@ -68,19 +68,8 @@ export const IcontextStyle = {
     marginLeft: '10px',
 };
 
-const modalStyle = {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 1000, // High z-index to make sure it is on top
-    width: '651px', // Adjust based on your preference
-    highth: '600px', // Adjust based on your preference
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '40px',
-};
 
-const backdropStyle = {
+const backdropStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
     left: 0,
@@ -106,7 +95,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function SupplyDetailButton({ contract }) {
+export default function SupplyDetailButton({ contract }: { contract: RecordDataType }) {
 
     const [showCard, setShowCard] = useState(false);
     const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
@@ -147,7 +136,6 @@ export default function SupplyDetailButton({ contract }) {
                 <>
                     <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
                     <StyledCard
-                        style={modalStyle}
                         title={
                             <>
                                 <Button

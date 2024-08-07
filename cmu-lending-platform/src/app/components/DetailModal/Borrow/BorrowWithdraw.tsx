@@ -1,14 +1,14 @@
 import { Button, message } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
-import { BitcoinCircleColorful } from '@ant-design/web3-icons';
-import { useState } from "react";
-import { renderCoinLarge,renderAmount } from "../../Table/functions";
+import { renderCoinLarge, renderAmount } from "../../Table/functions";
+import { RecordDataType } from "../../../data/metadata_interface";
 
 
-export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {IsWithdraw: boolean, SetIsWithdraw: Function, RecordData: object}) {    
+
+export default function BorrowWithdraw({ IsWithdraw, SetIsWithdraw, RecordData }: { IsWithdraw: boolean, SetIsWithdraw: Function, RecordData: RecordDataType }) {
     const asset = RecordData.asset;
     const assetAmount = RecordData.assetAmount;
-    
+
     const handleWithdrawButtonClick = () => {
         SetIsWithdraw(true);
         message.success('Withdraw successful');
@@ -59,7 +59,7 @@ export default function BorrowWithdraw({IsWithdraw, SetIsWithdraw,RecordData}: {
                     }}
                     onClick={handleWithdrawButtonClick}
                     disabled={IsWithdraw}
-                    >{IsWithdraw ? 'Withdrew':'Withdraw'}</Button>
+                >{IsWithdraw ? 'Withdrew' : 'Withdraw'}</Button>
             </div>
         </div>
     );

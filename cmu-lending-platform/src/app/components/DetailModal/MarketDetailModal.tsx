@@ -7,31 +7,28 @@ import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import CreateSuccessResult from "./CreateSucessModal";
 import { renderAddress, getFullName, renderLoanDuration, renderCoinValue, renderAmount, renderValue } from "../Table/functions";
+import { RecordDataType } from "../../data/metadata_interface";
 
 
-const h1Style = {
+const h1Style: React.CSSProperties = {
   // position: 'fixed',
   fontSize: '24px',
   color: '#000000',
-  fontntFamily: 'Poppins',
   marginLeft: '15px',
   fontWeight: 'bold',
 };
 
-const h2Style = {
+const h2Style: React.CSSProperties = {
   // position: 'fixed',
   fontSize: '20px',
-  fontntFamily: 'Poppins',
   marginLeft: '15px',
   // marginBottom: '15px',
 };
-const h3Style = {
+const h3Style: React.CSSProperties = {
   fontSize: '20px',
-  fontntFamily: 'Poppins',
   // marginright: '60px',
   marginLeft: 'auto',
   textAlign: 'right',
-
   marginBottom: '15px',
 };
 const IcontextStyle = {
@@ -39,7 +36,6 @@ const IcontextStyle = {
   fontSize: '28px',
   color: '#8247E5',
   // fontWeight: 'bold',
-  fontntFamily: 'Poppins',
   marginLeft: '10px',
 };
 
@@ -55,8 +51,8 @@ const modalStyle = {
   padding: '40px',
 };
 
-const backdropStyle = {
-  position: 'fixed',
+const backdropStyle: React.CSSProperties = {
+  position: undefined,
   top: 0,
   left: 0,
   right: 0,
@@ -81,7 +77,7 @@ const StyledCard = styled(Card)`
   radius: 16px;
 `;
 
-export default function MarketDetailButton({ contract }: { contract: object }) {
+export default function MarketDetailButton({ contract }: { contract: RecordDataType }) {
   const [showCard, setShowCard] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
@@ -99,7 +95,7 @@ export default function MarketDetailButton({ contract }: { contract: object }) {
         <>
           <div style={backdropStyle} onClick={() => setShowCard(false)}></div>
           <StyledCard
-            style={modalStyle}
+            // style={modalStyle}
             title={
               <>
                 <Button
