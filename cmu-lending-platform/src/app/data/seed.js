@@ -1,3 +1,10 @@
+//only for seed.js
+
+// {
+//   "presets": ["@babel/preset-env", "@babel/preset-typescript","next/babel"]
+// }
+
+
 require('dotenv').config();
 require('@babel/register')({
   extensions: ['.js', '.ts', '.tsx']
