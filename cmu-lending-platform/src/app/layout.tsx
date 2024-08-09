@@ -58,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="light">
-      <body className={poppins.className}>
+      <body className={poppins.className} >
         <AntdRegistry>
           <ConfigProvider theme={themetoken}>
             <Providers>

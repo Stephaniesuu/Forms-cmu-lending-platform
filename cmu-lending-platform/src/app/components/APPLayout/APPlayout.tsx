@@ -1,17 +1,18 @@
 
-import React, { useEffect, useState,CSSProperties } from 'react';
+import React, { useEffect, useState, CSSProperties } from 'react';
 import { Layout, theme, Menu } from 'antd';
 import WalletConnector from '../Web3/walletConnector';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 const { Header, Content, Footer } = Layout;
+import 'animate.css';
 
 
 
 export default function APPLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
 
   //for theme 
-  const { token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
+  const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
 
   //for menu active key
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
@@ -31,7 +32,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
     },
   ];
 
-  
+
   const HeaderStyle: CSSProperties = {
     position: 'sticky',
     width: '100%',
@@ -52,40 +53,44 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
   }
 
   return (
-    <Layout>
-      <Header
-        style={HeaderStyle}
-      >
-        <img src='CMU.svg' alt='CMU' style={{ width: '100px', height: '100px', margin: '0 20px' }} />
-        <Menu
-          theme="light"
-          mode="horizontal"
-          items={items}
-          style={MenuStyle}
-          selectedKeys={selectedKeys}
-        />
-        <WalletConnector />
-      </Header>
-      <Content >
-        <div
-          style={{
-            padding: '80px',
-            alignItems: 'center',
-            justifyItems: 'center',
-            // display: 'flex',
-            minHeight: '100vh',
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          {children}
-        </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        CMU lending platform ©{new Date().getFullYear()} Created by Forms
-      </Footer>
-    </Layout >
 
+      <Layout >
+        <Header
+          style={HeaderStyle}
+        >
+          <Link href="/">
+            <img src='CMU.svg' alt='CMU' style={{ width: '100px', height: '100px', margin: '0 20px' }} />
+          </Link>
+          <Menu
+            theme="light"
+            mode="horizontal"
+            items={items}
+            style={MenuStyle}
+            selectedKeys={selectedKeys}
+          />
+          <WalletConnector />
+        </Header>
+        <Content>
+          <div
+            style={{
+              padding: '80px',
+              alignItems: 'center',
+              justifyItems: 'center',
+              // display: 'flex',
+              minHeight: '100vh',
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <div className='animate__animated animate__fadeIn'>
+            {children}
+            </div>
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          CMU lending platform ©{new Date().getFullYear()} Created by Forms
+        </Footer>
+      </Layout >
   );
 }
 

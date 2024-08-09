@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card } from "antd";
+import { Button, Card,Modal } from "antd";
 import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -9,6 +9,8 @@ import BorrowLock from './Borrow/BorrowLock';
 import BorrowWithdraw from './Borrow/BorrowWithdraw';
 import BorrowRepay from './Borrow/BorrowRepay';
 import { RecordDataType } from "../../data/metadata_interface";
+import 'animate.css';
+
 
 
 const tabList = [
@@ -155,7 +157,6 @@ export default function BorrowDetailButton({ contract }: { contract: RecordDataT
 
             </div>
           </StyledCard>
-
         </>
       )}
     </>
