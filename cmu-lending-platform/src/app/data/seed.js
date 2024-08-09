@@ -11,13 +11,13 @@ require('@babel/register')({
 });
 
 const { db } = require('@vercel/postgres');
-const { contracts } = require('./contractData.tsx'); // 直接导入 TypeScript 文件
+const { contracts } = require('./contractData.tsx'); 
 
 async function createTableAndInsertContracts() {
   const client = await db.connect();
 
   try {
-    // 创建表的 SQL 语句
+    // create table
     await client.query(`
       CREATE TABLE IF NOT EXISTS contracts (
         address TEXT PRIMARY KEY,
@@ -41,12 +41,12 @@ async function createTableAndInsertContracts() {
       )
     `);
 
-    // 插入数据
+    // insert contracts data
     for (const contract of contracts) {
       const createDate = contract.createDate ? new Date(contract.createDate) : null;
       const deadline = contract.deadline ? new Date(contract.deadline) : null;
 
-      // 检查日期是否有效
+      // check if date is valid
       const isValidDate = (date) => date instanceof Date && !isNaN(date);
 
       await client.query(`
