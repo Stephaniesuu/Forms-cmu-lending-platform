@@ -11,7 +11,7 @@ import { ConfigProvider } from "antd";
 import { Providers } from "./providors";
 
 export const metadata: Metadata = {
-  title: "CMU Lending platform",
+  title: "Forms Lending platform",
   description: "",
 };
 

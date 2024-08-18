@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/CMULending');
+    router.push('/Welcome');
   }, [router]);
 
   return null; // Return null as the component will redirect immediately
