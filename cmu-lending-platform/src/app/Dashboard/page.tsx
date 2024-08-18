@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
 import { Row, Col, Table,Tag, Alert } from 'antd';
 import Title from 'antd/es/typography/Title';
@@ -8,11 +8,12 @@ import type { TableColumnsType } from 'antd';
 import styled from '@emotion/styled';
 import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
-import { compareValues, compareDates, renderCoinValue, renderAddress, renderAmount, renderCoin, renderCoinLarge } from '../components/Table/functions';
+import { compareValues, compareDates, renderAddress, renderAmount, renderCoin, renderCoinLarge } from '../components/Table/functions';
 import { useAccount } from 'wagmi';
 
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-
+import { getSymbolByAddress, getPriceByAddress, renderCoinValue} from '../data/coinsPrice';
+import { getStatus } from '../../../../web3/scripts/script';
 const columns = (isSupply: boolean): TableColumnsType => [
   {
     title: 'Asset',
@@ -32,7 +33,10 @@ const columns = (isSupply: boolean): TableColumnsType => [
     filterMode: 'tree',
     filterSearch: true,
     onFilter: (value, record) => record.asset.indexOf(value) === 0,
-    render: (asset: string) => renderCoin(asset),
+    render: (asset: string) => {
+      const assetName = getSymbolByAddress(asset);
+      return renderCoin(assetName || asset); // Fallback to address if name is not found
+    },
   },
   {
     title: isSupply ? 'Seller' : 'Buyer',
@@ -77,19 +81,18 @@ const columns = (isSupply: boolean): TableColumnsType => [
     filterSearch: true,
     onFilter: (value, record) => record.status.indexOf(value) === 0,
     align: 'center',
-    render(status: string) {
+    render(_, record) {
       const statusColorMap: { [key: string]: string } = {
         'Pending': 'blue',
         'Active': 'green',
         'Matured': 'lightgray',
       };
-      const color = statusColorMap[status] || 'lightgray';
+      const color = statusColorMap[record.status] || 'lightgray';
+    
       return (
-        <>
-          <Tag color={color}>{status}</Tag>
-        </>
+        <Tag color={color}>{record.status}</Tag>
       );
-    },
+    }
   },
   {
     title: 'Deadline',
@@ -99,6 +102,11 @@ const columns = (isSupply: boolean): TableColumnsType => [
     },
     align: 'center',
     width: '16%',
+    render: (deadline: string) => {
+      const date = new Date(deadline);
+      const formattedDate = date.toISOString().split('T')[0]; // Extracts the date part
+      return formattedDate;
+    },
   },
   {
     dataIndex: 'action',

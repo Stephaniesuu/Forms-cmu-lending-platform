@@ -9,7 +9,7 @@ import { filteredMarketData } from '../data/contracts';
 import {  InfoCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
-import { compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
+import { renderValue, compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
 
 const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'ALAN', 'FRMS'];
 const text =(
@@ -84,7 +84,15 @@ const columns: TableColumnsType = [
     sorter: {
       compare: (a, b) => a.assetValue - b.assetValue,
     },
-    render: (text, record) => renderCoinValue(record.asset, record.assetAmount),
+    render: (text, record) => {
+      if (record.asset === 'BTC') {
+        return renderValue(460476.9);
+      } else if (record.asset === 'ETH') {
+        return renderValue(20590.21);
+      } else {
+        return renderCoinValue(record.asset, record.assetAmount);
+      }
+    },
     width: '10%',
   },
   {

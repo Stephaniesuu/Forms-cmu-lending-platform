@@ -1,18 +1,18 @@
 import { Tooltip } from "antd";
 import { coinArray } from '../../data/coinsPrice';
-import { BitcoinCircleColorful, EthereumFilled, EthwColorful } from '@ant-design/web3-icons';
+import { BitcoinCircleColorful, EthwColorful } from '@ant-design/web3-icons';
 import { PayCircleFilled } from '@ant-design/icons';
-
+import { PlbtColorful,MonaCircleColorful, DoboCircleColorful,BoneCircleColorful,ShibCircleColorful,PntCircleColorful,YooshiCircleColorful } from '@ant-design/web3-icons';
 export const renderCoin = (asset: string) => {
   const assetIconMap: { [key: string]: React.ReactNode } = {
     'BTC': <BitcoinCircleColorful style={{ fontSize: 20 }} />,
     'ETH': <EthwColorful style={{ fontSize: 20 }} />,
-    'PAK': <span style={{ fontSize: 20 }}>🫄</span>,
-    'HEI': <span style={{ fontSize: 20 }}>🫄🏿</span>,
-    'JORE': <span style={{ fontSize: 20 }}>🏂</span>,
-    'STEP': <span style={{ fontSize: 20 }}>🐈‍⬛</span>,
-    'ALAN': <span style={{ fontSize: 20 }}>👽</span>,
-    'FRMS': <span style={{ fontSize: 20 }}>💩</span>,
+    'PAK': <span style={{ fontSize: 20 }}><BoneCircleColorful /></span>,
+    'HEI': <span style={{ fontSize: 20 }}><ShibCircleColorful /></span>,
+    'JORE': <span style={{ fontSize: 20 }}><YooshiCircleColorful /></span>,
+    'STEP': <span style={{ fontSize: 20 }}><MonaCircleColorful /></span>,
+    'ALAN': <span style={{ fontSize: 20 }}><DoboCircleColorful /></span>,
+    'FRMS': <span style={{ fontSize: 20 }}><PlbtColorful /></span>,
   };
   const IconComponent = assetIconMap[asset] || <PayCircleFilled style={{ fontSize: 20 }} />;
   return (
@@ -28,12 +28,12 @@ export const renderCoinLarge = (shortForm: string) => {
   const assetIconMap: { [key: string]: React.ReactNode } = {
     'BTC': <BitcoinCircleColorful style={{ fontSize:30 }} />,
     'ETH': <EthwColorful style={{ fontSize: 30 }} />,
-    'PAK': <span style={{ fontSize: 30 }}>🫄</span>,
-    'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
-    'JORE': <span style={{ fontSize: 30 }}>🏂</span>,
-    'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
-    'ALAN': <span style={{ fontSize: 30 }}>👽</span>,
-    'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
+    'PAK': <span style={{ fontSize: 30 }}><BoneCircleColorful/></span>,
+    'HEI': <span style={{ fontSize: 30 }}><ShibCircleColorful/></span>,
+    'JORE': <span style={{ fontSize: 30 }}><YooshiCircleColorful /></span>,
+    'STEP': <span style={{ fontSize: 30 }}><MonaCircleColorful/></span>,
+    'ALAN': <span style={{ fontSize: 30 }}><DoboCircleColorful /></span>,
+    'FRMS': <span style={{ fontSize: 30 }}><PlbtColorful /></span>,
   };
 
   const coinNameMap: { [key: string]: string } = {
@@ -72,12 +72,12 @@ export const renderCoinMiddle = (shortForm: string) => {
   const assetIconMap: { [key: string]: React.ReactNode } = {
     'BTC': <BitcoinCircleColorful style={{ fontSize:30 }} />,
     'ETH': <EthwColorful style={{ fontSize: 30 }} />,
-    'PAK': <span style={{ fontSize: 30 }}>🫄</span>,
-    'HEI': <span style={{ fontSize: 30 }}>🫄🏿</span>,
-    'JORE': <span style={{ fontSize: 30 }}>🏂</span>,
-    'STEP': <span style={{ fontSize: 30 }}>🐈‍⬛</span>,
-    'ALAN': <span style={{ fontSize: 30 }}>👽</span>,
-    'FRMS': <span style={{ fontSize: 30 }}>💩</span>,
+    'PAK': <span style={{ fontSize: 30 }}><BoneCircleColorful/></span>,
+    'HEI': <span style={{ fontSize: 30 }}><ShibCircleColorful/></span>,
+    'JORE': <span style={{ fontSize: 30 }}><YooshiCircleColorful /></span>,
+    'STEP': <span style={{ fontSize: 30 }}><MonaCircleColorful/></span>,
+    'ALAN': <span style={{ fontSize: 30 }}><DoboCircleColorful /></span>,
+    'FRMS': <span style={{ fontSize: 30 }}><PlbtColorful /></span>,
   };
 
   const coinNameMap: { [key: string]: string } = {
@@ -113,11 +113,11 @@ export const renderCoinMiddle = (shortForm: string) => {
 };
 
 export const calculateCoinsNeeded = (shortForm: string, requiredValue: number): number | null => {
-  const coin = coinArray.find(c => c.shortForm === shortForm);
+  const coin = coinArray.find(c => c.Symbol === shortForm);
   if (!coin) {
     return null; // 如果找不到指定的币种，返回null
   }
-  return requiredValue / coin.value;
+  return requiredValue / coin.price;
 };
 
 
@@ -171,8 +171,8 @@ export const renderAddress = (value: string) => (
 
 // Function to get the full name of the coin
 export const getFullName = (shortForm: string) => {
-  const coin = coinArray.find(c => c.shortForm === shortForm);
-  return coin ? coin.name : shortForm;
+  const coin = coinArray.find(c => c.Symbol === shortForm);
+  return coin ? coin.Name : shortForm;
 };
 
 export const renderLoanDuration = (text: null, record: { loanDuration: any; }) => {
@@ -180,11 +180,15 @@ export const renderLoanDuration = (text: null, record: { loanDuration: any; }) =
 };
 
 export const getCoinValue = (shortForm: string, amount: number): number => {
-  const coin = coinArray.find(c => c.shortForm === shortForm);
+  if (shortForm === 'BTC')
+    return 455643.15 * amount;
+  if (shortForm === 'ETH')
+    return 20676.21 * amount;
+  const coin = coinArray.find(c => c.Symbol === shortForm);
   if (!coin) {
     return -1;
   }
-  return coin.value * amount;
+  return coin.price * amount;
 };
 
 export const renderValue = (value: number): string => {
@@ -199,4 +203,35 @@ export const renderCoinValue = (shortForm: string, amount: number) => {
 
 export const renderAmount = (amount: number) => {
   return new Intl.NumberFormat('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }).format(amount);
+};
+
+export const renderDate = (date: string) => {
+  const _date = new Date(date);
+  const formattedDate = _date.toISOString().slice(0, 16).replace('T', ' ');
+  return formattedDate;
+};
+
+export const calculateDateDifference = (date: string): string => {
+  const currentDate = new Date();
+  const targetDate = new Date(date);
+  const timeDifference = Math.abs(targetDate.getTime() - currentDate.getTime());
+
+  const months = Math.floor(timeDifference / (1000 * 3600 * 24 * 30));
+  const days = Math.floor((timeDifference % (1000 * 3600 * 24 * 30)) / (1000 * 3600 * 24));
+  const hours = Math.floor((timeDifference % (1000 * 3600 * 24)) / (1000 * 3600));
+  const minutes = Math.floor((timeDifference % (1000 * 3600)) / (1000 * 60));
+  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+  const parts = [
+    { value: months, unit: 'Months' },
+    { value: days, unit: 'Days' },
+    { value: hours, unit: 'Hours' },
+    { value: minutes, unit: 'Minutes' },
+    { value: seconds, unit: 'Seconds' }
+  ];
+
+  const nonZeroParts = parts.filter(part => part.value > 0).slice(0, 2);
+  const formattedDifference = nonZeroParts.map(part => `${part.value} ${part.unit}`).join(' ');
+
+  return formattedDifference || '0 Seconds';
 };

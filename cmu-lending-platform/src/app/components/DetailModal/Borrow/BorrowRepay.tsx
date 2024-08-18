@@ -4,32 +4,59 @@ import { Button, Tooltip, Popconfirm, message, Progress, ProgressProps } from "a
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
-import { renderAmount, renderCoinLarge } from "../../Table/functions";
+import { renderAmount, renderCoinLarge, calculateDateDifference } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
-
+import { repayLoan } from "../../../../../../web3/scripts/script";
+import { getSymbolByAddress } from '../../../data/coinsPrice';
 
 
 export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRepay: boolean, SetIsRepay: Function, RecordData: RecordDataType }) {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const showPopconfirm = () => {
-        setOpen(true);
+    const daysToRepay = calculateDateDifference(RecordData.deadline);
+
+
+    const parseError = (error: any): string => {
+        if (error.code === 'UNPREDICTABLE_GAS_LIMIT') {
+            const originalError = error.error?.data?.originalError;
+            if (originalError && originalError.message) {
+                return `Repay failed: ${originalError.message}`;
+            }
+            return 'Repay failed: Unpredictable gas limit. Please check your collateral and try again.';
+        } else if (error.code === 'ACTION_REJECTED') {
+            return 'Repay failed: User rejected the transaction.';
+        } else if (error.code === 'CALL_EXCEPTION') {
+            return 'Repay failed: Transaction failed. Please check your balance and try again.';
+        }
+        return 'Repay failed: An unknown error occurred.';
     };
 
-    const handleOk = () => {
+    const handleRepayComfirm = async () => {
         setConfirmLoading(true);
-
-        setTimeout(() => {
-            setOpen(false);
+        try {
+            await repayLoan(RecordData.address);
+            message.success({
+                content:'Repay successful',
+                duration: 10,});
+        } catch (error) {
+            console.error('Error executing repay:', error);
+            const errorMessage = parseError(error);
+            message.error(
+                {
+                    content: errorMessage,
+                    duration: 10,
+                }
+            );
+        } finally {
             setConfirmLoading(false);
-            message.success('Repay successfully');
-            SetIsRepay(true);
-        }, 2000);
+            setOpen(false);
+        }
     };
 
     const handleCancel = () => {
         setOpen(false);
     };
+
     const conicColors: ProgressProps['strokeColor'] = {
         '0%': '#87d068',
         '50%': '#ffe58f',
@@ -62,12 +89,12 @@ export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRep
                 <>
                     <div style={{ marginTop: '30px' }}>
                         <h1 style={h1Style}>Countdown </h1>
-                        <p style={h2Style}>24 Days</p>
+                        <p style={h2Style}>{calculateDateDifference(RecordData.deadline)}</p>
                     </div>
                     <div style={{ display: 'flex', marginTop: '30px', marginBottom: '10px', }}>
                         <div>
                             <p style={h1Style}>Coin</p>
-                            {renderCoinLarge(RecordData.repayment)}
+                            {renderCoinLarge(getSymbolByAddress(RecordData.repayment))}
                         </div>
                         <div style={{ marginLeft: '80px', }}>
                             <h1 style={h1Style}>
@@ -99,9 +126,9 @@ export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRep
             }}>
                 <Popconfirm
                     title="Comfirm to repay?"
-                    description="You still have 24 days to repay"
+                    description={`You still have ${daysToRepay} days to repay`}
                     open={open}
-                    onConfirm={handleOk}
+                    onConfirm={handleRepayComfirm}
                     okButtonProps={{ loading: confirmLoading }}
                     onCancel={handleCancel}
                 >
@@ -115,7 +142,7 @@ export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRep
                             fontSize: '16px',
                             marginBottom: '37px',
                         }}
-                        onClick={showPopconfirm}
+                        onClick={() => { setOpen(true) }}
                         disabled={IsRepay}>{IsRepay ? 'Repaid' : 'Repay'}</Button>
                 </Popconfirm>
             </div>

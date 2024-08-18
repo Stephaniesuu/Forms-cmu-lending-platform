@@ -1,15 +1,16 @@
 'use client';
 
-import { Button, Card} from "antd";
+import { Button, Card } from "antd";
 import { useState } from "react";
 
-import { CloseOutlined} from '@ant-design/icons';
+import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import AccountDisplay from "./AccountDisplay";
 import SupplyLock from "./Supply/SupplyLock";
 import SupplyStatus from "./Supply/SupplyStatus";
 import SupplyLiquidation from "./Supply/SupplyLiquidation";
 import { RecordDataType } from "../../data/metadata_interface";
+import { Address } from "@ant-design/web3";
 
 const tabList = [
     {
@@ -89,7 +90,7 @@ const StyledCard = styled(Card)`
   transform: translate(-50%, -50%);
   z-index: 1000; /* High z-index to make sure it is on top */
   width: 651px; /* Adjust based on your preference */
-  height: 700px; /* Adjust based on your preference */
+  height: 750px; /* Adjust based on your preference */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 40px;
   radius: 16px;
@@ -154,12 +155,23 @@ export default function SupplyDetailButton({ contract }: { contract: RecordDataT
                     >
                         <div style={{
                             display: 'flex',
-                            height: '405px',
+                            height: '435px',
                             gap: '100px',
                             background: 'rgba(234, 72, 92, 0.05)',
                             borderRadius: '16px',
                         }}>
                             {contentList[activeTabKey]}
+                        </div>
+                        <div style={{ display: 'flex', justifyItems: 'center', alignItems: 'center', width: '100%', marginTop: '10px' }}>
+                            <h1 style={{ marginRight: '3px' }}>Contract Adress:</h1>
+                            <Address
+                                ellipsis={{
+                                    headClip: 8,
+                                    tailClip: 6,
+                                }}
+                                copyable
+                                address={contract.address}
+                            />
                         </div>
                     </StyledCard>
 

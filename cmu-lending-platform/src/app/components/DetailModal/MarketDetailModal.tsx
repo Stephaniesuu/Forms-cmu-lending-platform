@@ -69,9 +69,9 @@ const StyledCard = styled(Card)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000; /* High z-index to make sure it is on top */
-  width: 651px; /* Adjust based on your preference */
-  height: 850px; /* Adjust based on your preference */
+  z-index: 1000; 
+  width: 651px; 
+  height: 850px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 40px;
   radius: 16px;
@@ -192,7 +192,7 @@ export default function MarketDetailButton({ contract }: { contract: RecordDataT
                     cursor: 'pointer',
                     fontSize: '16px',
                     marginBottom: '37px',
-                  }} onClick={handleCreateButtonClick} disabled={isCreated}>{isCreated ? 'Created' : 'Request'}</Button>
+                  }} onClick={handleCreateButtonClick} disabled={isCreated}>{isCreated ? 'Requested' : 'Request'}</Button>
               </div>
             </div>
             <CreateSuccessResult visible={showCreateModal} onClose={() => setShowCreateModal(false)} setCreatesuccess = {setIsCreated}/>

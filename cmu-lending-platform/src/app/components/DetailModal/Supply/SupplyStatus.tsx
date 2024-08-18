@@ -1,9 +1,10 @@
 import { Tooltip } from "antd";
 import { h1Style, h3Style, IcontextStyle } from "../SupplyDetailModal";
 import { FileSearchOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue, getCoinValue } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
 
+import { getSymbolByAddress, renderCoinValue} from '../../../data/coinsPrice';
+import { renderCoin, renderCoinLarge, renderAmount, getCoinValue, renderDate } from "../../Table/functions";
 
 export default function SupplyStatus({ contract }: { contract: RecordDataType }) {
     const text = <p>Liquidation will performed automatically once the value decrease exceeds the margin.</p>;
@@ -30,19 +31,19 @@ export default function SupplyStatus({ contract }: { contract: RecordDataType })
                 </div>
                 {/* <h2 style={h2Style} >repay your borrowed coins and get collateral back</h2> */}
             </header>
-            <div style={{ display: 'flex', marginBottom: '10px', }}>
+            <div style={{ display: 'flex', marginBottom: '20px', }}>
                 <div style={{ display: 'flex', }}>
                     <div>
                         <p style={h1Style}>Supply</p>
-                        {renderCoinLarge(contract.asset)}
+                        {renderCoinLarge(getSymbolByAddress(contract.asset))}
                     </div>
                     <div style={{ marginLeft: '20px' }}>
                         <p style={h1Style}>Repayment</p>
-                        {renderCoinLarge(contract.asset)}
+                        {renderCoinLarge(getSymbolByAddress(contract.asset))}
                     </div>
                 </div>
             </div>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", marginBottom: '20px' }}>
                 <div>
                     <h1 style={h1Style}>
                         Amount
@@ -72,10 +73,13 @@ export default function SupplyStatus({ contract }: { contract: RecordDataType })
                             <QuestionCircleOutlined style={{ fontSize: 15, color: '#8247E5', marginLeft: '10px' }} />
                         </Tooltip>
                     </div>
+                    
                 </div>
+                <div style={{marginBottom:'20px'}}>
                 <p style={h3Style}>{renderCoinValue(contract.repayment, contract.repaymentAmount)}</p>
+                </div>
                 <p style={h1Style}>Create Date</p>
-                <p style={h3Style}>{contract.createDate}</p>
+                <p style={h3Style}>{renderDate(contract.createDate)}</p>
             </div>
 
         </div>

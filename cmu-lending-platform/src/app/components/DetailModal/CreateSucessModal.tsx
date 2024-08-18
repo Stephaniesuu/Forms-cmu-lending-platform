@@ -9,7 +9,7 @@ type SuccessResultModalProps = {
 
 const CreateSucessModal = ({ visible, onClose, setCreatesuccess }: SuccessResultModalProps) => {
     const [loading, setLoading] = useState(true);
-    const contractaddress = '0x2e44fde7919fd000000000000000000000000000';
+    const contractaddress = '202408190001';
     const [confirmVisible, setConfirmVisible] = useState(true);
     const [confirmed, setConfirmed] = useState(false);
 
@@ -56,7 +56,7 @@ const CreateSucessModal = ({ visible, onClose, setCreatesuccess }: SuccessResult
                 <Result
                     status="success"
                     title="Successful"
-                    subTitle={` Contract created, address: ${contractaddress}, Configuration may takes a few minutes.`}
+                    subTitle={` Your request has been set! Pairing may take 3 days. Referce no.: ${contractaddress}`}
                     extra={[
                         <Button key="close" onClick={onClose}>
                             Close

@@ -1,13 +1,21 @@
 {
     "dependencies": {
-      "@openzeppelin/contracts": "^5.0.2",
-      "openzeppelin-solidity": "^3.4.2",
-      "yarn": "^1.22.22"
+        "@openzeppelin/contracts": "^5.0.2",
+        "dotenv": "^16.4.5",
+        "ethers": "5.7",
+        "hardhat": "^2.22.7",
+        "openzeppelin-solidity": "^3.4.2",
+        "solc": "^0.8.26",
+        "yarn": "^1.22.22"
     },
     "name": "Forms",
+    "type": "module",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "https://github.com/Forms-intern/Forms.git",
     "author": "Jorey717 <609019479@qq.com>",
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+    }
+}

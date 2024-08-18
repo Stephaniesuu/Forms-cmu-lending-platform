@@ -1,12 +1,14 @@
 'use client';
-import {renderCoinLarge, renderCoinMiddle} from "../../Table/functions";
-import { Alert, Button, message, Select } from "antd";
+import { renderCoinMiddle } from "../../Table/functions";
+import { Button, message, Spin } from "antd";
 import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { useState } from "react";
-import { renderCoin } from "../../Table/functions";
-import { calculateCoinsNeeded,renderAmount } from "../../Table/functions";
+import { renderAmount } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
+import { getSymbolByAddress } from '../../../data/coinsPrice';
+import { _contractABI } from "../../../../../../web3/abi/LoanContract";
 
+import { sellerLockCollateral } from "../../../../../../web3/scripts/script";
 
 const alertStyle = {
 
@@ -24,14 +26,47 @@ const alertStyle = {
 
 export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLocked: boolean, SetIsLocked: Function, RecordData: RecordDataType }) {
     const collateral = RecordData.collateral;
+    const [loading, setLoading] = useState(false);
 
-    const toggleAlert = () => {
-        SetIsLocked(true);
-        message.success('Lock successful');
+    const parseError = (error: any): string => {
+        if (error.code === 'ACTION_REJECTED') {
+            return 'Transaction was rejected by the user.';
+        } else if (error.code === 'CALL_EXCEPTION') {
+            return `Lock failed: transaction failed.please check your balance and try again`;
+        }
+        return 'Lock failed: ' + (error.message);
+
     };
 
+    const handleBorrowlockClick = async () => {
+        setLoading(true);
+        try {
+            const result = await sellerLockCollateral(RecordData.address);
+            if (result) {
+                SetIsLocked(true);
+                message.success({
+                    content: 'Collateral is locked successfully!',
+                    duration: 10,
+                });
+            } else {
+                console.error('No data returned from contract function');
+                message.error({
+                    content: 'Lock failed: No data returned from contract function',
+                    duration: 10,
+                });
+            }
+        } catch (error) {
+            console.error('Error executing contract function:', error);
+            const errorMessage = parseError(error);
+            message.error({
+                content: errorMessage,
+                duration: 10,
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
     const CollateralDisplay = () => {
-        
         return (
             <div>
                 <p style={{
@@ -44,7 +79,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {renderCoinMiddle(collateral)}
+                    {renderCoinMiddle(getSymbolByAddress(collateral))}
                 </div>
             </div>
         );
@@ -52,50 +87,52 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
 
     return (
         <div style={{ width: "100%" }}>
-            <header >
+            <Spin spinning={loading} tip="Loading...">
+                <header >
+                    <div style={{
+                        display: 'flex',
+                        marginLeft: '63px',
+                        marginTop: '37px',
+                    }}>
+                        <img src='images/Lockicon.png' alt='Lock' style={{
+                            width: '30px',
+                            height: '30px',
+                            marginTop: '10px',
+                        }} />
+                        <h1 style={IcontextStyle}>Lock</h1>
+                    </div>
+                    <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
+                </header>
+                <div>
+                    <CollateralDisplay />
+                </div>
+                <div>
+                    <h1 style={h1Style}>Amount Required</h1>
+                    <p style={h2Style}>{renderAmount(RecordData.collateralAmount)}</p>
+                </div>
+                <div>
+                    <h1 style={h1Style}>Remaining time</h1>
+                    <p style={h2Style}>23 hours 59 minutes</p>
+                </div>
                 <div style={{
                     display: 'flex',
-                    marginLeft: '63px',
-                    marginTop: '37px',
+                    justifyContent: 'center',
                 }}>
-                    <img src='images/Lockicon.png' alt='Lock' style={{
-                        width: '30px',
-                        height: '30px',
-                        marginTop: '10px',
-                    }} />
-                    <h1 style={IcontextStyle}>Lock</h1>
+                    <Button type="primary" style={
+                        {
+                            width: '400px',
+                            height: '40px',
+                            border: 'none',
+                            borderRadius: '6px',
+                            cursor: 'pointer',
+                            fontSize: '16px',
+                            marginBottom: '37px',
+                        }}
+                        onClick={handleBorrowlockClick}
+                        disabled={IsLocked}
+                    >{IsLocked ? 'Locked' : 'Lock'}</Button>
                 </div>
-                <h2 style={h2Style} >Lock your current collateral for getting coins</h2>
-            </header>
-            <div>
-                <CollateralDisplay />
-            </div>
-            <div>
-                <h1 style={h1Style}>Amount Required</h1>
-                <p style={h2Style}>{renderAmount(calculateCoinsNeeded(RecordData.collateral, RecordData.originalCollateralValue) || 0)}</p>
-            </div>
-            <div>
-                <h1 style={h1Style}>Remaining time</h1>
-                <p style={h2Style}>23 hours 59 minutes</p>
-            </div>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-            }}>
-                <Button type="primary" style={
-                    {
-                        width: '400px',
-                        height: '40px',
-                        border: 'none',
-                        borderRadius: '6px',
-                        cursor: 'pointer',
-                        fontSize: '16px',
-                        marginBottom: '37px',
-                    }}
-                    onClick={toggleAlert}
-                    disabled={IsLocked}
-                >{IsLocked ? 'Locked' : 'Lock'}</Button>
-            </div>
+            </Spin>
         </div>
     )
 }

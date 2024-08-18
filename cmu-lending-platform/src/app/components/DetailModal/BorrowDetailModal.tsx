@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card,Modal } from "antd";
+import { Button, Card, Flex, Modal } from "antd";
 import { useState } from "react";
 import { CloseOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
@@ -9,6 +9,7 @@ import BorrowLock from './Borrow/BorrowLock';
 import BorrowWithdraw from './Borrow/BorrowWithdraw';
 import BorrowRepay from './Borrow/BorrowRepay';
 import { RecordDataType } from "../../data/metadata_interface";
+import { Address } from '@ant-design/web3';
 import 'animate.css';
 
 
@@ -76,7 +77,7 @@ const StyledCard = styled(Card)`
   transform: translate(-50%, -50%);
   z-index: 1000; /* High z-index to make sure it is on top */
   width: 651px; /* Adjust based on your preference */
-  height: 700px; /* Adjust based on your preference */
+  height: 730px; /* Adjust based on your preference */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 40px;
   radius: 16px;
@@ -89,7 +90,8 @@ export default function BorrowDetailButton({ contract }: { contract: RecordDataT
   const [activeTabKey, setActiveTabKey] = useState<string>('Lock');
   const [isBorrow, setIsBorrow] = useState(true);
   //写一个函数，当contract.active为active时设置[isLocked, setIsLocked]=useState(true)，否则设置useState(false)
-  const [isLocked, setIsLocked] = useState(contract.status !== 'Pending');
+  // const [isLocked, setIsLocked] = useState(contract.status !== 'Pending');
+  const [isLocked, setIsLocked] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(contract.status !== 'Active');
   const [isRepay, setIsRepay] = useState(contract.status !== 'Active');
   const onTabChange = (key: React.SetStateAction<string>) => {
@@ -137,8 +139,10 @@ export default function BorrowDetailButton({ contract }: { contract: RecordDataT
                   onClick={() => setShowCard(false)}
                   style={{ border: 'none', boxShadow: 'none', position: 'absolute', right: 20, top: 20 }}
                 />
+
                 <AccountDisplay IsBorrow={isBorrow} counterpartyAddress={contract.buyer} />
               </>
+
             }
 
             tabList={tabList}
@@ -156,6 +160,17 @@ export default function BorrowDetailButton({ contract }: { contract: RecordDataT
               {contentList[activeTabKey]}
 
             </div>
+            <div style={{display:'flex', justifyItems:'center',alignItems:'center',width:'100%', marginTop:'10px'}}>
+                  <h1 style={{marginRight:'3px'}}>Contract Adress:</h1>
+                  <Address
+                    ellipsis={{
+                      headClip: 8,
+                      tailClip: 6,
+                    }}
+                    copyable
+                    address={contract.address}
+                  />
+                </div>
           </StyledCard>
         </>
       )}

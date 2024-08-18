@@ -59,7 +59,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
           style={HeaderStyle}
         >
           <Link href="/">
-            <img src='CMU.svg' alt='CMU' style={{ width: '100px', height: '100px', margin: '0 20px' }} />
+            <img src='FormsHK_Logo.svg'  style={{ width: '90px', height: '90px', margin: '0 20px' }} />
           </Link>
           <Menu
             theme="light"
@@ -88,7 +88,7 @@ export default function APPLayout({ children }: Readonly<{ children: React.React
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          CMU lending platform ©{new Date().getFullYear()} Created by Forms
+          Forms collateral lending platform ©{new Date().getFullYear()} Created by FormsHK
         </Footer>
       </Layout >
   );
