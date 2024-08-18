@@ -4,7 +4,6 @@
 
 import APPLayout from '../components/APPLayout/APPlayout';
 import { useAccount } from 'wagmi'
-import useContractStore from '../components/Zustand/useContractStore';
 
 export default function CMULending() {
   const account = useAccount();

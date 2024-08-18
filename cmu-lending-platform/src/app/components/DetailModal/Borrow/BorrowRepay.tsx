@@ -94,7 +94,7 @@ export default function BorrowRepay({ IsRepay, SetIsRepay, RecordData }: { IsRep
                     <div style={{ display: 'flex', marginTop: '30px', marginBottom: '10px', }}>
                         <div>
                             <p style={h1Style}>Coin</p>
-                            {renderCoinLarge(getSymbolByAddress(RecordData.repayment))}
+                            {renderCoinLarge(getSymbolByAddress(RecordData.repayment)!)}
                         </div>
                         <div style={{ marginLeft: '80px', }}>
                             <h1 style={h1Style}>

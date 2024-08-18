@@ -10,6 +10,8 @@ import {  InfoCircleOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import MarketDetailButton from '../components/DetailModal/MarketDetailModal';
 import { renderValue, compareValues, compareDates, renderAddress, renderLoanDuration, renderAmount, renderCoinValue, renderCoin } from '../components/Table/functions';
+import { RecordDataType } from '../data/metadata_interface';
+import { AnyObject } from 'antd/es/_util/type';
 
 const assets = ['BTC', 'ETH', 'PAK', 'HEI', 'JORE', 'STEP', 'ALAN', 'FRMS'];
 const text =(
@@ -132,7 +134,7 @@ const columns: TableColumnsType = [
     sorter: {
       compare: (a, b) => a.loanDuration - b.loanDuration,
     },
-    render: renderLoanDuration,
+    render: (value, record) => renderLoanDuration(value, { loanDuration: record.loanDuration }),
     width: '8%',
   },
   {
@@ -146,7 +148,7 @@ const columns: TableColumnsType = [
   },
   {
     dataIndex: 'action',
-    render: (text, record) => <MarketDetailButton contract={record} />,
+    render: (text, record: AnyObject, index: number) => <MarketDetailButton contract={record as RecordDataType} />,
     width: '5%',
     // align: 'center',
   },

@@ -79,7 +79,7 @@ export default function BorrowLock({ IsLocked, SetIsLocked, RecordData }: { IsLo
                     marginLeft: '63px',
                     marginBottom: '20px'
                 }}>
-                    {renderCoinMiddle(getSymbolByAddress(collateral))}
+                    {renderCoinMiddle(getSymbolByAddress(collateral)!)}
                 </div>
             </div>
         );

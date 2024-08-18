@@ -71,7 +71,7 @@ export default function BorrowWithdraw({ IsWithdraw, SetIsWithdraw, RecordData }
                 </header>
                 <div style={{ marginTop: '30px', }}>
                     <p style={h1Style}>Coin</p>
-                    {renderCoinLarge(getSymbolByAddress(asset))}
+                    {renderCoinLarge(getSymbolByAddress(asset)!)}
                 </div>
                 <div style={{ marginTop: '30px', }}>
                     <h1 style={h1Style}>Amount </h1>

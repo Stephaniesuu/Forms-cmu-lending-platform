@@ -81,7 +81,7 @@ export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contr
                         color: '#525C76',
                         marginLeft: '63px',
                     }}>Collateral</p>
-                    {renderCoinLarge(getSymbolByAddress(contract.collateral))}
+                    {renderCoinLarge(getSymbolByAddress(contract.collateral)!)}
                 </div>
                 <div>
                     <h1 style={{

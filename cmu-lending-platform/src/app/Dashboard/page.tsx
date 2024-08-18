@@ -10,10 +10,11 @@ import BorrowDetailButton from '../components/DetailModal/BorrowDetailModal';
 import SupplyDetailButton from '../components/DetailModal/SupplyDetailModal';
 import { compareValues, compareDates, renderAddress, renderAmount, renderCoin, renderCoinLarge } from '../components/Table/functions';
 import { useAccount } from 'wagmi';
-
+import { RecordDataType } from "../data/metadata_interface";
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
 import { getSymbolByAddress, getPriceByAddress, renderCoinValue} from '../data/coinsPrice';
 import { getStatus } from '../../../../web3/scripts/script';
+import { AnyObject } from 'antd/es/_util/type';
 const columns = (isSupply: boolean): TableColumnsType => [
   {
     title: 'Asset',
@@ -110,7 +111,7 @@ const columns = (isSupply: boolean): TableColumnsType => [
   },
   {
     dataIndex: 'action',
-    render: (text, record) => isSupply ? <SupplyDetailButton contract={record} /> : <BorrowDetailButton contract = {record}/>,
+    render: (text, record: AnyObject) => isSupply ? <SupplyDetailButton contract={record as RecordDataType} /> : <BorrowDetailButton contract = {record as RecordDataType}/>,
   },
 ];
 

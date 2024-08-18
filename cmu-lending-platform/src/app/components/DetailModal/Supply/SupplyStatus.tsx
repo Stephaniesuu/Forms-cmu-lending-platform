@@ -35,11 +35,11 @@ export default function SupplyStatus({ contract }: { contract: RecordDataType })
                 <div style={{ display: 'flex', }}>
                     <div>
                         <p style={h1Style}>Supply</p>
-                        {renderCoinLarge(getSymbolByAddress(contract.asset))}
+                        {renderCoinLarge(getSymbolByAddress(contract.asset)!)}
                     </div>
                     <div style={{ marginLeft: '20px' }}>
                         <p style={h1Style}>Repayment</p>
-                        {renderCoinLarge(getSymbolByAddress(contract.asset))}
+                        {renderCoinLarge(getSymbolByAddress(contract.asset)!)}
                     </div>
                 </div>
             </div>

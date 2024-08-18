@@ -61,7 +61,7 @@ export default function SupplyLock({ IsLocked, SetIsLocked, contract }: { IsLock
                 </header>
                 <div>
                     <p style={h1Style}>Coin</p>
-                    {renderCoinLarge(getSymbolByAddress(contract.asset))}
+                    {renderCoinLarge(getSymbolByAddress(contract.asset)!)}
                 </div>
                 <div style={{ marginTop: '15px' }}>
                     <h1 style={h1Style}>Amount Required</h1>
