@@ -29,7 +29,9 @@
     "viem": "^2.17.8",
     "wagmi": "^2.11.3",
     "web3-avatar": "^1.0.4",
-    "zustand": "^4.5.4"
+    "zustand": "^4.5.4",
+    "ethers": "5.7",
+    "solc": "^0.8.26"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
