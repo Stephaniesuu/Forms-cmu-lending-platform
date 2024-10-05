@@ -3,7 +3,7 @@ import { h1Style, h2Style, IcontextStyle } from "../BorrowDetailModal";
 import { renderCoinLarge, renderAmount } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
 
-import { withdrawLoan } from "../../../../../../web3/scripts/script";
+import { withdrawLoan } from "../../../../../web3Script/scripts/script";
 
 import { getSymbolByAddress } from '../../../data/coinsPrice';
 import { useState } from "react";

@@ -6,9 +6,9 @@ import { useState } from "react";
 import { renderAmount } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
 import { getSymbolByAddress } from '../../../data/coinsPrice';
-import { _contractABI } from "../../../../../../web3/abi/LoanContract";
 
-import { sellerLockCollateral } from "../../../../../../web3/scripts/script";
+import { _contractABI } from "../../../../../web3Script/abi/LoanContract";
+import { sellerLockCollateral } from "../../../../../web3Script/scripts/script";
 
 const alertStyle = {
 

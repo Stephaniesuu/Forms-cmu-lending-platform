@@ -4,7 +4,7 @@ import { renderCoin, renderCoinLarge, renderAmount, renderCoinValue } from "../.
 import { RecordDataType } from "../../../data/metadata_interface";
 
 import { getSymbolByAddress } from '../../../data/coinsPrice';
-import { buyerLockLoan } from "../../../../../../web3/scripts/script";
+import { buyerLockLoan } from "../../../../../web3Script/scripts/script";
 import { useState } from "react";
 
 export default function SupplyLock({ IsLocked, SetIsLocked, contract }: { IsLocked: boolean, SetIsLocked: Function, contract: RecordDataType }) {

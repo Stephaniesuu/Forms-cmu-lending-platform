@@ -6,7 +6,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { renderAmount, renderCoinLarge, calculateDateDifference } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
-import { repayLoan } from "../../../../../../web3/scripts/script";
+import { repayLoan } from "../../../../../web3Script/scripts/script";
 import { getSymbolByAddress } from '../../../data/coinsPrice';
 
 

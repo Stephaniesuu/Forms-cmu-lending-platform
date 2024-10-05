@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import APPLayout from '../components/APPLayout/APPlayout';
-import { Row, Col, Table,Tag, Alert } from 'antd';
+import { Row, Col, Table, Tag, Alert } from 'antd';
 import Title from 'antd/es/typography/Title';
 import type { TableColumnsType } from 'antd';
 import styled from '@emotion/styled';
@@ -12,10 +12,11 @@ import { compareValues, compareDates, renderAddress, renderAmount, renderCoin, r
 import { useAccount } from 'wagmi';
 import { RecordDataType } from "../data/metadata_interface";
 import { getContractsByBuyer, getContractsBySeller } from '../data/contracts';
-import { getSymbolByAddress, getPriceByAddress, renderCoinValue} from '../data/coinsPrice';
-import { getStatus } from '../../../../web3/scripts/script';
+import { getSymbolByAddress, getPriceByAddress, renderCoinValue } from '../data/coinsPrice';
+import { getStatus } from '../../../web3Script/scripts/script';
 import { AnyObject } from 'antd/es/_util/type';
-const columns = (isSupply: boolean): TableColumnsType => [
+
+const columns = (isSupply: boolean): TableColumnsType<any> => [
   {
     title: 'Asset',
     dataIndex: 'asset',
@@ -89,7 +90,7 @@ const columns = (isSupply: boolean): TableColumnsType => [
         'Matured': 'lightgray',
       };
       const color = statusColorMap[record.status] || 'lightgray';
-    
+
       return (
         <Tag color={color}>{record.status}</Tag>
       );
@@ -111,7 +112,7 @@ const columns = (isSupply: boolean): TableColumnsType => [
   },
   {
     dataIndex: 'action',
-    render: (text, record: AnyObject) => isSupply ? <SupplyDetailButton contract={record as RecordDataType} /> : <BorrowDetailButton contract = {record as RecordDataType}/>,
+    render: (text, record: AnyObject) => isSupply ? <SupplyDetailButton contract={record as RecordDataType} /> : <BorrowDetailButton contract={record as RecordDataType} />,
   },
 ];
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { renderCoinLarge, renderAmount, renderDate } from "../../Table/functions";
 import { RecordDataType } from "../../../data/metadata_interface";
 import { getSymbolByAddress } from '../../../data/coinsPrice';
-import { liquidation } from "../../../../../../web3/scripts/script";
+import { liquidation } from "../../../../../web3Script/scripts/script";
 export default function SupplyLiquidation({ IsLiquidated, SetIsLiquidated, contract }: { IsLiquidated: boolean, SetIsLiquidated: Function, contract: RecordDataType }) {
     const [alertVisible, setAlertVisible] = useState(false);
     const [loading, setLoading] = useState(false);

@@ -26,6 +26,7 @@ const text =(
   </p>
 
 );
+
 const RequiredCollateral = () => {
   return (
     <div style={{ display: 'flex', }}>
@@ -37,7 +38,8 @@ const RequiredCollateral = () => {
 
   );
 }
-const columns: TableColumnsType = [
+
+const columns: TableColumnsType<any> = [
   {
     title: 'Asset',
     dataIndex: 'asset',
